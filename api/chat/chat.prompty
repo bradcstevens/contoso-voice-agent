@@ -2,20 +2,20 @@
 name: Contoso Wireless Chat Support
 description: Provide support to customers who have questions about their products in a text based medium.
 authors:
-  - Seth Juarez
+  - Brad Stevens
 model:
   api: chat
   configuration:
     type: azure_openai
-    api_version: 2024-08-01-preview
-    azure_deployment: gpt-4o-mini
+    api_version: 2024-12-01-preview
+    azure_deployment: ${env:AZURE_OPENAI_DEPLOYMENT}
   parameters:
     response_format:
       type: json_schema
       json_schema: ${file:schema.json}
 
 sample:
-  customer: Seth
+  customer: Brad
   context: []
   catalog: ${file:products.json}
   purchases: ${file:purchases.json}

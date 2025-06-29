@@ -154,9 +154,9 @@
   width: 24px;
   height: 24px;
   stroke: var(--color-sky-800);
-};
+}
 
 .chatSendButtonIcon:hover {
   stroke: var(--color-sky-600);
-};
+}
 

@@ -141,11 +141,11 @@ p {
   width: 24px;
   height: 24px;
   stroke: var(--color-sky-800);
-};
+}
 
 .buttonIcon:hover {
   stroke: var(--color-sky-600);
-};
+}
 
 
 code {
