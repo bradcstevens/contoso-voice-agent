@@ -3,7 +3,7 @@ import styles from "./content.module.css";
 import remarkGfm from "remark-gfm";
 import { GrPowerReset, GrClose, GrSend, GrTrigger } from "react-icons/gr";
 import { SimpleMessage } from "@/socket/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { startSuggestionTask, suggestionRequested } from "@/socket/action";
 
 
@@ -44,6 +44,20 @@ const Content = ({ suggestions, debug, onClose }: Props) => {
   const [content, setContent] = useState<string[]>(
     suggestions ? suggestions : []
   );
+
+  // Update content when suggestions prop changes
+  useEffect(() => {
+    console.log("Content component received suggestions:", suggestions);
+    if (suggestions) {
+      console.log("Setting content to:", suggestions);
+      setContent(suggestions);
+    }
+  }, [suggestions]);
+
+  // Debug current content state
+  useEffect(() => {
+    console.log("Content component current content:", content);
+  }, [content]);
 
   const clear = () => {
     setContent([]);

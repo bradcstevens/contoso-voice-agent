@@ -84,9 +84,10 @@ async def suggestion(suggestion: SuggestionPostRequest):
 
 @app.post("/api/request")
 async def request(messages: List[SimpleMessage]):
-    requested = await suggestion_requested(messages)
+    # Temporarily always return true to test Content component display
+    # requested = await suggestion_requested(messages)
     return {
-        "requested": requested,
+        "requested": True,
     }
 
 
