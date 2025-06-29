@@ -4,8 +4,8 @@ from fastapi import WebSocket
 from prompty.tracer import trace
 from prompty.tracer import Tracer
 from fastapi.websockets import WebSocketState
-from api.chat import create_response
-from api.models import (
+from chat import create_response
+from models import (
     ClientMessage,
     send_action,
     send_context,
@@ -14,7 +14,7 @@ from api.models import (
     stream_assistant,
 )
 
-from api.voice import RealtimeClient, Message
+from voice import RealtimeClient, Message
 
 
 class ChatSession:

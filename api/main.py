@@ -8,19 +8,20 @@ from jinja2 import Environment, FileSystemLoader
 
 from openai import AsyncAzureOpenAI
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load environment variables BEFORE importing local modules that depend on them
+load_dotenv()
 
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from api.session import SessionManager
-from api.suggestions import SimpleMessage, create_suggestion, suggestion_requested
-from dotenv import load_dotenv
+from session import SessionManager
+from suggestions import SimpleMessage, create_suggestion, suggestion_requested
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
-from api.telemetry import init_tracing
-from api.voice import Message, RealtimeClient
-
-load_dotenv()
+from telemetry import init_tracing
+from voice import Message, RealtimeClient
 
 AZURE_VOICE_ENDPOINT = os.getenv("AZURE_VOICE_ENDPOINT", "fake_endpoint")
 AZURE_VOICE_KEY = os.getenv("AZURE_VOICE_KEY", "fake_key")
