@@ -117,6 +117,12 @@ async def chat_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect as e:
         print("Chat Socket Disconnected", e)
+    except Exception as e:
+        print(f"Error in chat endpoint: {e}")
+    finally:
+        # Clean up the session
+        if 'thread_id' in locals() and thread_id:
+            await SessionManager.close_session(thread_id)
 
 
 @app.websocket("/api/voice")
@@ -176,6 +182,17 @@ async def voice_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect as e:
         print("Voice Socket Disconnected", e)
+    except Exception as e:
+        print(f"Error in voice endpoint: {e}")
+    finally:
+        # Ensure proper cleanup
+        if 'session' in locals():
+            await session.close()
+        if 'realtime_client' in locals():
+            try:
+                await realtime_client.close()
+            except Exception:
+                pass
 
 
 FastAPIInstrumentor.instrument_app(app, exclude_spans=["send", "receive"])

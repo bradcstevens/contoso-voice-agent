@@ -101,7 +101,10 @@ class RealtimeClient:
             await self.client.send_json(audio.model_dump())
 
     async def send_console(self, message: Message):
-        if self.client is not None:
+        if (
+            self.client is not None
+            and self.client.client_state != WebSocketState.DISCONNECTED
+        ):
             await self.client.send_json(message.model_dump())
 
     async def update_realtime_session(
@@ -138,79 +141,85 @@ class RealtimeClient:
     async def receive_realtime(self):
         # signature = "api.session.RealtimeSession.receive_realtime"
         if self.realtime is None:
-            pass
+            return
 
-        while self.realtime is not None:
-            async for event in self.realtime:
-                if "delta" not in event.type and self.debug:
-                    print(event.type)
-                self.active = True
-                if event.type == "error":
-                    await self._handle_error(event)
-                elif event.type == "session.created":
-                    await self._session_created(event)
-                elif event.type == "session.updated":
-                    await self._session_updated(event)
-                elif event.type == "conversation.created":
-                    await self._conversation_created(event)
-                elif event.type == "conversation.item.created":
-                    await self._conversation_item_created(event)
-                elif event.type == "conversation.item.input_audio_transcription.completed":
-                    await self._conversation_item_input_audio_transcription_completed(
-                        event
-                    )
-                elif event.type == "conversation.item.input_audio_transcription.failed":
-                    await self._conversation_item_input_audio_transcription_failed(
-                        event
-                    )
-                elif event.type == "conversation.item.truncated":
-                    await self._conversation_item_truncated(event)
-                elif event.type == "conversation.item.deleted":
-                    await self._conversation_item_deleted(event)
-                elif event.type == "input_audio_buffer.committed":
-                    await self._input_audio_buffer_committed(event)
-                elif event.type == "input_audio_buffer.cleared":
-                    await self._input_audio_buffer_cleared(event)
-                elif event.type == "input_audio_buffer.speech_started":
-                    await self._input_audio_buffer_speech_started(event)
-                elif event.type == "input_audio_buffer.speech_stopped":
-                    await self._input_audio_buffer_speech_stopped(event)
-                elif event.type == "response.created":
-                    await self._response_created(event)
-                elif event.type == "response.done":
-                    await self._response_done(event)
-                elif event.type == "response.output_item.added":
-                    await self._response_output_item_added(event)
-                elif event.type == "response.output_item.done":
-                    await self._response_output_item_done(event)
-                elif event.type == "response.content_part.added":
-                    await self._response_content_part_added(event)
-                elif event.type == "response.content_part.done":
-                    await self._response_content_part_done(event)
-                elif event.type == "response.text.delta":
-                    await self._response_text_delta(event)
-                elif event.type == "response.text.done":
-                    await self._response_text_done(event)
-                elif event.type == "response.audio_transcript.delta":
-                    await self._response_audio_transcript_delta(event)
-                elif event.type == "response.audio_transcript.done":
-                    await self._response_audio_transcript_done(event)
-                elif event.type == "response.audio.delta":
-                    await self._response_audio_delta(event)
-                elif event.type == "response.audio.done":
-                    await self._response_audio_done(event)
-                elif event.type == "response.function_call_arguments.delta":
-                    await self._response_function_call_arguments_delta(event)
-                elif event.type == "response.function_call_arguments.done":
-                    await self._response_function_call_arguments_done(event)
-                elif event.type == "rate_limits.updated":
-                    await self._rate_limits_updated(event)
-                else:
-                    print(
-                        f"Unhandled event type {event.type}",
-                    )
-
-        self.realtime = None
+        try:
+            while self.realtime is not None and not self.closed:
+                async for event in self.realtime:
+                    if "delta" not in event.type and self.debug:
+                        print(event.type)
+                    self.active = True
+                    if event.type == "error":
+                        await self._handle_error(event)
+                    elif event.type == "session.created":
+                        await self._session_created(event)
+                    elif event.type == "session.updated":
+                        await self._session_updated(event)
+                    elif event.type == "conversation.created":
+                        await self._conversation_created(event)
+                    elif event.type == "conversation.item.created":
+                        await self._conversation_item_created(event)
+                    elif event.type == "conversation.item.input_audio_transcription.completed":
+                        await self._conversation_item_input_audio_transcription_completed(
+                            event
+                        )
+                    elif event.type == "conversation.item.input_audio_transcription.failed":
+                        await self._conversation_item_input_audio_transcription_failed(
+                            event
+                        )
+                    elif event.type == "conversation.item.truncated":
+                        await self._conversation_item_truncated(event)
+                    elif event.type == "conversation.item.deleted":
+                        await self._conversation_item_deleted(event)
+                    elif event.type == "input_audio_buffer.committed":
+                        await self._input_audio_buffer_committed(event)
+                    elif event.type == "input_audio_buffer.cleared":
+                        await self._input_audio_buffer_cleared(event)
+                    elif event.type == "input_audio_buffer.speech_started":
+                        await self._input_audio_buffer_speech_started(event)
+                    elif event.type == "input_audio_buffer.speech_stopped":
+                        await self._input_audio_buffer_speech_stopped(event)
+                    elif event.type == "response.created":
+                        await self._response_created(event)
+                    elif event.type == "response.done":
+                        await self._response_done(event)
+                    elif event.type == "response.output_item.added":
+                        await self._response_output_item_added(event)
+                    elif event.type == "response.output_item.done":
+                        await self._response_output_item_done(event)
+                    elif event.type == "response.content_part.added":
+                        await self._response_content_part_added(event)
+                    elif event.type == "response.content_part.done":
+                        await self._response_content_part_done(event)
+                    elif event.type == "response.text.delta":
+                        await self._response_text_delta(event)
+                    elif event.type == "response.text.done":
+                        await self._response_text_done(event)
+                    elif event.type == "response.audio_transcript.delta":
+                        await self._response_audio_transcript_delta(event)
+                    elif event.type == "response.audio_transcript.done":
+                        await self._response_audio_transcript_done(event)
+                    elif event.type == "response.audio.delta":
+                        await self._response_audio_delta(event)
+                    elif event.type == "response.audio.done":
+                        await self._response_audio_done(event)
+                    elif event.type == "response.function_call_arguments.delta":
+                        await self._response_function_call_arguments_delta(event)
+                    elif event.type == "response.function_call_arguments.done":
+                        await self._response_function_call_arguments_done(event)
+                    elif event.type == "rate_limits.updated":
+                        await self._rate_limits_updated(event)
+                    else:
+                        print(
+                            f"Unhandled event type {event.type}",
+                        )
+        except WebSocketDisconnect:
+            print("WebSocket disconnected in receive_realtime")
+        except Exception as e:
+            if self.debug:
+                print(f"Error in receive_realtime: {e}")
+        finally:
+            self.realtime = None
 
     @trace(name="error")
     async def _handle_error(self, event: ErrorEvent):
