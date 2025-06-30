@@ -84,11 +84,18 @@ async def suggestion(suggestion: SuggestionPostRequest):
 
 @app.post("/api/request")
 async def request(messages: List[SimpleMessage]):
-    # Temporarily always return true to test Content component display
-    # requested = await suggestion_requested(messages)
-    return {
-        "requested": True,
-    }
+    try:
+        requested = await suggestion_requested(messages)
+        return {
+            "requested": requested,
+        }
+    except Exception as e:
+        # Log the error for debugging
+        print(f"Error in suggestion request: {e}")
+        # Return False to prevent suggestion window from showing when there's an error
+        return {
+            "requested": False,
+        }
 
 
 @app.websocket("/api/chat")
@@ -172,3 +179,14 @@ async def voice_endpoint(websocket: WebSocket):
 
 
 FastAPIInstrumentor.instrument_app(app, exclude_spans=["send", "receive"])
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )

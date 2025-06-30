@@ -86,7 +86,10 @@ class RealtimeClient:
         self.debug = debug
 
     async def send_message(self, message: Message):
-        if self.client is not None:
+        if (
+            self.client is not None
+            and self.client.client_state != WebSocketState.DISCONNECTED
+        ):
             await self.client.send_json(message.model_dump())
 
     async def send_audio(self, audio: Message):

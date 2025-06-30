@@ -72,6 +72,13 @@ const Chat = ({ options }: Props) => {
     const messages = client.retrieveMessages();
     console.log("Checking for suggestions with messages:", messages);
     
+    // Skip if the last message is the "visual suggestions are ready" message
+    if (messages.length > 0 && 
+        messages[messages.length - 1].text.includes("visual suggestions are ready")) {
+      console.log("Skipping suggestion check for visual ready message");
+      return;
+    }
+    
     try {
       const response = await suggestionRequested(messages);
       console.log("Suggestion request response:", response);
@@ -108,8 +115,8 @@ const Chat = ({ options }: Props) => {
         client.sendVoiceAssistantMessage(serverEvent.payload);
         // Check for suggestions after message is processed
         await checkForSuggestions(client);
-        // Send the ready message for voice
-        if (suggestionsRef.current) {
+        // Send the ready message for voice only once per suggestion session
+        if (suggestionsRef.current && !serverEvent.payload.includes("visual suggestions are ready")) {
           await sendRealtime({
             type: "user",
             payload: "The visual suggestions are ready.",
@@ -238,8 +245,8 @@ const Chat = ({ options }: Props) => {
       const client = new ActionClient(stateRef.current, contextRef.current);
       client.execute(data);
       
-      // Check for suggestions when assistant message is completed
-      if (data.type === "assistant" && data.payload) {
+      // Only check for suggestions in text chat mode (not during voice calls)
+      if (data.type === "assistant" && data.payload && callState === "idle") {
         console.log("Assistant message received:", data.payload);
         
         // Check for completion in various ways
