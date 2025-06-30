@@ -1,0 +1,175 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Camera Integration and Media Device Access",
+        "description": "Implement camera device access using Web Media Devices API with real-time video feed display and permission handling",
+        "details": "Create camera service using getUserMedia API for real-time video feed. Implement permission handling with graceful fallbacks. Add camera UI components with video preview element. Handle cross-browser compatibility (Chrome, Firefox, Safari, Edge). Implement error recovery for camera access failures.\n\nPseudo-code:\n```typescript\nclass CameraService {\n  async requestCameraAccess(): Promise<MediaStream> {\n    try {\n      const stream = await navigator.mediaDevices.getUserMedia({ video: true });\n      return stream;\n    } catch (error) {\n      // Handle permission denied, device not found, etc.\n      throw new CameraAccessError(error.message);\n    }\n  }\n  \n  captureFrame(videoElement: HTMLVideoElement): string {\n    const canvas = document.createElement('canvas');\n    const ctx = canvas.getContext('2d');\n    ctx.drawImage(videoElement, 0, 0);\n    return canvas.toDataURL('image/jpeg', 0.8); // Base64 encoded\n  }\n}\n```",
+        "testStrategy": "Unit tests for camera service methods, integration tests for permission flows, cross-browser compatibility testing, mock camera device testing, error handling validation",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Implement Azure OpenAI Voice Processing Integration",
+        "description": "Integrate Azure OpenAI GPT-4o Realtime API for voice processing using AZURE_VOICE_ENDPOINT with Web Audio worklets",
+        "details": "Set up Azure OpenAI Realtime API connection using gpt-4o-realtime-preview model. Implement Web Audio worklets for real-time audio capture and playback. Create voice service with WebSocket connection to Azure endpoint. Handle audio streaming with minimal latency (<100ms). Implement voice activity detection and audio processing pipeline.\n\nPseudo-code:\n```python\nclass VoiceService:\n    def __init__(self):\n        self.azure_voice_endpoint = os.getenv('AZURE_VOICE_ENDPOINT')\n        self.websocket = None\n    \n    async def connect_realtime_api(self):\n        headers = {'Authorization': f'Bearer {self.api_key}'}\n        self.websocket = await websockets.connect(\n            f'{self.azure_voice_endpoint}/realtime',\n            extra_headers=headers\n        )\n    \n    async def process_audio_stream(self, audio_data: bytes):\n        await self.websocket.send(audio_data)\n        response = await self.websocket.recv()\n        return self.parse_voice_response(response)\n```",
+        "testStrategy": "Unit tests for voice service methods, WebSocket connection testing, audio processing pipeline validation, latency measurement tests, Azure API integration testing",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Develop Visual Analysis System with Azure GPT-4.1-mini",
+        "description": "Create visual analysis service using Azure OpenAI GPT-4.1-mini for multi-modal image processing and product matching",
+        "details": "Implement visual analysis service using GPT-4.1-mini via AZURE_OPENAI_ENDPOINT. Create image processing pipeline for base64 encoded images. Develop product matching algorithm based on visual similarity. Implement structured prompts for outdoor gear visual analysis. Add visual feature extraction and catalog matching.\n\nPseudo-code:\n```python\nclass VisualAnalysisService:\n    def __init__(self):\n        self.client = AzureOpenAI(\n            azure_endpoint=os.getenv('AZURE_OPENAI_ENDPOINT'),\n            api_key=os.getenv('AZURE_OPENAI_KEY'),\n            api_version='2024-02-15-preview'\n        )\n    \n    async def analyze_image(self, image_base64: str, user_query: str):\n        response = await self.client.chat.completions.create(\n            model='gpt-4-vision-preview',\n            messages=[\n                {\n                    'role': 'user',\n                    'content': [\n                        {'type': 'text', 'text': f'Analyze this outdoor gear: {user_query}'},\n                        {'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{image_base64}'}}\n                    ]\n                }\n            ]\n        )\n        return self.extract_product_features(response.choices[0].message.content)\n```",
+        "testStrategy": "Unit tests for image analysis methods, visual matching accuracy testing, product catalog integration tests, multi-modal prompt validation, performance testing for 3-second response target",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Create Voice-Triggered Camera Capture System",
+        "description": "Implement automatic camera capture functionality triggered by voice commands and questions detection",
+        "details": "Develop voice command detection system to automatically trigger camera capture. Implement natural language processing to identify visual search intents. Create seamless coordination between voice input and camera capture. Add visual indicators for capture events and processing states.\n\nPseudo-code:\n```typescript\nclass VoiceVisualCoordinator {\n  private voiceService: VoiceService;\n  private cameraService: CameraService;\n  \n  async processVoiceCommand(audioData: ArrayBuffer) {\n    const transcript = await this.voiceService.transcribe(audioData);\n    \n    if (this.detectVisualIntent(transcript)) {\n      const imageData = await this.cameraService.captureFrame();\n      return await this.processVisualQuery(transcript, imageData);\n    }\n    \n    return await this.voiceService.processTextOnly(transcript);\n  }\n  \n  private detectVisualIntent(text: string): boolean {\n    const visualKeywords = ['show', 'like these', 'similar to', 'find', 'match'];\n    return visualKeywords.some(keyword => text.toLowerCase().includes(keyword));\n  }\n}\n```",
+        "testStrategy": "Integration tests for voice-camera coordination, intent detection accuracy testing, user experience flow validation, timing and synchronization tests, error handling for failed captures",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Build Enhanced Product Matching Engine",
+        "description": "Develop AI-powered product matching system that combines visual analysis with catalog data for accurate recommendations",
+        "details": "Create product matching algorithm using visual features and metadata. Implement similarity scoring based on visual analysis results. Enhance product catalog with visual metadata for better matching. Add cross-selling and upselling capabilities based on visual similarity.\n\nPseudo-code:\n```python\nclass ProductMatchingEngine:\n    def __init__(self, catalog: ProductCatalog):\n        self.catalog = catalog\n        self.visual_analyzer = VisualAnalysisService()\n    \n    async def find_similar_products(self, image_analysis: Dict, user_context: Dict) -> List[Product]:\n        visual_features = self.extract_visual_features(image_analysis)\n        \n        scored_products = []\n        for product in self.catalog.products:\n            similarity_score = self.calculate_similarity(\n                visual_features, \n                product.visual_features\n            )\n            scored_products.append((product, similarity_score))\n        \n        # Sort by similarity and apply business rules\n        return self.rank_and_filter_products(scored_products, user_context)\n    \n    def calculate_similarity(self, features1: Dict, features2: Dict) -> float:\n        # Implement cosine similarity or other matching algorithm\n        return cosine_similarity(features1, features2)\n```",
+        "testStrategy": "Unit tests for similarity algorithms, product matching accuracy validation, catalog integration testing, recommendation quality assessment, performance testing for large catalogs",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Implement Multi-Modal Session Management",
+        "description": "Extend existing session management to handle voice, visual, and text interactions with comprehensive context preservation",
+        "details": "Enhance session management to track multi-modal conversation history. Implement visual search history storage and retrieval. Add context preservation across voice, visual, and text interactions. Create session state management for complex multi-modal flows.\n\nPseudo-code:\n```python\nclass MultiModalSession:\n    def __init__(self, session_id: str):\n        self.session_id = session_id\n        self.messages: List[Message] = []\n        self.visual_history: List[VisualSearch] = []\n        self.voice_context: Dict = {}\n        self.user_preferences: Dict = {}\n    \n    def add_visual_interaction(self, image_data: str, analysis: Dict, products: List[int]):\n        visual_search = VisualSearch(\n            id=generate_id(),\n            image_data=image_data,\n            analysis_result=analysis,\n            matched_products=products,\n            timestamp=datetime.now()\n        )\n        self.visual_history.append(visual_search)\n    \n    def get_conversation_context(self) -> str:\n        context = f\"Session: {self.session_id}\\n\"\n        context += f\"Recent messages: {self.messages[-5:]}\\n\"\n        context += f\"Visual searches: {len(self.visual_history)}\\n\"\n        return context\n```",
+        "testStrategy": "Unit tests for session management methods, context preservation validation, multi-modal history testing, session persistence verification, concurrent session handling tests",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Create Integrated User Interface Components",
+        "description": "Build React components that seamlessly integrate camera feed, voice controls, and chat interface with visual search capabilities",
+        "details": "Develop React components for integrated multi-modal interface. Create camera preview component with capture indicators. Implement voice control UI with visual feedback. Design chat interface that displays visual search results inline. Add responsive design for desktop and mobile.\n\nPseudo-code:\n```typescript\nconst MultiModalChat: React.FC = () => {\n  const [cameraEnabled, setCameraEnabled] = useState(false);\n  const [isRecording, setIsRecording] = useState(false);\n  const [messages, setMessages] = useState<Message[]>([]);\n  \n  return (\n    <div className=\"multi-modal-chat\">\n      <CameraFeed \n        enabled={cameraEnabled}\n        onCapture={handleImageCapture}\n        showIndicators={isRecording}\n      />\n      <VoiceControls \n        onStartRecording={() => setIsRecording(true)}\n        onStopRecording={handleVoiceInput}\n        isActive={isRecording}\n      />\n      <ChatInterface \n        messages={messages}\n        onSendMessage={handleTextMessage}\n        showVisualResults={true}\n      />\n    </div>\n  );\n};\n\nconst CameraFeed: React.FC<CameraFeedProps> = ({ enabled, onCapture, showIndicators }) => {\n  const videoRef = useRef<HTMLVideoElement>(null);\n  \n  useEffect(() => {\n    if (enabled && videoRef.current) {\n      navigator.mediaDevices.getUserMedia({ video: true })\n        .then(stream => {\n          videoRef.current!.srcObject = stream;\n        });\n    }\n  }, [enabled]);\n  \n  return (\n    <div className=\"camera-feed\">\n      <video ref={videoRef} autoPlay muted />\n      {showIndicators && <div className=\"capture-indicator\" />}\n    </div>\n  );\n};\n```",
+        "testStrategy": "Component unit tests, integration testing for multi-modal interactions, responsive design validation, accessibility testing, user experience flow testing",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Implement Real-Time WebSocket Communication for Multi-Modal Data",
+        "description": "Enhance WebSocket system to handle concurrent audio, video, and text streams with optimized performance",
+        "details": "Extend existing WebSocket infrastructure to handle multi-modal data streams. Implement message routing for different data types (audio, image, text). Add connection management for concurrent streams. Optimize for real-time performance with minimal latency.\n\nPseudo-code:\n```python\nclass MultiModalWebSocketManager:\n    def __init__(self):\n        self.connections: Dict[str, WebSocket] = {}\n        self.voice_service = VoiceService()\n        self.visual_service = VisualAnalysisService()\n    \n    async def handle_websocket(self, websocket: WebSocket, session_id: str):\n        self.connections[session_id] = websocket\n        \n        async for message in websocket.iter_text():\n            data = json.loads(message)\n            \n            if data['type'] == 'audio':\n                response = await self.voice_service.process_audio(data['content'])\n            elif data['type'] == 'image':\n                response = await self.visual_service.analyze_image(data['content'])\n            elif data['type'] == 'text':\n                response = await self.chat_service.process_message(data['content'])\n            \n            await websocket.send_text(json.dumps(response))\n    \n    async def broadcast_to_session(self, session_id: str, message: Dict):\n        if session_id in self.connections:\n            await self.connections[session_id].send_text(json.dumps(message))\n```",
+        "testStrategy": "WebSocket connection testing, concurrent stream handling validation, message routing accuracy tests, performance testing for latency targets, connection reliability testing",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Develop Comprehensive Error Handling and Fallback Systems",
+        "description": "Implement robust error handling for camera access, voice processing, and visual analysis with graceful degradation",
+        "details": "Create comprehensive error handling for all multi-modal components. Implement fallback mechanisms when camera or voice is unavailable. Add user-friendly error messages and recovery options. Ensure graceful degradation to text-only mode when needed.\n\nPseudo-code:\n```typescript\nclass ErrorHandler {\n  static handleCameraError(error: Error): FallbackAction {\n    switch (error.name) {\n      case 'NotAllowedError':\n        return {\n          type: 'SHOW_PERMISSION_PROMPT',\n          message: 'Camera access required for visual search. Please enable camera permissions.'\n        };\n      case 'NotFoundError':\n        return {\n          type: 'DISABLE_CAMERA',\n          message: 'No camera found. Visual search disabled, voice and text chat available.'\n        };\n      default:\n        return {\n          type: 'FALLBACK_TO_TEXT',\n          message: 'Camera unavailable. You can still use voice and text chat.'\n        };\n    }\n  }\n  \n  static handleVoiceError(error: Error): FallbackAction {\n    return {\n      type: 'FALLBACK_TO_TEXT',\n      message: 'Voice processing unavailable. Please use text chat.'\n    };\n  }\n  \n  static handleVisualAnalysisError(error: Error): FallbackAction {\n    return {\n      type: 'RETRY_WITH_TEXT',\n      message: 'Visual analysis failed. Please describe the item in text.'\n    };\n  }\n}\n```",
+        "testStrategy": "Error scenario testing, fallback mechanism validation, user experience testing for error states, recovery flow testing, graceful degradation verification",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2,
+          3,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Implement Performance Optimization and Monitoring",
+        "description": "Optimize system performance for real-time multi-modal interactions and implement comprehensive monitoring",
+        "details": "Implement performance optimizations for camera feed (30fps), voice processing (<100ms latency), and visual analysis (<3 seconds). Add monitoring for dual Azure endpoint usage, response times, and error rates. Implement caching strategies and request optimization.\n\nPseudo-code:\n```python\nclass PerformanceMonitor:\n    def __init__(self):\n        self.metrics = {\n            'voice_latency': [],\n            'visual_analysis_time': [],\n            'camera_fps': [],\n            'azure_endpoint_usage': {'voice': 0, 'vision': 0}\n        }\n    \n    @contextmanager\n    def measure_latency(self, operation: str):\n        start_time = time.time()\n        try:\n            yield\n        finally:\n            latency = time.time() - start_time\n            self.metrics[f'{operation}_latency'].append(latency)\n            \n            if operation == 'voice' and latency > 0.1:  # 100ms threshold\n                logger.warning(f'Voice latency exceeded threshold: {latency}s')\n    \n    def track_azure_usage(self, endpoint_type: str, tokens_used: int):\n        self.metrics['azure_endpoint_usage'][endpoint_type] += tokens_used\n        \n        # Alert if approaching rate limits\n        if tokens_used > 1000:  # Example threshold\n            logger.warning(f'High {endpoint_type} endpoint usage: {tokens_used} tokens')\n```",
+        "testStrategy": "Performance benchmarking, latency measurement validation, monitoring system testing, load testing for concurrent users, Azure endpoint usage tracking verification",
+        "priority": "medium",
+        "dependencies": [
+          8,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Create Comprehensive Test Suite for Multi-Modal Features",
+        "description": "Develop extensive testing coverage for voice, visual, and integrated multi-modal functionality",
+        "details": "Create comprehensive test suite covering all multi-modal features. Implement unit tests, integration tests, and end-to-end tests. Add mock services for Azure endpoints. Create test data for visual analysis and voice processing. Implement automated testing for user flows.\n\nPseudo-code:\n```python\n# Test suite structure\nclass TestMultiModalIntegration:\n    def setup_method(self):\n        self.mock_camera = MockCameraService()\n        self.mock_voice = MockVoiceService()\n        self.mock_visual = MockVisualAnalysisService()\n        self.test_session = MultiModalSession('test-session')\n    \n    async def test_voice_triggered_visual_search(self):\n        # Simulate voice command \"Find boots like these\"\n        voice_input = self.create_mock_audio_data(\"Find boots like these\")\n        \n        # Mock camera capture\n        self.mock_camera.set_mock_image(self.load_test_image('boot.jpg'))\n        \n        # Process voice command\n        result = await self.voice_visual_coordinator.process_voice_command(voice_input)\n        \n        # Verify visual analysis was triggered\n        assert self.mock_visual.analyze_image.called\n        assert 'boot' in result.matched_products[0].category\n    \n    def test_camera_permission_fallback(self):\n        # Simulate camera permission denied\n        self.mock_camera.simulate_permission_error()\n        \n        # Verify graceful fallback to text mode\n        result = self.error_handler.handle_camera_error(NotAllowedError())\n        assert result.type == 'SHOW_PERMISSION_PROMPT'\n```",
+        "testStrategy": "Unit test coverage >90%, integration test validation, end-to-end user flow testing, mock service verification, automated test execution in CI/CD pipeline",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5,
+          7,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Deploy Production System with Dual Azure Endpoint Configuration",
+        "description": "Configure and deploy complete system with proper Azure endpoint management, security, and monitoring",
+        "details": "Set up production deployment with dual Azure OpenAI endpoint configuration. Implement environment variable management for AZURE_VOICE_ENDPOINT and AZURE_OPENAI_ENDPOINT. Configure SSL/TLS for camera access, implement security policies, and set up monitoring infrastructure.\n\nPseudo-code:\n```yaml\n# docker-compose.yml\nversion: '3.8'\nservices:\n  backend:\n    build: ./backend\n    environment:\n      - AZURE_VOICE_ENDPOINT=${AZURE_VOICE_ENDPOINT}\n      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}\n      - AZURE_VOICE_KEY=${AZURE_VOICE_KEY}\n      - AZURE_OPENAI_KEY=${AZURE_OPENAI_KEY}\n    ports:\n      - \"8000:8000\"\n  \n  frontend:\n    build: ./frontend\n    environment:\n      - NEXT_PUBLIC_API_URL=${API_URL}\n      - NEXT_PUBLIC_WS_URL=${WS_URL}\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - backend\n\n# nginx.conf for SSL and WebSocket support\nserver {\n    listen 443 ssl http2;\n    ssl_certificate /path/to/cert.pem;\n    ssl_certificate_key /path/to/key.pem;\n    \n    location /api/voice {\n        proxy_pass http://backend:8000;\n        proxy_http_version 1.1;\n        proxy_set_header Upgrade $http_upgrade;\n        proxy_set_header Connection \"upgrade\";\n    }\n}\n```",
+        "testStrategy": "Production deployment testing, SSL certificate validation, WebSocket connection testing in production, Azure endpoint connectivity verification, monitoring system validation, load testing in production environment",
+        "priority": "high",
+        "dependencies": [
+          10,
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-30T18:56:50.247Z",
+      "updated": "2025-06-30T18:56:50.247Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

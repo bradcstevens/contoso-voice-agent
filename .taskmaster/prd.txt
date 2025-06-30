@@ -1,0 +1,390 @@
+# Contoso Voice Agent - Product Requirements Document
+
+## Overview
+
+The Contoso Voice Agent is a sophisticated full-stack AI-powered application that combines text chat, voice calling, and camera-based visual search capabilities to provide personalized product recommendations and customer support. The system serves as a retail assistant for Contoso Outdoor Company, helping customers discover and purchase outdoor gear through natural conversations and visual product matching.
+
+**Problem Statement**: Traditional e-commerce experiences lack the personal touch and immediate assistance that customers expect when shopping for specialized outdoor gear. Customers need expert guidance to make informed decisions about technical outdoor equipment, and often want to find products similar to items they already own or see in person.
+
+**Solution**: An AI-powered conversational assistant that provides real-time text, voice, and visual interactions, leveraging Azure OpenAI GPT-4o for intelligent product recommendations based on customer needs, purchase history, outdoor activity requirements, and visual product matching through camera input.
+
+**Target Users**: 
+- Adventure hikers seeking multi-day backpacking equipment
+- Weekend campers looking for family-friendly camping gear  
+- Outdoor athletes requiring performance-oriented equipment
+- Gear enthusiasts interested in high-end technical equipment
+- Customers wanting to find products similar to items they own
+
+**Value Proposition**: Deliver personalized, expert-level product guidance through natural conversation and visual product matching, significantly improving customer experience and conversion rates while reducing support overhead.
+
+## Core Features
+
+### 1. Real-Time Text Chat Interface
+**What it does**: Enables seamless text-based conversations between customers and the AI assistant for product discovery and support.
+
+**Why it's important**: Provides immediate, accessible customer support without requiring voice or camera capabilities, serving as the primary interaction method for product discovery.
+
+**How it works**: 
+- WebSocket-based real-time messaging
+- AI-powered responses using Azure OpenAI GPT-4o
+- Product catalog integration for contextual recommendations
+- Conversation history preservation across sessions
+- Structured prompts optimized for outdoor gear expertise
+
+### 2. Voice Calling System
+**What it does**: Offers real-time voice conversations with the AI assistant using natural speech processing.
+
+**Why it's important**: Provides hands-free interaction for customers who prefer voice communication, especially useful when customers are mobile or multitasking, and enables seamless integration with camera-based visual search.
+
+**How it works**:
+- Azure OpenAI Realtime API (gpt-4o-realtime-preview) for voice processing
+- Custom Web Audio worklets for real-time audio capture and playback
+- Voice-specific UI components and state management
+- Seamless switching between text and voice modes
+- Real-time audio streaming with minimal latency
+- Integration with camera capture for visual product analysis
+
+### 3. Camera-Based Visual Search
+**What it does**: Enables customers to use their device camera to show products and receive AI-powered visual analysis and product recommendations.
+
+**Why it's important**: Allows customers to find similar products by showing items they already own or see, creating a more intuitive and engaging shopping experience.
+
+**How it works**:
+- Real-time camera feed integration through Web Media Devices API
+- Voice-triggered camera capture when questions are detected
+- Base64 image encoding for secure transmission
+- Azure OpenAI GPT-4.1-mini for multi-modal visual analysis
+- Product catalog matching based on visual similarity
+- Real-time recommendations integrated into conversation flow
+
+### 4. AI-Powered Product Recommendation Engine
+**What it does**: Generates intelligent product suggestions based on customer context, purchase history, conversation flow, and visual input from camera.
+
+**Why it's important**: Drives sales conversion by providing personalized, relevant product recommendations that match customer needs and preferences, including visual similarity matching.
+
+**How it works**:
+- Integration with 20-product outdoor gear catalog
+- Purchase history analysis for personalization
+- Context-aware recommendations based on conversation content
+- Visual analysis integration for product matching
+- Cross-selling and upselling capabilities
+- Detailed product writeups and comparisons
+
+### 5. Session Management & Context Preservation
+**What it does**: Maintains conversation continuity and customer context across multiple interactions and sessions, including visual search history.
+
+**Why it's important**: Ensures customers don't need to repeat information and enables long-term relationship building through conversation and visual search history.
+
+**How it works**:
+- Unique session identifiers for each customer interaction
+- In-memory conversation state management
+- Cross-session context persistence
+- User preference tracking and learning
+- Visual search history integration
+- Conversation history integration into AI prompts
+
+## User Experience
+
+### User Personas & Journeys
+
+**Primary Persona: Visual Shopping Customer (Sarah)**
+- **Demographics**: 25-40, tech-savvy outdoor enthusiast, prefers visual product discovery
+- **Journey**: Opens app → Enables camera → Shows existing gear → Asks "Find boots like these" → Receives visual analysis → Gets product recommendations → Reviews similar items → Makes purchase
+- **Key Touchpoints**: Camera permission flow, real-time video feed, voice interaction, visual product matching, recommendation display
+
+**Secondary Persona: Adventure Hiker (Mark)**
+- **Demographics**: 28-35, experienced hiker, values quality and performance
+- **Journey**: Researches gear online → Engages with voice agent → Shows current equipment via camera → Receives personalized tent recommendations → Asks technical questions → Makes informed purchase
+- **Key Touchpoints**: Voice interaction for hands-free browsing, camera integration for comparison, detailed technical specifications
+
+### Key User Flows
+
+**Visual Search Flow**:
+1. Customer opens application and grants camera permissions
+2. Real-time camera feed displays in interface
+3. Customer holds up item and uses voice command ("Find boots like these")
+4. AI captures image, analyzes visual content, and matches to catalog
+5. System provides real-time product recommendations with rationale
+6. Customer explores suggested products and makes purchase decision
+
+**Voice + Visual Product Discovery Flow**:
+1. Customer initiates voice conversation
+2. AI assistant understands context and needs
+3. Customer shows item via camera while asking questions
+4. AI analyzes both voice intent and visual content
+5. Integrated recommendations provided with visual and technical rationale
+6. Customer receives comprehensive product comparisons
+7. Follow-up questions handled with full context
+
+### UI/UX Considerations
+
+- **Camera Integration**: Seamless camera access with clear permission flows
+- **Real-time Video Feed**: High-quality preview with visual indicators for capture events
+- **Voice + Visual Coordination**: Intuitive combination of voice commands with camera input
+- **Responsive Design**: Optimized for desktop and mobile camera experiences
+- **Accessibility**: Voice input/output for hands-free operation, visual indicators for audio processing
+- **Visual Hierarchy**: Clear separation between camera feed, chat interface, and product recommendations
+- **Progressive Enhancement**: Core functionality works without camera, enhanced with visual features
+
+## User Story: Visual Search via Camera and Voice for Shopping
+
+**Title**: As a user, I want to use my camera and voice to find similar products in the catalog, so I can quickly shop for items like the one I have in hand.
+
+**Description**: When I open the web app, I am presented with a chat interface with camera integration. I can enable my local camera device through the interface to see a live video feed. I hold up an item (e.g., a pair of boots) to the camera and say something like "Find boots like these." The system uses AI to analyze the item shown in the camera feed and matches it to similar products in the app's catalog. The AI then responds in real time with suggested products that visually resemble the item I showed and mentioned.
+
+**Acceptance Criteria**:
+- The user can access and enable their camera from within the chat interface
+- The system shows a real-time preview of the camera feed
+- The system supports voice input and can detect user intent from spoken commands
+- The AI analyzes the visual feed for objects (e.g., boots) when triggered by voice
+- The system matches the identified object with similar items in the product catalog
+- The user receives real-time suggestions in the chat based on the visual and spoken input
+- Camera capture is triggered automatically when voice questions are detected
+- Visual analysis integrates seamlessly with ongoing conversation context
+
+## Technical Architecture
+
+### System Components
+
+**Frontend (Next.js 14 TypeScript)**
+- React-based user interface with App Router
+- Zustand state management for real-time updates
+- Custom Web Audio worklets for voice processing
+- Web Media Devices API for camera integration
+- WebSocket client for real-time communication
+- CSS modules for component styling
+- TypeScript for type safety
+
+**Backend (Python FastAPI)**
+- Async FastAPI application with WebSocket support
+- Pydantic models for data validation
+- Session management with in-memory storage
+- Custom conversation context handling
+- Multi-modal AI integration endpoints
+- Comprehensive test suite with pytest
+
+**AI Integration (Azure OpenAI)**
+- **Voice Processing**: GPT-4o Realtime API (gpt-4o-realtime-preview) via AZURE_VOICE_ENDPOINT
+- **Visual Analysis**: GPT-4.1-mini for multi-modal image analysis via AZURE_OPENAI_ENDPOINT
+- **Text Conversations**: GPT-4o model for chat interactions
+- Prompty framework for structured prompt management
+- Context injection for personalized responses
+
+### Data Models
+
+**Core Entities**:
+```python
+# Product Model
+class Product:
+    id: int
+    name: str
+    description: str
+    price: float
+    category: str
+    brand: str
+    features: List[str]
+    images: List[str]
+    visual_features: Dict[str, Any]  # For visual matching
+
+# Session Model  
+class ConversationSession:
+    session_id: str
+    messages: List[Message]
+    context: Dict[str, Any]
+    visual_history: List[VisualSearch]
+    created_at: datetime
+    updated_at: datetime
+
+# Visual Search Model
+class VisualSearch:
+    id: str
+    image_data: str  # base64 encoded
+    analysis_result: Dict[str, Any]
+    matched_products: List[int]
+    timestamp: datetime
+
+# Message Model
+class Message:
+    id: str
+    content: str
+    role: str  # user, assistant, system
+    timestamp: datetime
+    message_type: str  # text, voice, visual, system
+    visual_context: Optional[str]  # Reference to visual search if applicable
+```
+
+### APIs and Integrations
+
+**Internal APIs**:
+- `/api/chat` - Text conversation endpoint
+- `/api/voice` - Voice conversation WebSocket
+- `/api/camera` - Camera access and image capture
+- `/api/visual-search` - Visual analysis and product matching
+- `/api/suggestions` - Product recommendation endpoint
+- `/api/session` - Session management
+
+**External Integrations**:
+- **Azure OpenAI Voice**: GPT-4o Realtime API via AZURE_VOICE_ENDPOINT
+- **Azure OpenAI Vision**: GPT-4.1-mini via AZURE_OPENAI_ENDPOINT
+- **Media Devices**: Web API for camera access
+- Product catalog JSON files with visual metadata
+- User purchase history and visual search data
+
+### Infrastructure Requirements
+
+**Development Environment**:
+- Python 3.11+ runtime
+- Node.js 18+ for frontend
+- Azure OpenAI API access (dual endpoints)
+- WebSocket support
+- Camera device access
+
+**Production Environment**:
+- Container orchestration (Docker)
+- Load balancing for WebSocket connections
+- SSL/TLS termination for secure camera access
+- Environment variable management for dual Azure endpoints
+- Monitoring and logging infrastructure
+
+## Development Roadmap
+
+### Phase 1: Integrated Voice & Visual Experience (Current Scope)
+**Scope**: Complete voice, visual, and chat functionality with comprehensive AI integration
+- ✅ FastAPI backend with WebSocket support
+- ✅ Next.js frontend with TypeScript
+- ✅ Azure OpenAI GPT-4o integration for chat
+- ✅ Basic product recommendation engine
+- ✅ Session management system
+- 🚧 **NEW**: Camera device integration and real-time video feed
+- 🚧 **NEW**: Voice processing with Azure GPT-4o Realtime API (AZURE_VOICE_ENDPOINT)
+- 🚧 **NEW**: Visual analysis with Azure GPT-4.1-mini (AZURE_OPENAI_ENDPOINT)
+- 🚧 **NEW**: Voice-triggered camera capture functionality
+- 🚧 **NEW**: Visual product matching and recommendations
+- 🚧 **NEW**: Integrated conversation flow with visual context
+- 🚧 **NEW**: Enhanced UI components for camera and visual search
+- 🚧 **NEW**: Multi-modal session management and history
+- 🚧 **NEW**: Comprehensive testing for voice and visual features
+- 🚧 **NEW**: Production deployment with dual Azure endpoint configuration
+
+## Logical Dependency Chain
+
+### Foundation Layer (Completed ✅)
+1. **Backend Infrastructure**: FastAPI application with core models and session management
+2. **Frontend Infrastructure**: Next.js application with TypeScript and component architecture
+3. **AI Integration**: Azure OpenAI connection and basic prompt engineering
+4. **WebSocket Communication**: Real-time bidirectional communication setup
+
+### Core Features Layer (Completed ✅)
+5. **Text Chat System**: Message handling, conversation flow, and UI components
+6. **Product Integration**: Catalog integration and recommendation engine
+7. **Session Persistence**: Context management and conversation continuity
+
+### Enhanced Integration Layer (Current Phase 1 - In Progress 🚧)
+8. **Camera Integration**: Media device access, real-time video feed, and capture functionality
+9. **Voice Processing**: Azure GPT-4o Realtime API integration via AZURE_VOICE_ENDPOINT
+10. **Visual Analysis**: GPT-4.1-mini multi-modal processing via AZURE_OPENAI_ENDPOINT
+11. **Voice-Visual Coordination**: Automatic camera capture triggered by voice questions
+12. **Visual Product Matching**: AI-powered similarity detection and catalog matching
+13. **Integrated User Experience**: Seamless voice, visual, and text conversation flow
+14. **Enhanced Session Management**: Multi-modal context preservation and history
+15. **Production Deployment**: Complete system with dual Azure endpoint configuration
+
+## Risks and Mitigations
+
+### Technical Challenges
+
+**Risk**: Camera access and permissions across different browsers and devices
+**Mitigation**: Progressive enhancement approach with fallback to text/voice only mode, comprehensive browser compatibility testing
+
+**Risk**: Azure OpenAI rate limiting across dual endpoints (voice and vision)
+**Mitigation**: Implement request queuing, response caching, intelligent endpoint routing, and fallback mechanisms
+
+**Risk**: Real-time coordination between voice commands and camera capture
+**Mitigation**: Robust event handling, clear user feedback, and graceful degradation when camera is unavailable
+
+**Risk**: Image processing latency affecting conversation flow
+**Mitigation**: Asynchronous processing, loading indicators, and conversation continuation while analysis is in progress
+
+**Risk**: Visual analysis accuracy for product matching
+**Mitigation**: Comprehensive prompt engineering, product metadata enhancement, and continuous improvement based on user feedback
+
+### Product Challenges
+
+**Risk**: User privacy concerns with camera and voice data
+**Mitigation**: Clear privacy policy, local processing where possible, secure data transmission, and explicit user consent flows
+
+**Risk**: Complex user interface with multiple input modalities
+**Mitigation**: Intuitive design patterns, progressive disclosure, user testing, and comprehensive onboarding
+
+**Risk**: AI responses may not accurately match visual products
+**Mitigation**: Enhanced product data with visual metadata, comprehensive testing with diverse product images, and feedback loops for improvement
+
+### Resource Constraints
+
+**Risk**: Increased Azure OpenAI costs with dual endpoint usage
+**Mitigation**: Usage monitoring, request optimization, intelligent caching, and cost alerts with endpoint-specific budgeting
+
+**Risk**: Development complexity with multi-modal integration
+**Mitigation**: Modular architecture, comprehensive documentation, staged feature rollout, and reference implementation from sample code
+
+## Appendix
+
+### Technical Specifications
+
+**Camera Processing Requirements**:
+- Real-time video feed with getUserMedia API
+- Base64 image encoding for secure transmission
+- Automatic capture triggered by voice detection
+- Cross-browser compatibility (Chrome, Firefox, Safari, Edge)
+- Camera permission handling and error recovery
+
+**AI Model Configuration**:
+- **Voice**: GPT-4o Realtime API via AZURE_VOICE_ENDPOINT
+- **Vision**: GPT-4.1-mini via AZURE_OPENAI_ENDPOINT  
+- **Chat**: GPT-4o model with 1500 max tokens
+- Temperature: 0.7 for balanced creativity and consistency
+- Context window optimization for multi-modal conversation history
+- Prompt engineering for outdoor gear expertise and visual analysis
+
+**Performance Targets**:
+- < 1 second response time for AI-generated text
+- < 100ms audio processing latency
+- < 3 seconds visual analysis response time
+- < 2 seconds initial page load time
+- 99.9% WebSocket connection reliability
+- Seamless camera feed at 30fps minimum
+
+### Research Findings
+
+**Market Analysis**:
+- 73% of customers prefer conversational interfaces for complex product decisions
+- Voice commerce growing at 55% annually
+- Visual search adoption increasing 40% year-over-year
+- Outdoor gear market values expert recommendations highly
+
+**Technical Research**:
+- Web Media Devices API provides sufficient capabilities for real-time camera integration
+- Azure OpenAI multi-modal models offer competitive visual analysis accuracy
+- WebSocket connections can handle concurrent audio, video, and text streams effectively
+- Reference implementation demonstrates successful voice + visual integration patterns
+
+### Implementation Guidelines
+
+**Code Quality Standards**:
+- TypeScript strict mode enforcement
+- Comprehensive unit and integration testing for multi-modal features
+- ESLint and Prettier for code consistency  
+- Git commit message conventions
+
+**Security Requirements**:
+- Environment variable management for dual Azure API keys
+- Input validation and sanitization for image data
+- CORS policy configuration for camera access
+- Content Security Policy implementation for media permissions
+
+**Monitoring Requirements**:
+- Application performance monitoring
+- AI response quality tracking across voice and visual modalities
+- User interaction analytics for multi-modal usage patterns
+- Error rate and performance metrics for camera and visual processing
+- Dual endpoint usage and cost tracking 
