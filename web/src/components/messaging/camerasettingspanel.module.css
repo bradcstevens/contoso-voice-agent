@@ -1,0 +1,710 @@
+/* CameraSettingsPanel - Organism-Level Camera Configuration Styles */
+/* Supports WCAG AAA compliance with comprehensive settings management and validation */
+
+.cameraSettingsPanel {
+  /* Container styles for settings panel organism */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  min-height: 600px;
+  position: relative;
+  isolation: isolate;
+  
+  /* Accessibility foundations */
+  outline: none;
+  border-radius: 16px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+  
+  /* Organism-level typography */
+  font-family: var(--font-family-interface, ui-sans-serif, system-ui, sans-serif);
+  color: var(--color-text-primary, #1a202c);
+  
+  /* Performance optimization */
+  will-change: transform;
+  transform: translateZ(0);
+  
+  /* Responsive design */
+  container-type: inline-size;
+  container-name: settings-panel;
+}
+
+/* Panel focus management */
+.cameraSettingsPanel:focus-within {
+  box-shadow: 
+    0 0 0 3px var(--color-focus-ring, #3182ce),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.cameraSettingsPanel:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+}
+
+/* Panel header styling */
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--color-background-secondary, #f7fafc);
+  border-bottom: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 16px 16px 0 0;
+}
+
+.panelHeading {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a202c);
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  /* Typography */
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary, #4a5568);
+  
+  /* Touch targets */
+  min-height: 36px;
+}
+
+.toggleButton:hover {
+  background: var(--color-background-hover, #edf2f7);
+  border-color: var(--color-border-interactive, #cbd5e0);
+}
+
+.toggleButton:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus, #3182ce);
+}
+
+.toggleButton[aria-pressed="true"] {
+  background: var(--color-background-primary-subtle, #bee3f8);
+  border-color: var(--color-border-primary, #3182ce);
+  color: var(--color-text-primary, #1a202c);
+}
+
+/* Validation errors styling */
+.validationErrors {
+  margin: 16px 20px;
+  padding: 12px 16px;
+  background: var(--color-background-error, #fed7d7);
+  border: 1px solid var(--color-border-error, #fc8181);
+  border-radius: 8px;
+  
+  /* Typography */
+  font-size: 14px;
+  color: var(--color-text-error, #c53030);
+}
+
+.validationErrors h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.validationErrors ul {
+  margin: 0;
+  padding: 0 0 0 16px;
+  list-style-type: disc;
+}
+
+.validationErrors li {
+  margin: 4px 0;
+}
+
+/* Settings content styling */
+.settingsContent {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
+  /* Performance optimization */
+  contain: layout style paint;
+}
+
+/* Settings section styling */
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-background-secondary, #f7fafc);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 12px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a202c);
+  border-bottom: 1px solid var(--color-border-subtle, #e2e8f0);
+  padding-bottom: 8px;
+}
+
+/* Device selector styling */
+.deviceSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary, #1a202c);
+  margin-bottom: 4px;
+}
+
+.select {
+  padding: 8px 12px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  /* Typography */
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text-primary, #1a202c);
+  
+  /* Touch targets */
+  min-height: 40px;
+}
+
+.select:hover {
+  border-color: var(--color-border-interactive, #cbd5e0);
+}
+
+.select:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus, #3182ce);
+}
+
+.select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-background-disabled, #f7fafc);
+}
+
+.helpText {
+  font-size: 12px;
+  color: var(--color-text-secondary, #4a5568);
+  margin-top: 4px;
+}
+
+/* Button styling */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  /* Typography */
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--color-text-secondary, #4a5568);
+  text-decoration: none;
+  
+  /* Touch targets */
+  min-height: 40px;
+  min-width: 80px;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-background-hover, #edf2f7);
+  border-color: var(--color-border-interactive, #cbd5e0);
+}
+
+.button:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus, #3182ce);
+}
+
+.button:active:not(:disabled) {
+  background: var(--color-background-active, #e2e8f0);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-background-disabled, #f7fafc);
+  border-color: var(--color-border-disabled, #e2e8f0);
+  color: var(--color-text-disabled, #a0aec0);
+}
+
+.primaryButton {
+  background: var(--color-background-primary-solid, #3182ce);
+  border-color: var(--color-border-primary, #3182ce);
+  color: var(--color-text-on-primary, #ffffff);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--color-background-primary-hover, #2c5aa0);
+  border-color: var(--color-border-primary-hover, #2c5aa0);
+}
+
+.primaryButton:active:not(:disabled) {
+  background: var(--color-background-primary-active, #2a4a7c);
+}
+
+/* Quality settings styling */
+.qualityPresets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.presetButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.presetButton {
+  padding: 8px 16px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  /* Typography */
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--color-text-secondary, #4a5568);
+  
+  /* Touch targets */
+  min-height: 36px;
+  min-width: 80px;
+}
+
+.presetButton:hover {
+  background: var(--color-background-hover, #edf2f7);
+  border-color: var(--color-border-interactive, #cbd5e0);
+}
+
+.presetButton:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus, #3182ce);
+}
+
+.presetButton.active,
+.presetButton[aria-pressed="true"] {
+  background: var(--color-background-primary-subtle, #bee3f8);
+  border-color: var(--color-border-primary, #3182ce);
+  color: var(--color-text-primary, #1a202c);
+  box-shadow: 0 0 0 1px var(--color-border-primary, #3182ce);
+}
+
+/* Advanced quality settings */
+.advancedQuality {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+}
+
+.settingRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resolutionInputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.numberInput {
+  padding: 8px 12px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  
+  /* Typography */
+  font-size: 14px;
+  font-family: var(--font-family-mono, ui-monospace, monospace);
+  color: var(--color-text-primary, #1a202c);
+  
+  /* Touch targets */
+  min-height: 36px;
+  min-width: 80px;
+}
+
+.numberInput:hover {
+  border-color: var(--color-border-interactive, #cbd5e0);
+}
+
+.numberInput:focus {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus, #3182ce);
+}
+
+.numberInput:invalid {
+  border-color: var(--color-border-error, #fc8181);
+  background: var(--color-background-error-subtle, #fef2f2);
+}
+
+.separator {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-secondary, #4a5568);
+  user-select: none;
+}
+
+/* Checkbox group styling */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  
+  /* Typography */
+  font-size: 14px;
+  color: var(--color-text-primary, #1a202c);
+  
+  /* Touch targets */
+  min-height: 24px;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--color-primary, #3182ce);
+}
+
+.checkboxLabel:hover {
+  color: var(--color-text-interactive, #3182ce);
+}
+
+.checkboxLabel:focus-within {
+  outline: 2px solid var(--color-focus-outline, #3182ce);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Panel footer styling */
+.panelFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--color-background-secondary, #f7fafc);
+  border-top: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 0 0 16px 16px;
+}
+
+.footerActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.footerHelp {
+  font-size: 12px;
+  color: var(--color-text-secondary, #4a5568);
+  font-style: italic;
+}
+
+/* Keyboard shortcuts help */
+.keyboardHelp {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive design using container queries */
+@container settings-panel (max-width: 600px) {
+  .panelHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .headerActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .settingsContent {
+    padding: 16px;
+    gap: 20px;
+  }
+  
+  .settingsSection {
+    padding: 16px;
+  }
+  
+  .presetButtons {
+    flex-direction: column;
+  }
+  
+  .presetButton {
+    width: 100%;
+  }
+  
+  .resolutionInputs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .separator {
+    text-align: center;
+    padding: 4px 0;
+  }
+  
+  .panelFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .footerActions {
+    justify-content: center;
+  }
+  
+  .footerHelp {
+    text-align: center;
+  }
+}
+
+@container settings-panel (max-width: 400px) {
+  .cameraSettingsPanel {
+    border-radius: 8px;
+  }
+  
+  .panelHeader {
+    padding: 12px 16px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .panelHeading {
+    font-size: 18px;
+  }
+  
+  .settingsContent {
+    padding: 12px;
+    gap: 16px;
+  }
+  
+  .settingsSection {
+    padding: 12px;
+  }
+  
+  .sectionHeading {
+    font-size: 15px;
+  }
+  
+  .button,
+  .toggleButton,
+  .presetButton {
+    min-height: 44px;
+    font-size: 13px;
+  }
+  
+  .panelFooter {
+    padding: 12px 16px;
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cameraSettingsPanel {
+    border-width: 2px;
+    border-color: var(--color-border-high-contrast, #000000);
+  }
+  
+  .settingsSection {
+    border-width: 2px;
+  }
+  
+  .button,
+  .toggleButton,
+  .presetButton,
+  .select,
+  .numberInput {
+    border-width: 2px;
+  }
+  
+  .primaryButton {
+    background: var(--color-background-high-contrast-primary, #000000);
+    color: var(--color-text-high-contrast-primary, #ffffff);
+  }
+  
+  .panelHeader,
+  .panelFooter {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .toggleButton,
+  .presetButton,
+  .select,
+  .numberInput,
+  .cameraSettingsPanel {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .cameraSettingsPanel {
+    background: var(--color-background-primary-dark, #1a202c);
+    border-color: var(--color-border-subtle-dark, #2d3748);
+    color: var(--color-text-primary-dark, #f7fafc);
+  }
+  
+  .panelHeader,
+  .panelFooter {
+    background: var(--color-background-secondary-dark, #2d3748);
+    border-color: var(--color-border-subtle-dark, #4a5568);
+  }
+  
+  .settingsSection {
+    background: var(--color-background-secondary-dark, #2d3748);
+    border-color: var(--color-border-subtle-dark, #4a5568);
+  }
+  
+  .advancedQuality {
+    background: var(--color-background-primary-dark, #1a202c);
+    border-color: var(--color-border-subtle-dark, #4a5568);
+  }
+  
+  .button,
+  .toggleButton,
+  .presetButton,
+  .select,
+  .numberInput {
+    background: var(--color-background-primary-dark, #1a202c);
+    border-color: var(--color-border-subtle-dark, #4a5568);
+    color: var(--color-text-primary-dark, #f7fafc);
+  }
+  
+  .button:hover:not(:disabled),
+  .toggleButton:hover,
+  .presetButton:hover,
+  .select:hover,
+  .numberInput:hover {
+    background: var(--color-background-hover-dark, #4a5568);
+    border-color: var(--color-border-interactive-dark, #718096);
+  }
+  
+  .primaryButton {
+    background: var(--color-background-primary-solid-dark, #4299e1);
+    border-color: var(--color-border-primary-dark, #4299e1);
+  }
+  
+  .primaryButton:hover:not(:disabled) {
+    background: var(--color-background-primary-hover-dark, #3182ce);
+    border-color: var(--color-border-primary-hover-dark, #3182ce);
+  }
+  
+  .toggleButton[aria-pressed="true"],
+  .presetButton.active {
+    background: var(--color-background-primary-subtle-dark, #2b6cb0);
+    border-color: var(--color-border-primary-dark, #4299e1);
+    color: var(--color-text-primary-dark, #f7fafc);
+  }
+  
+  .validationErrors {
+    background: var(--color-background-error-dark, #742a2a);
+    border-color: var(--color-border-error-dark, #fc8181);
+    color: var(--color-text-error-dark, #feb2b2);
+  }
+}
+
+/* Print styles */
+@media print {
+  .cameraSettingsPanel {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000000;
+  }
+  
+  .panelHeader,
+  .panelFooter {
+    display: none;
+  }
+  
+  .settingsContent {
+    padding: 0;
+  }
+  
+  .button,
+  .toggleButton,
+  .presetButton {
+    display: none;
+  }
+  
+  .validationErrors {
+    page-break-before: always;
+  }
+} 

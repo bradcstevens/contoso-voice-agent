@@ -1,0 +1,545 @@
+/* AdvancedCameraWidget - Organism-Level Accessibility Styles */
+/* Supports WCAG AAA compliance with performance and keyboard navigation */
+
+.advancedCameraWidget {
+  /* Container styles for organism-level structure */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  min-height: 400px;
+  position: relative;
+  isolation: isolate;
+  
+  /* Accessibility foundations */
+  outline: none;
+  border-radius: 12px;
+  background: var(--color-background-primary, #ffffff);
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  
+  /* Organism-level spacing and typography */
+  font-family: var(--font-family-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 16px;
+  line-height: 1.5;
+  
+  /* Performance optimization */
+  will-change: transform;
+  contain: layout style paint;
+  
+  /* Dark mode support */
+  color-scheme: light dark;
+  
+  /* Reduced motion support */
+  transition: all 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .advancedCameraWidget {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .advancedCameraWidget {
+    border-width: 2px;
+    border-color: var(--color-border-high-contrast, #000000);
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .advancedCameraWidget {
+    background: var(--color-background-primary-dark, #1a202c);
+    border-color: var(--color-border-subtle-dark, #4a5568);
+    color: var(--color-text-primary-dark, #ffffff);
+  }
+}
+
+/* Focus management for organism-level navigation */
+.advancedCameraWidget:focus-visible {
+  outline: 3px solid var(--color-focus-ring, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Loading state styles */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--color-text-secondary, #6b7280);
+  font-size: 14px;
+  
+  /* Accessibility announcement positioning */
+  position: relative;
+}
+
+.loading::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border-subtle, #e2e8f0);
+  border-top-color: var(--color-primary, #3b82f6);
+  border-radius: 50%;
+  margin-right: 12px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Organism section styles with proper landmark structure */
+.permissionSection,
+.feedSection,
+.captureSection,
+.analysisSection,
+.errorSection {
+  /* Section container */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  
+  /* Accessibility boundaries */
+  position: relative;
+  scroll-margin-top: 20px; /* For smooth scrolling to sections */
+  
+  /* Visual separation */
+  border-radius: 8px;
+  background: var(--color-background-secondary, #f8fafc);
+  
+  /* Section-specific focus management */
+  outline: none;
+}
+
+.permissionSection {
+  /* Permission flow specific styles */
+  border: 2px dashed var(--color-border-interactive, #3b82f6);
+  background: var(--color-background-info, #eff6ff);
+  
+  /* Enhanced visibility for important first step */
+  position: relative;
+}
+
+.permissionSection::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--color-primary, #3b82f6) 0%, 
+    var(--color-primary-light, #60a5fa) 100%);
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.feedSection {
+  /* Camera feed container */
+  min-height: 280px;
+  background: var(--color-background-media, #000000);
+  border-radius: 8px;
+  overflow: hidden;
+  
+  /* Aspect ratio maintenance */
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captureSection {
+  /* Capture controls area */
+  background: var(--color-background-controls, #f1f5f9);
+  border: 1px solid var(--color-border-controls, #cbd5e1);
+  
+  /* Control button layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.analysisSection {
+  /* Analysis results display */
+  background: var(--color-background-success, #f0fdf4);
+  border: 1px solid var(--color-border-success, #bbf7d0);
+  
+  /* Results layout */
+  max-height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.errorSection {
+  /* Error state styling */
+  background: var(--color-background-error, #fef2f2);
+  border: 1px solid var(--color-border-error, #fecaca);
+  color: var(--color-text-error, #dc2626);
+  
+  /* Error icon and message layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+/* Performance indicator styles for SLA monitoring */
+.performanceIndicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  
+  /* Minimal visual footprint */
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  
+  /* Performance status colors */
+  background: var(--color-success, #10b981);
+  
+  /* Accessibility enhancement */
+  outline: 2px solid var(--color-background-primary, #ffffff);
+  
+  /* Subtle animation for attention */
+  animation: pulse 2s infinite;
+}
+
+.performanceIndicator[data-status="violation"] {
+  background: var(--color-error, #ef4444);
+  animation: pulse-error 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes pulse-error {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Keyboard navigation helper styles */
+.keyboardHelp {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  
+  /* Minimal visual presence */
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--color-background-info, #eff6ff);
+  border: 1px solid var(--color-border-info, #bfdbfe);
+  
+  /* Hover enhancement */
+  cursor: help;
+  transition: all 0.2s ease-in-out;
+}
+
+.keyboardHelp:hover,
+.keyboardHelp:focus-visible {
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  
+  /* Extended help content */
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-info, #1e40af);
+  white-space: nowrap;
+  
+  /* Enhanced visibility */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.keyboardHelp::before {
+  content: '?';
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--color-text-info, #1e40af);
+}
+
+.keyboardHelp:hover::before,
+.keyboardHelp:focus-visible::before {
+  content: 'Keyboard shortcuts available - press Shift+? for details';
+}
+
+/* Section transition animations for smooth context switching */
+.permissionSection,
+.feedSection,
+.captureSection,
+.analysisSection,
+.errorSection {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeSlideIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Organism-level responsive design */
+@media (max-width: 768px) {
+  .advancedCameraWidget {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    
+    /* Mobile-optimized spacing */
+    min-height: 100vh;
+  }
+  
+  .permissionSection,
+  .feedSection,
+  .captureSection,
+  .analysisSection,
+  .errorSection {
+    padding: 16px;
+    border-radius: 0;
+  }
+  
+  .captureSection {
+    /* Mobile capture controls */
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 16px;
+  }
+  
+  .feedSection {
+    /* Mobile camera feed */
+    aspect-ratio: 4 / 3;
+    min-height: 240px;
+  }
+}
+
+/* Tablet optimization */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .advancedCameraWidget {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .feedSection {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Desktop optimization */
+@media (min-width: 1025px) {
+  .advancedCameraWidget {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .captureSection {
+    /* Desktop-optimized controls */
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 24px;
+  }
+}
+
+/* Print styles (accessibility requirement) */
+@media print {
+  .advancedCameraWidget {
+    border: 1px solid #000000;
+    box-shadow: none;
+    background: #ffffff;
+    color: #000000;
+  }
+  
+  .performanceIndicator,
+  .keyboardHelp {
+    display: none;
+  }
+  
+  .feedSection {
+    background: #ffffff;
+    border: 1px solid #000000;
+    
+    /* Print placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #666666;
+  }
+  
+  .feedSection::before {
+    content: '[Camera Feed - Not Available in Print]';
+  }
+}
+
+/* High contrast mode enhancements */
+@media (prefers-contrast: high) {
+  .permissionSection {
+    border-width: 3px;
+  }
+  
+  .feedSection {
+    border: 2px solid #000000;
+  }
+  
+  .captureSection,
+  .analysisSection {
+    border-width: 2px;
+  }
+  
+  .errorSection {
+    border-width: 2px;
+    border-color: #dc2626;
+  }
+  
+  .performanceIndicator {
+    outline-width: 3px;
+  }
+}
+
+/* Forced colors mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  .advancedCameraWidget {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+  }
+  
+  .permissionSection,
+  .feedSection,
+  .captureSection,
+  .analysisSection,
+  .errorSection {
+    border: 1px solid ButtonText;
+    background: Field;
+  }
+  
+  .performanceIndicator {
+    background: Highlight;
+    outline-color: ButtonFace;
+  }
+}
+
+/* Screen reader optimizations */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus trap styling for modal behaviors */
+.advancedCameraWidget[data-focus-trap="active"] {
+  /* Enhanced focus containment */
+  position: relative;
+  z-index: 1000;
+}
+
+.advancedCameraWidget[data-focus-trap="active"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  
+  /* Backdrop animation */
+  opacity: 0;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Accessibility announcements positioning */
+[aria-live] {
+  /* Ensure announcements are properly positioned */
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Container focus management */
+.advancedCameraWidget[tabindex="-1"]:focus {
+  /* Clean focus outline for programmatic focus */
+  outline: 2px solid var(--color-focus-ring, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Organism-level error boundary styling */
+.advancedCameraWidget[data-error="true"] {
+  border-color: var(--color-border-error, #fecaca);
+  background: var(--color-background-error-subtle, #fef2f2);
+}
+
+/* Performance monitoring visual feedback */
+.advancedCameraWidget[data-performance="loading"] {
+  /* Loading state indicator */
+  position: relative;
+  overflow: hidden;
+}
+
+.advancedCameraWidget[data-performance="loading"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--color-primary, #3b82f6) 50%, 
+    transparent 100%);
+  animation: progress 1.5s infinite;
+}
+
+@keyframes progress {
+  to { left: 100%; }
+}
+
+/* RTL (Right-to-Left) language support */
+[dir="rtl"] .advancedCameraWidget {
+  /* Mirror layouts for RTL languages */
+  direction: rtl;
+}
+
+[dir="rtl"] .captureSection {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .performanceIndicator {
+  right: auto;
+  left: 8px;
+}
+
+[dir="rtl"] .keyboardHelp {
+  left: auto;
+  right: 8px;
+} 

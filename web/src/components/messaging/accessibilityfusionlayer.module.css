@@ -1,0 +1,444 @@
+/* AccessibilityFusionLayer - Multi-Modal Accessibility Orchestration */
+
+.fusionLayer {
+  /* Container Layout */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--camera-border-radius);
+  background: var(--color-white);
+  border: 2px solid var(--color-zinc-200);
+  
+  /* Visual Enhancement */
+  box-shadow: var(--visual-search-shadow);
+  
+  /* Performance Optimization */
+  contain: layout style paint;
+  will-change: transform;
+  
+  /* Accessibility */
+  outline: none;
+  
+  /* Smooth Transitions */
+  transition: all var(--camera-transition-medium);
+}
+
+/* Fusion States */
+.fusionLayer.idle {
+  border-color: var(--camera-status-idle);
+  background: var(--color-zinc-50);
+}
+
+.fusionLayer.processing {
+  border-color: var(--camera-status-processing);
+  background: var(--color-blue-50);
+  animation: processingPulse 2s ease-in-out infinite;
+}
+
+.fusionLayer.fused {
+  border-color: var(--camera-status-active);
+  background: var(--color-green-50);
+}
+
+.fusionLayer.error {
+  border-color: var(--camera-status-error);
+  background: var(--color-red-50);
+}
+
+.fusionLayer.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  filter: grayscale(0.3);
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.statusSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-zinc-600);
+  transition: all var(--camera-transition-fast);
+}
+
+.statusIcon.processing {
+  color: var(--camera-status-processing);
+  animation: spin 1s linear infinite;
+}
+
+.statusText {
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-zinc-700);
+  line-height: 1.4;
+}
+
+/* Modality Indicators */
+.modalityIndicators {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalityIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--camera-border-radius);
+  background: var(--color-zinc-100);
+  border: 1px solid var(--color-zinc-200);
+  color: var(--color-zinc-500);
+  transition: all var(--camera-transition-fast);
+  
+  /* Accessibility */
+  position: relative;
+}
+
+.modalityIndicator.active {
+  background: var(--camera-status-active);
+  border-color: var(--camera-status-active);
+  color: var(--color-white);
+  transform: scale(1.05);
+  animation: modalityActive 0.3s ease-out;
+}
+
+.modalityIndicator svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Accessibility Status */
+.accessibilityStatus {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--camera-border-radius);
+  background: var(--color-zinc-100);
+  border: 1px solid var(--color-zinc-200);
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--camera-border-radius-full);
+  transition: all var(--camera-transition-fast);
+}
+
+.statusIndicator.passed {
+  background: var(--color-green-100);
+  color: var(--color-green-600);
+}
+
+.statusIndicator.failed {
+  background: var(--color-red-100);
+  color: var(--color-red-600);
+}
+
+.statusIndicator svg {
+  width: 16px;
+  height: 16px;
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.level {
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-zinc-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result {
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-zinc-800);
+}
+
+/* Performance Metrics Panel */
+.metricsPanel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--camera-border-radius);
+  background: var(--color-zinc-50);
+  border: 1px solid var(--color-zinc-200);
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.metricLabel {
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-zinc-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricValue {
+  font-family: var(--font-family-mono, 'Monaco', 'Consolas', monospace);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-zinc-800);
+  line-height: 1.2;
+}
+
+.metricValue.exceeded {
+  color: var(--color-red-600);
+  animation: valueAlert 0.5s ease-out;
+}
+
+/* Focus Indicators for Accessibility */
+.fusionLayer:focus-visible {
+  outline: 3px solid var(--camera-focus-indicator);
+  outline-offset: 2px;
+}
+
+.modalityIndicator:focus-visible {
+  outline: 2px solid var(--camera-focus-indicator);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes processingPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: var(--visual-search-shadow);
+  }
+  50% {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  }
+}
+
+@keyframes modalityActive {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes valueAlert {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    background: var(--color-red-100);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .fusionLayer {
+    background: var(--color-zinc-900);
+    border-color: var(--color-zinc-700);
+    color: var(--color-zinc-100);
+  }
+  
+  .fusionLayer.idle {
+    background: var(--color-zinc-800);
+  }
+  
+  .fusionLayer.processing {
+    background: var(--color-blue-900);
+  }
+  
+  .fusionLayer.fused {
+    background: var(--color-green-900);
+  }
+  
+  .fusionLayer.error {
+    background: var(--color-red-900);
+  }
+  
+  .statusText {
+    color: var(--color-zinc-200);
+  }
+  
+  .modalityIndicator {
+    background: var(--color-zinc-800);
+    border-color: var(--color-zinc-600);
+    color: var(--color-zinc-400);
+  }
+  
+  .accessibilityStatus {
+    background: var(--color-zinc-800);
+    border-color: var(--color-zinc-600);
+  }
+  
+  .metricsPanel {
+    background: var(--color-zinc-800);
+    border-color: var(--color-zinc-600);
+  }
+  
+  .metricLabel {
+    color: var(--color-zinc-400);
+  }
+  
+  .metricValue {
+    color: var(--color-zinc-100);
+  }
+  
+  .level {
+    color: var(--color-zinc-400);
+  }
+  
+  .result {
+    color: var(--color-zinc-200);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .fusionLayer {
+    border-width: 3px;
+  }
+  
+  .modalityIndicator {
+    border-width: 2px;
+  }
+  
+  .accessibilityStatus,
+  .metricsPanel {
+    border-width: 2px;
+  }
+  
+  .statusIndicator {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .fusionLayer,
+  .statusIcon,
+  .modalityIndicator,
+  .statusIndicator {
+    transition: none;
+    animation: none;
+  }
+  
+  .statusIcon.processing {
+    animation: none;
+  }
+  
+  .modalityIndicator.active {
+    transform: none;
+    animation: none;
+  }
+  
+  .fusionLayer.processing {
+    animation: none;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .fusionLayer {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .modalityIndicators {
+    align-self: flex-end;
+  }
+  
+  .modalityIndicator {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .modalityIndicator svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .metricsPanel {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .metricItem {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .accessibilityStatus {
+    padding: 10px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .fusionLayer {
+    background: white !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+  }
+  
+  .statusIcon,
+  .modalityIndicator svg,
+  .statusIndicator svg {
+    print-color-adjust: exact;
+  }
+} 
