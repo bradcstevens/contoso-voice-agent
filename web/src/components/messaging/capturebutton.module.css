@@ -1,0 +1,419 @@
+/* CaptureButton Atom - Enhanced Multi-Modal Capture */
+
+.captureButton {
+  /* Base Button Styling */
+  min-width: var(--camera-touch-target);
+  min-height: var(--camera-touch-target);
+  padding: 16px 20px;
+  border: 3px solid var(--camera-status-idle);
+  border-radius: var(--camera-border-radius-full);
+  background: var(--camera-capture-bg);
+  backdrop-filter: blur(8px);
+  
+  /* Typography */
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-zinc-700);
+  text-align: center;
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--camera-transition-medium);
+  
+  /* Accessibility */
+  outline: none;
+  position: relative;
+  
+  /* Transform origin for animations */
+  transform-origin: center;
+}
+
+/* Icon within button */
+.captureButton .icon {
+  width: var(--camera-icon-size-large);
+  height: var(--camera-icon-size-large);
+  color: currentColor;
+  transition: transform var(--camera-transition-fast);
+}
+
+.captureButton .text {
+  transition: opacity var(--camera-transition-fast);
+}
+
+/* Capture Button States */
+.captureButton.idle {
+  border-color: var(--camera-status-idle);
+  color: var(--color-zinc-600);
+  background: var(--color-zinc-50);
+}
+
+.captureButton.ready {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-50);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.captureButton.capturing {
+  border-color: var(--camera-status-capturing);
+  color: var(--color-blue-700);
+  background: var(--color-blue-50);
+  animation: captureScale var(--camera-capture-duration) ease-out;
+}
+
+.captureButton.capturing .icon {
+  animation: captureRotate var(--camera-capture-duration) ease-out;
+}
+
+.captureButton.processing {
+  border-color: var(--camera-status-processing);
+  color: var(--color-orange-700);
+  background: var(--color-orange-50);
+}
+
+.captureButton.processing .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.captureButton.success {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-100);
+  animation: successFlash 0.6s ease-out;
+}
+
+.captureButton.voiceTriggered {
+  border-color: var(--camera-status-voice);
+  color: var(--color-purple-700);
+  background: var(--color-purple-50);
+  animation: voicePulse 0.8s ease-out;
+}
+
+.captureButton.disabled {
+  border-color: var(--camera-status-error);
+  color: var(--color-zinc-400);
+  background: var(--color-zinc-100);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Size Variants */
+.captureButton.small {
+  min-width: calc(var(--camera-touch-target) - 8px);
+  min-height: calc(var(--camera-touch-target) - 8px);
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.captureButton.small .icon {
+  width: var(--camera-icon-size);
+  height: var(--camera-icon-size);
+}
+
+.captureButton.large {
+  min-width: calc(var(--camera-touch-target) + 16px);
+  min-height: calc(var(--camera-touch-target) + 16px);
+  padding: 20px 24px;
+  font-size: 18px;
+}
+
+.captureButton.large .icon {
+  width: calc(var(--camera-icon-size-large) + 4px);
+  height: calc(var(--camera-icon-size-large) + 4px);
+}
+
+/* Capture Mode Variants */
+.captureButton.manual {
+  /* Standard manual capture styling */
+}
+
+.captureButton.voice {
+  border-style: dashed;
+  position: relative;
+}
+
+.captureButton.voice::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--color-purple-400);
+  border-radius: var(--camera-border-radius-full);
+  opacity: 0;
+  animation: voiceListening 2s ease-in-out infinite;
+}
+
+.captureButton.voice[data-voice-listening="true"]::after {
+  opacity: 1;
+}
+
+.captureButton.auto {
+  border-style: dotted;
+}
+
+/* Voice Indicator */
+.voiceIndicator {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background: var(--color-purple-500);
+  border-radius: var(--camera-border-radius-full);
+  animation: voiceActive 1s ease-in-out infinite;
+}
+
+/* Interactive States */
+.captureButton:hover:not(.capturing):not(.processing):not(.disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.captureButton:active:not(.capturing):not(.processing):not(.disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.captureButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Focus States for Accessibility */
+.captureButton:focus-visible {
+  outline: 4px solid var(--camera-focus-indicator);
+  outline-offset: 4px;
+}
+
+.captureButton:focus-visible::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 3px solid var(--camera-focus-indicator);
+  border-radius: var(--camera-border-radius-full);
+  opacity: 0.4;
+}
+
+/* Animations */
+@keyframes captureScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes captureRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes successFlash {
+  0% {
+    background: var(--color-emerald-50);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    background: var(--color-emerald-200);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  }
+  100% {
+    background: var(--color-emerald-100);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+}
+
+@keyframes voicePulse {
+  0% {
+    border-color: var(--camera-status-voice);
+    box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4);
+  }
+  50% {
+    border-color: var(--color-purple-600);
+    box-shadow: 0 0 0 8px rgba(147, 51, 234, 0.1);
+  }
+  100% {
+    border-color: var(--camera-status-voice);
+    box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);
+  }
+}
+
+@keyframes voiceListening {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes voiceActive {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .captureButton {
+    min-width: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    min-height: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    padding: 18px 22px;
+  }
+  
+  .captureButton .icon {
+    width: calc(var(--camera-icon-size-large) + 2px);
+    height: calc(var(--camera-icon-size-large) + 2px);
+  }
+  
+  .captureButton.small {
+    min-width: var(--camera-touch-target);
+    min-height: var(--camera-touch-target);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .captureButton.idle {
+    background: var(--color-zinc-800);
+    color: var(--color-zinc-300);
+  }
+  
+  .captureButton.ready {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-emerald-300);
+  }
+  
+  .captureButton.capturing {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--color-blue-300);
+  }
+  
+  .captureButton.processing {
+    background: rgba(251, 146, 60, 0.1);
+    color: var(--color-orange-300);
+  }
+  
+  .captureButton.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--color-emerald-300);
+  }
+  
+  .captureButton.voiceTriggered {
+    background: rgba(147, 51, 234, 0.1);
+    color: var(--color-purple-300);
+  }
+  
+  .captureButton.disabled {
+    background: var(--color-zinc-700);
+    color: var(--color-zinc-500);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .captureButton {
+    border-width: 4px;
+    font-weight: 700;
+  }
+  
+  .captureButton:focus-visible {
+    outline-width: 5px;
+  }
+  
+  .captureButton:focus-visible::before {
+    border-width: 4px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .captureButton {
+    transition: none;
+  }
+  
+  .captureButton .icon {
+    transition: none;
+  }
+  
+  .captureButton .text {
+    transition: none;
+  }
+  
+  .captureButton:hover {
+    transform: none;
+  }
+  
+  .captureButton.capturing {
+    animation: none;
+  }
+  
+  .captureButton.capturing .icon {
+    animation: none;
+  }
+  
+  .captureButton.processing .icon {
+    animation: none;
+  }
+  
+  .captureButton.success {
+    animation: none;
+  }
+  
+  .captureButton.voiceTriggered {
+    animation: none;
+  }
+  
+  .captureButton.voice::after {
+    animation: none;
+    opacity: 0.5;
+  }
+  
+  .voiceIndicator {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .captureButton {
+    display: none;
+  }
+} 

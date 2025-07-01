@@ -1,0 +1,524 @@
+/* CameraPermissionFlow Molecular Component Styles */
+
+.permissionFlow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  max-width: 500px;
+  width: 100%;
+}
+
+.permissionFlow.compact {
+  padding: 1rem;
+  gap: 1rem;
+  max-width: 300px;
+}
+
+/* Initial State */
+.initialState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 400px;
+}
+
+.permissionButton {
+  /* Styles handled by the CameraPermissionButton component */
+}
+
+/* Requesting State */
+.requestingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Success State */
+.successContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--success-light);
+  color: var(--success);
+  font-size: 1.5rem;
+}
+
+.successContent h3 {
+  margin: 0;
+  color: var(--success);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.successContent p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Error State */
+.errorContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.errorIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--error-light);
+  color: var(--error);
+  font-size: 1.5rem;
+}
+
+.errorContent h3 {
+  margin: 0;
+  color: var(--error);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.errorMessage {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+.errorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.retryButton,
+.helpButton,
+.settingsButton,
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Touch target size */
+  white-space: nowrap;
+}
+
+.retryButton {
+  background: var(--primary);
+  color: var(--primary-contrast);
+  border-color: var(--primary);
+}
+
+.retryButton:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.retryButton:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.retryButton:active {
+  transform: translateY(0);
+  background: var(--primary-active);
+}
+
+.helpButton:hover,
+.settingsButton:hover,
+.backButton:hover {
+  background: var(--background-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.helpButton:focus,
+.settingsButton:focus,
+.backButton:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.helpButton:active,
+.settingsButton:active,
+.backButton:active {
+  transform: translateY(0);
+  background: var(--background-active);
+}
+
+.persistentError {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--warning-light);
+  border: 1px solid var(--warning);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.persistentError p {
+  margin: 0;
+  color: var(--warning-dark);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* Help Content */
+.helpContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  text-align: left;
+}
+
+.helpContent h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.helpSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.helpSection h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.helpSection p,
+.helpSection ol,
+.helpSection ul {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.helpSection ol,
+.helpSection ul {
+  padding-left: 1.25rem;
+}
+
+.helpSection li {
+  margin-bottom: 0.25rem;
+}
+
+.helpSection li:last-child {
+  margin-bottom: 0;
+}
+
+/* Settings Content */
+.settingsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  text-align: left;
+}
+
+.settingsContent h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--background-secondary);
+  border: 1px solid var(--border);
+}
+
+.settingsSection h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.settingsSection ol {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding-left: 1.25rem;
+}
+
+.settingsSection li {
+  margin-bottom: 0.5rem;
+}
+
+.settingsSection li:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .permissionFlow {
+    padding: 1.5rem;
+    gap: 1.25rem;
+    margin: 0 1rem;
+  }
+
+  .permissionFlow.compact {
+    padding: 1rem;
+    gap: 0.75rem;
+    margin: 0 0.5rem;
+  }
+
+  .errorActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .retryButton,
+  .helpButton,
+  .settingsButton,
+  .backButton {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .helpContent,
+  .settingsContent {
+    gap: 1.25rem;
+  }
+
+  .settingsSection {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .permissionFlow {
+    padding: 1rem;
+    gap: 1rem;
+    margin: 0 0.5rem;
+  }
+
+  .description {
+    font-size: 0.8125rem;
+  }
+
+  .errorMessage {
+    font-size: 0.8125rem;
+  }
+
+  .helpSection p,
+  .helpSection ol,
+  .helpSection ul,
+  .settingsSection ol {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .permissionFlow {
+    background: var(--background-dark, #1a1a1a);
+    border-color: var(--border-dark, #404040);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  .settingsSection {
+    background: var(--background-secondary-dark, #2a2a2a);
+    border-color: var(--border-dark, #404040);
+  }
+
+  .persistentError {
+    background: var(--warning-light-dark, #4a3a1a);
+    border-color: var(--warning-dark, #d97706);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .permissionFlow {
+    border-width: 2px;
+  }
+
+  .retryButton,
+  .helpButton,
+  .settingsButton,
+  .backButton {
+    border-width: 2px;
+    font-weight: 600;
+  }
+
+  .successIcon,
+  .errorIcon {
+    border: 2px solid currentColor;
+  }
+
+  .settingsSection {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .permissionFlow,
+  .retryButton,
+  .helpButton,
+  .settingsButton,
+  .backButton {
+    transition: none;
+  }
+
+  .retryButton:hover,
+  .helpButton:hover,
+  .settingsButton:hover,
+  .backButton:hover {
+    transform: none;
+  }
+
+  .retryButton:active,
+  .helpButton:active,
+  .settingsButton:active,
+  .backButton:active {
+    transform: none;
+  }
+}
+
+/* Focus Management */
+.permissionFlow:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Loading State Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.requestingState .permissionButton svg {
+  animation: spin 1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .requestingState .permissionButton svg {
+    animation: none;
+  }
+}
+
+/* Screen Reader Support */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Interactive State Enhancements */
+.retryButton:hover svg,
+.helpButton:hover svg,
+.settingsButton:hover svg {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retryButton:hover svg,
+  .helpButton:hover svg,
+  .settingsButton:hover svg {
+    transform: none;
+  }
+}
+
+/* Success State Animation */
+.successIcon {
+  animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .successIcon {
+    animation: none;
+  }
+} 

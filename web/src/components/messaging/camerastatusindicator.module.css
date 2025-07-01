@@ -1,0 +1,440 @@
+/* CameraStatusIndicator Atom - Real-Time Status Display */
+
+.statusIndicator {
+  /* Base Indicator Styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--camera-border-radius);
+  border: 1px solid var(--camera-status-idle);
+  background: var(--camera-status-bg);
+  backdrop-filter: blur(4px);
+  
+  /* Typography */
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: 500;
+  
+  /* Interaction */
+  transition: all var(--camera-transition-medium);
+  
+  /* Accessibility */
+  outline: none;
+}
+
+/* Icon styling */
+.statusIndicator .icon {
+  width: 14px;
+  height: 14px;
+  color: currentColor;
+  transition: transform var(--camera-transition-fast);
+  flex-shrink: 0;
+}
+
+/* Text containers */
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.statusText {
+  line-height: 1.2;
+  color: currentColor;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timestampText {
+  font-size: 10px;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* Display Mode Variants */
+.statusIndicator.minimal {
+  padding: 6px;
+  border-radius: var(--camera-border-radius-full);
+  gap: 0;
+}
+
+.statusIndicator.minimal .icon {
+  width: 12px;
+  height: 12px;
+}
+
+.statusIndicator.standard {
+  padding: 8px 12px;
+  gap: 8px;
+}
+
+.statusIndicator.detailed {
+  padding: 10px 14px;
+  gap: 10px;
+  max-width: 200px;
+}
+
+.statusIndicator.detailed .textContainer {
+  gap: 4px;
+}
+
+.statusIndicator.detailed .statusText {
+  font-size: 13px;
+}
+
+/* Status State Colors */
+.statusIndicator.idle {
+  border-color: var(--camera-status-idle);
+  color: var(--color-zinc-600);
+  background: var(--color-zinc-50);
+}
+
+.statusIndicator.requesting {
+  border-color: var(--camera-status-requesting);
+  color: var(--color-orange-700);
+  background: var(--color-orange-50);
+}
+
+.statusIndicator.requesting .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.statusIndicator.active {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-50);
+}
+
+.statusIndicator.active .icon {
+  animation: activeGlow 2s ease-in-out infinite;
+}
+
+.statusIndicator.capturing {
+  border-color: var(--camera-status-capturing);
+  color: var(--color-blue-700);
+  background: var(--color-blue-50);
+}
+
+.statusIndicator.capturing .icon {
+  animation: captureFlash 0.5s ease-in-out infinite;
+}
+
+.statusIndicator.processing {
+  border-color: var(--camera-status-processing);
+  color: var(--color-purple-700);
+  background: var(--color-purple-50);
+}
+
+.statusIndicator.processing .icon {
+  animation: spin 1s linear infinite;
+}
+
+.statusIndicator.analyzing {
+  border-color: var(--camera-status-processing);
+  color: var(--color-indigo-700);
+  background: var(--color-indigo-50);
+}
+
+.statusIndicator.analyzing .icon {
+  animation: analyzeAnimation 1.5s ease-in-out infinite;
+}
+
+.statusIndicator.success {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-100);
+  animation: successPulse 0.6s ease-out;
+}
+
+.statusIndicator.error {
+  border-color: var(--camera-status-error);
+  color: var(--color-red-700);
+  background: var(--color-red-50);
+}
+
+.statusIndicator.error .icon {
+  animation: errorShake 0.5s ease-in-out;
+}
+
+.statusIndicator.voiceActive {
+  border-color: var(--camera-status-voice);
+  color: var(--color-purple-700);
+  background: var(--color-purple-50);
+  position: relative;
+}
+
+.statusIndicator.voiceActive::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid var(--color-purple-400);
+  border-radius: var(--camera-border-radius);
+  animation: voiceGlow 1s ease-in-out infinite;
+}
+
+/* Progress Bar */
+.progressContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 var(--camera-border-radius) var(--camera-border-radius);
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: currentColor;
+  opacity: 0.6;
+  transition: width var(--camera-transition-medium);
+  border-radius: inherit;
+}
+
+/* Focus States for Accessibility */
+.statusIndicator:focus-visible {
+  outline: 2px solid var(--camera-focus-indicator);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes activeGlow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes captureFlash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes analyzeAnimation {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes voiceGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .statusIndicator {
+    font-size: 11px;
+  }
+  
+  .statusIndicator.detailed {
+    max-width: 150px;
+  }
+  
+  .statusIndicator .icon {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .statusIndicator.detailed .statusText {
+    font-size: 12px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .statusIndicator.idle {
+    background: var(--color-zinc-800);
+    color: var(--color-zinc-300);
+  }
+  
+  .statusIndicator.requesting {
+    background: rgba(251, 146, 60, 0.1);
+    color: var(--color-orange-300);
+  }
+  
+  .statusIndicator.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-emerald-300);
+  }
+  
+  .statusIndicator.capturing {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--color-blue-300);
+  }
+  
+  .statusIndicator.processing {
+    background: rgba(147, 51, 234, 0.1);
+    color: var(--color-purple-300);
+  }
+  
+  .statusIndicator.analyzing {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-indigo-300);
+  }
+  
+  .statusIndicator.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--color-emerald-300);
+  }
+  
+  .statusIndicator.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-red-300);
+  }
+  
+  .statusIndicator.voiceActive {
+    background: rgba(147, 51, 234, 0.1);
+    color: var(--color-purple-300);
+  }
+  
+  .progressContainer {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .statusIndicator {
+    border-width: 2px;
+    font-weight: 600;
+  }
+  
+  .statusIndicator:focus-visible {
+    outline-width: 3px;
+  }
+  
+  .progressContainer {
+    height: 3px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .statusIndicator {
+    transition: none;
+  }
+  
+  .statusIndicator .icon {
+    transition: none;
+  }
+  
+  .progressBar {
+    transition: none;
+  }
+  
+  .statusIndicator.requesting .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.active .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.capturing .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.processing .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.analyzing .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.success {
+    animation: none;
+  }
+  
+  .statusIndicator.error .icon {
+    animation: none;
+  }
+  
+  .statusIndicator.voiceActive::after {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .statusIndicator {
+    background: white !important;
+    border: 1px solid black !important;
+    color: black !important;
+  }
+  
+  .statusIndicator .icon {
+    display: none;
+  }
+} 

@@ -1,0 +1,394 @@
+/* CameraControlIcon Atom - Enhanced Camera Controls */
+
+.iconContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.controlIcon {
+  /* Base Icon Styling */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--camera-touch-target);
+  min-height: var(--camera-touch-target);
+  padding: 8px;
+  border: 2px solid var(--camera-control-border);
+  border-radius: var(--camera-border-radius);
+  background: var(--camera-control-bg);
+  backdrop-filter: blur(4px);
+  
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--camera-transition-medium);
+  
+  /* Accessibility */
+  outline: none;
+  position: relative;
+  
+  /* Transform origin for animations */
+  transform-origin: center;
+}
+
+/* Icon within button */
+.controlIcon .icon {
+  width: var(--camera-icon-size);
+  height: var(--camera-icon-size);
+  color: currentColor;
+  transition: transform var(--camera-transition-fast);
+}
+
+/* Size Variants */
+.controlIcon.small {
+  min-width: calc(var(--camera-touch-target) - 8px);
+  min-height: calc(var(--camera-touch-target) - 8px);
+  padding: 6px;
+}
+
+.controlIcon.small .icon {
+  width: calc(var(--camera-icon-size) - 2px);
+  height: calc(var(--camera-icon-size) - 2px);
+}
+
+.controlIcon.large {
+  min-width: calc(var(--camera-touch-target) + 8px);
+  min-height: calc(var(--camera-touch-target) + 8px);
+  padding: 10px;
+}
+
+.controlIcon.large .icon {
+  width: calc(var(--camera-icon-size) + 4px);
+  height: calc(var(--camera-icon-size) + 4px);
+}
+
+/* Control Type Specific Styling */
+.controlIcon.cameraToggle {
+  border-color: var(--camera-status-idle);
+  color: var(--color-zinc-600);
+}
+
+.controlIcon.cameraToggle.active {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-50);
+}
+
+.controlIcon.micToggle {
+  border-color: var(--camera-status-idle);
+  color: var(--color-zinc-600);
+}
+
+.controlIcon.micToggle.active {
+  border-color: var(--camera-status-voice);
+  color: var(--color-purple-700);
+  background: var(--color-purple-50);
+}
+
+.controlIcon.settings {
+  border-color: var(--color-zinc-300);
+  color: var(--color-zinc-600);
+}
+
+.controlIcon.rotate {
+  border-color: var(--color-blue-300);
+  color: var(--color-blue-600);
+}
+
+.controlIcon.zoomIn,
+.controlIcon.zoomOut {
+  border-color: var(--color-indigo-300);
+  color: var(--color-indigo-600);
+}
+
+.controlIcon.fullscreen {
+  border-color: var(--color-slate-300);
+  color: var(--color-slate-600);
+}
+
+.controlIcon.fullscreen.active {
+  border-color: var(--color-slate-500);
+  color: var(--color-slate-700);
+  background: var(--color-slate-100);
+}
+
+.controlIcon.grid {
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+
+.controlIcon.grid.active {
+  border-color: var(--color-gray-500);
+  color: var(--color-gray-700);
+  background: var(--color-gray-100);
+}
+
+.controlIcon.brightness {
+  border-color: var(--color-yellow-300);
+  color: var(--color-yellow-600);
+}
+
+.controlIcon.brightness.active {
+  border-color: var(--color-yellow-500);
+  color: var(--color-yellow-700);
+  background: var(--color-yellow-100);
+}
+
+/* Interactive States */
+.controlIcon.default {
+  /* Base state styling */
+}
+
+.controlIcon.hover:not(.disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--camera-control-hover-border);
+}
+
+.controlIcon.active:not(.disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.controlIcon.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--color-zinc-300);
+  color: var(--color-zinc-400);
+  background: var(--color-zinc-100);
+}
+
+/* Animation Variants */
+.controlIcon.animate {
+  transition: all var(--camera-transition-medium);
+}
+
+.controlIcon.animate .icon {
+  transition: transform var(--camera-transition-fast);
+}
+
+.controlIcon.animate:hover:not(.disabled) .icon {
+  transform: scale(1.1);
+}
+
+.controlIcon.animate:active:not(.disabled) .icon {
+  transform: scale(0.9);
+}
+
+/* Special Animations for Specific Controls */
+.controlIcon.rotate:hover:not(.disabled) .icon {
+  transform: rotate(90deg);
+}
+
+.controlIcon.brightness.active .icon {
+  animation: brightnessGlow 2s ease-in-out infinite;
+}
+
+.controlIcon.cameraToggle.active .icon {
+  animation: cameraActive 3s ease-in-out infinite;
+}
+
+/* Focus States for Accessibility */
+.controlIcon:focus-visible {
+  outline: 3px solid var(--camera-focus-indicator);
+  outline-offset: 2px;
+}
+
+.controlIcon:focus-visible::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--camera-focus-indicator);
+  border-radius: var(--camera-border-radius);
+  opacity: 0.3;
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  background: var(--color-zinc-800);
+  color: var(--color-white);
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--camera-border-radius);
+  white-space: nowrap;
+  z-index: 10;
+  
+  /* Tooltip Animation */
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--color-zinc-800);
+}
+
+/* Animations */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes brightnessGlow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes cameraActive {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .controlIcon {
+    min-width: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    min-height: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    padding: 10px;
+  }
+  
+  .controlIcon .icon {
+    width: calc(var(--camera-icon-size) + 2px);
+    height: calc(var(--camera-icon-size) + 2px);
+  }
+  
+  .controlIcon.small {
+    min-width: var(--camera-touch-target);
+    min-height: var(--camera-touch-target);
+  }
+  
+  .tooltip {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .controlIcon {
+    background: var(--color-zinc-800);
+    border-color: var(--color-zinc-600);
+  }
+  
+  .controlIcon.cameraToggle.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-emerald-300);
+  }
+  
+  .controlIcon.micToggle.active {
+    background: rgba(147, 51, 234, 0.1);
+    color: var(--color-purple-300);
+  }
+  
+  .controlIcon.fullscreen.active {
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--color-slate-300);
+  }
+  
+  .controlIcon.grid.active {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--color-gray-300);
+  }
+  
+  .controlIcon.brightness.active {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-yellow-300);
+  }
+  
+  .controlIcon.disabled {
+    background: var(--color-zinc-700);
+    color: var(--color-zinc-500);
+    border-color: var(--color-zinc-600);
+  }
+  
+  .tooltip {
+    background: var(--color-zinc-700);
+    color: var(--color-zinc-200);
+  }
+  
+  .tooltip::after {
+    border-top-color: var(--color-zinc-700);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .controlIcon {
+    border-width: 3px;
+  }
+  
+  .controlIcon:focus-visible {
+    outline-width: 4px;
+  }
+  
+  .controlIcon:focus-visible::before {
+    border-width: 3px;
+  }
+  
+  .tooltip {
+    border: 1px solid var(--color-white);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .controlIcon {
+    transition: none;
+  }
+  
+  .controlIcon .icon {
+    transition: none;
+  }
+  
+  .controlIcon:hover .icon {
+    transform: none;
+  }
+  
+  .controlIcon.rotate:hover .icon {
+    transform: none;
+  }
+  
+  .controlIcon.brightness.active .icon {
+    animation: none;
+  }
+  
+  .controlIcon.cameraToggle.active .icon {
+    animation: none;
+  }
+  
+  .tooltip {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .controlIcon {
+    display: none;
+  }
+} 
