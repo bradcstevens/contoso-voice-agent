@@ -307,3 +307,190 @@ class UserInput(BaseModel):
 
 *System patterns documented for consistent development practices*
 *Comprehensive coverage of common patterns and best practices*
+
+## Multi-Modal AI System Architecture Patterns
+
+### Architectural Patterns Established
+- **Date**: $(date)
+- **Context**: Contoso Voice Agent Multi-Modal System
+
+#### Multi-Modal Orchestration Pattern
+- **Pattern**: Central orchestrator coordinates multiple interaction modalities (text, voice, visual)
+- **Implementation**: Multi-Modal Orchestrator service with event-driven state management
+- **Benefits**: Unified coordination, consistent state management, scalable modality addition
+- **Usage**: Apply for systems requiring coordination between multiple input/output modalities
+
+#### Dual API Endpoint Pattern
+- **Pattern**: Intelligent routing between specialized API endpoints based on request type
+- **Implementation**: Azure Endpoint Router with request type detection and load balancing
+- **Benefits**: Optimized API usage, cost management, failover capability, performance optimization
+- **Usage**: Apply when using multiple specialized AI endpoints with different capabilities
+
+#### Real-Time State Synchronization Pattern
+- **Pattern**: Synchronized state management across frontend and backend via WebSocket
+- **Implementation**: Event-driven state updates with real-time WebSocket communication
+- **Benefits**: Consistent user experience, real-time updates, efficient data flow
+- **Usage**: Apply for applications requiring real-time multi-modal interaction
+
+## Enhanced Camera Integration Design Patterns
+
+### Camera Permission Management Pattern
+- **Date**: $(date)
+- **Pattern**: Progressive permission request with graceful degradation and comprehensive error handling
+- **Implementation**: CameraPermissionButton atom with useCameraPermission hook
+- **Benefits**: 
+  - WCAG AAA accessibility compliance with screen reader support
+  - Multiple permission states with clear user feedback
+  - Touch-optimized for mobile with proper target sizes
+  - Keyboard navigation and voice control integration
+  - Cross-browser compatibility with WebRTC support
+- **Design Tokens Used**:
+  - Camera status colors for different permission states
+  - Animation tokens for smooth state transitions
+  - Spacing tokens for touch targets and accessibility
+  - Performance tokens for optimal user experience
+- **Usage**: Apply for any camera-enabled web application requiring permission management
+
+### Real-Time Video Feed Pattern
+- **Date**: $(date)
+- **Pattern**: Performance-optimized video display with 30fps target and accessibility features
+- **Implementation**: CameraFeedDisplay atom with GPU acceleration and memory management
+- **Benefits**:
+  - 30fps real-time video processing with minimal CPU impact
+  - Responsive design across mobile, tablet, and desktop
+  - Comprehensive accessibility with focus indicators and screen reader support
+  - Dark mode and high contrast support
+  - Reduced motion preferences compliance
+  - Cross-browser video optimization
+- **Performance Optimizations**:
+  - GPU acceleration with transform3d and backface-visibility
+  - CSS containment for layout optimization
+  - Will-change property for smooth animations
+  - Optimized image rendering for video playback
+- **Usage**: Apply for real-time video applications requiring high performance and accessibility
+
+### Atomic Design Methodology Pattern
+- **Date**: $(date)
+- **Pattern**: Systematic component development from design tokens to complete interfaces
+- **Implementation**: Five-level hierarchy with comprehensive design token foundation
+- **Levels**:
+  1. **Design Tokens**: Camera-specific colors, animations, spacing, performance values
+  2. **Atoms**: CameraPermissionButton, CameraFeedDisplay, CaptureButton, StatusIndicator
+  3. **Molecules**: CameraPermissionFlow, CameraFeedContainer, CaptureInterface
+  4. **Organisms**: AdvancedCameraWidget, VisualSearchInterface, MultiModalOrchestrator
+  5. **Templates**: CameraEnabledChatLayout, VisualSearchResultsLayout
+  6. **Pages**: EnhancedChatWithCamera, VisualSearchResults
+- **Benefits**:
+  - Systematic component development and reusability
+  - Consistent design system integration
+  - Scalable component architecture
+  - Clear dependency hierarchy
+  - Enhanced maintainability
+- **Usage**: Apply for complex UI systems requiring systematic component development
+
+### Multi-Modal Coordination Pattern
+- **Date**: $(date)
+- **Pattern**: Seamless coordination between voice, camera, and text interactions
+- **Implementation**: Event-driven coordination with shared state management
+- **Coordination Points**:
+  - Voice commands triggering camera capture
+  - Camera analysis informing text responses
+  - Text chat context enhancing voice interactions
+  - Visual search results integrated into conversation flow
+- **Design Tokens**:
+  - Multi-modal coordination colors for different active states
+  - Transition timings for smooth mode switching
+  - Status indicators for current active modality
+- **Benefits**:
+  - Unified user experience across modalities
+  - Context preservation during mode switching
+  - Intelligent feature coordination
+  - Performance optimization for multi-modal processing
+- **Usage**: Apply for applications requiring multiple interaction modalities with shared context
+
+## Enhanced Design System Patterns
+
+### Camera-Specific Design Token System
+- **Date**: $(date)
+- **Pattern**: Comprehensive token system for camera-related UI components
+- **Token Categories**:
+  - **Status Colors**: idle, requesting, active, capturing, processing, error, denied
+  - **UI Colors**: overlay backgrounds, control backgrounds, capture rings, focus indicators
+  - **Animation Tokens**: transition speeds, capture duration, focus timing, permission timing
+  - **Spacing Tokens**: touch targets, spacing, control sizes, icon sizes, border radius
+  - **Performance Tokens**: frame rates, resolution limits, quality settings, timeout values
+  - **Multi-Modal Colors**: voice active, camera active, text active, coordination, processing
+  - **Visual Search Colors**: match confidence levels, backgrounds, borders, shadows
+- **Responsive Adaptations**:
+  - Dark mode variants for all color tokens
+  - Reduced motion alternatives for animation tokens
+  - High contrast mode enhancements
+- **Usage**: Apply for camera-enabled applications requiring consistent visual design
+
+### Progressive Enhancement Pattern
+- **Date**: $(date)
+- **Pattern**: Graceful degradation when camera features are unavailable
+- **Implementation**: Feature detection with fallback UI states
+- **Enhancement Levels**:
+  1. **Base Level**: Text-only interaction with file upload fallback
+  2. **Enhanced Level**: Camera permission with static image capture
+  3. **Advanced Level**: Real-time video feed with 30fps processing
+  4. **Premium Level**: Multi-modal coordination with voice-triggered capture
+- **Benefits**:
+  - Broad device and browser compatibility
+  - Accessible to users with different capabilities
+  - Performance optimization for varying hardware
+  - Graceful handling of permission denials
+- **Usage**: Apply for applications requiring broad accessibility and device support
+
+### Performance-Optimized Media Pattern
+- **Date**: $(date)
+- **Pattern**: Optimized media handling for real-time processing
+- **Implementation**: GPU acceleration, memory management, and efficient encoding
+- **Optimizations**:
+  - Hardware-accelerated video rendering
+  - Efficient image capture and base64 encoding
+  - Memory cleanup for video streams
+  - Optimized network transmission
+  - Lazy loading for camera components
+- **Performance Targets**:
+  - 30fps video feed with minimal CPU impact
+  - <200ms image capture and encoding
+  - <3s visual analysis response time
+  - <100ms multi-modal coordination
+- **Usage**: Apply for media-intensive applications requiring real-time processing
+
+## Implementation Guidelines
+
+### Camera Integration Best Practices
+1. **Always request permissions progressively** with clear user education
+2. **Implement comprehensive error handling** for all camera states
+3. **Optimize for performance** with GPU acceleration and memory management
+4. **Ensure accessibility compliance** with WCAG AAA standards
+5. **Support all interaction modalities** with graceful degradation
+6. **Test across devices and browsers** for compatibility
+7. **Monitor performance metrics** for optimization opportunities
+
+### Design Token Usage Guidelines
+1. **Use semantic tokens** instead of primitive values
+2. **Implement responsive variants** for different screen sizes
+3. **Support accessibility preferences** (dark mode, reduced motion, high contrast)
+4. **Maintain consistency** across all component levels
+5. **Document token usage** with clear examples and guidelines
+6. **Version token changes** for backward compatibility
+
+### Atomic Design Implementation Guidelines
+1. **Start with design tokens** as the foundation
+2. **Build atoms systematically** with comprehensive accessibility
+3. **Compose molecules** with clear component relationships
+4. **Create organisms** with complex interaction patterns
+5. **Design templates** with flexible content areas
+6. **Implement pages** with real content and complete user flows
+7. **Validate across levels** for consistency and performance
+
+---
+
+*Enhanced design patterns for sophisticated multi-modal camera integration*
+*Atomic design methodology ensuring systematic and scalable component development*
+*Performance and accessibility optimized for real-time video processing*
+

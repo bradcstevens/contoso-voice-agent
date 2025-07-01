@@ -1,0 +1,195 @@
+/* CameraPermissionButton Atom - Enhanced Design */
+
+.permissionButton {
+  /* Base Button Styling */
+  min-width: var(--camera-touch-target);
+  min-height: var(--camera-touch-target);
+  padding: 12px 16px;
+  border: 2px solid var(--camera-status-idle);
+  border-radius: var(--camera-border-radius);
+  background: var(--camera-controls-bg);
+  backdrop-filter: blur(8px);
+  
+  /* Typography */
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-zinc-700);
+  text-align: center;
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--camera-transition-medium);
+  
+  /* Accessibility */
+  outline: none;
+  position: relative;
+}
+
+/* Icon within button */
+.permissionButton .icon {
+  width: var(--camera-icon-size);
+  height: var(--camera-icon-size);
+  color: currentColor;
+  transition: transform var(--camera-transition-fast);
+}
+
+/* Permission States */
+.permissionButton.idle {
+  border-color: var(--camera-status-idle);
+  color: var(--color-zinc-600);
+}
+
+.permissionButton.requesting {
+  border-color: var(--camera-status-requesting);
+  color: var(--color-orange-700);
+  background: var(--color-orange-50);
+}
+
+.permissionButton.requesting .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.permissionButton.granted {
+  border-color: var(--camera-status-active);
+  color: var(--color-emerald-700);
+  background: var(--color-emerald-50);
+}
+
+.permissionButton.denied {
+  border-color: var(--camera-status-error);
+  color: var(--color-red-700);
+  background: var(--color-red-50);
+}
+
+.permissionButton.error {
+  border-color: var(--camera-status-error);
+  color: var(--color-red-700);
+  background: var(--color-red-50);
+}
+
+/* Interactive States */
+.permissionButton:hover:not(.requesting) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--camera-status-active);
+}
+
+.permissionButton:active:not(.requesting) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.permissionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Focus States for Accessibility */
+.permissionButton:focus-visible {
+  outline: 3px solid var(--camera-focus-indicator);
+  outline-offset: 2px;
+}
+
+/* Keyboard Navigation Enhancement */
+.permissionButton:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--camera-focus-indicator);
+  border-radius: calc(var(--camera-border-radius) + 4px);
+  opacity: 0.3;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .permissionButton {
+    min-width: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    min-height: calc(var(--camera-touch-target) + var(--camera-touch-spacing));
+    padding: 14px 18px;
+  }
+  
+  .permissionButton .icon {
+    width: var(--camera-icon-size-large);
+    height: var(--camera-icon-size-large);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .permissionButton {
+    background: var(--camera-controls-bg-dark);
+    color: var(--color-zinc-200);
+  }
+  
+  .permissionButton.idle {
+    color: var(--color-zinc-300);
+  }
+  
+  .permissionButton.requesting {
+    background: rgba(251, 146, 60, 0.1);
+    color: var(--color-orange-300);
+  }
+  
+  .permissionButton.granted {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-emerald-300);
+  }
+  
+  .permissionButton.denied,
+  .permissionButton.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-red-300);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .permissionButton {
+    border-width: 3px;
+    font-weight: 600;
+  }
+  
+  .permissionButton:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .permissionButton {
+    transition: none;
+  }
+  
+  .permissionButton .icon {
+    transition: none;
+  }
+  
+  .permissionButton:hover {
+    transform: none;
+  }
+  
+  .permissionButton.requesting .icon {
+    animation: none;
+  }
+} 

@@ -82,6 +82,89 @@
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times,
     serif;
+
+  /* Enhanced Camera-Specific Design Tokens */
+  
+  /* Camera Status Colors */
+  --camera-status-idle: var(--color-zinc-400);
+  --camera-status-requesting: var(--color-orange-500);
+  --camera-status-active: var(--color-emerald-500);
+  --camera-status-capturing: var(--color-sky-500);
+  --camera-status-processing: var(--color-orange-400);
+  --camera-status-error: var(--color-red-500);
+  --camera-status-denied: var(--color-red-600);
+  
+  /* Camera UI Colors */
+  --camera-overlay-bg: rgba(0, 0, 0, 0.8);
+  --camera-overlay-bg-light: rgba(0, 0, 0, 0.4);
+  --camera-controls-bg: rgba(255, 255, 255, 0.95);
+  --camera-controls-bg-dark: rgba(39, 39, 42, 0.95);
+  --camera-capture-ring: var(--color-white);
+  --camera-capture-ring-active: var(--color-sky-400);
+  --camera-focus-indicator: var(--color-sky-500);
+  
+  /* Camera Animation Tokens */
+  --camera-transition-fast: 150ms ease-out;
+  --camera-transition-medium: 300ms ease-out;
+  --camera-transition-slow: 500ms ease-out;
+  --camera-capture-duration: 200ms;
+  --camera-focus-duration: 300ms;
+  --camera-permission-duration: 400ms;
+  
+  /* Camera Spacing Tokens */
+  --camera-touch-target: 44px;
+  --camera-touch-spacing: 8px;
+  --camera-control-size: 56px;
+  --camera-control-size-small: 40px;
+  --camera-icon-size: 24px;
+  --camera-icon-size-large: 32px;
+  --camera-border-radius: 12px;
+  --camera-border-radius-full: 50%;
+  
+  /* Camera Performance Tokens */
+  --camera-frame-rate: 30; /* fps */
+  --camera-max-width: 1920;
+  --camera-max-height: 1080;
+  --camera-quality: 0.8; /* JPEG quality */
+  --camera-analysis-timeout: 3000ms;
+  
+  /* Multi-Modal Coordination Colors */
+  --multimodal-voice-active: var(--color-emerald-500);
+  --multimodal-camera-active: var(--color-sky-500);
+  --multimodal-text-active: var(--color-zinc-700);
+  --multimodal-coordination: var(--color-pink-500);
+  --multimodal-processing: var(--color-orange-500);
+  
+  /* Visual Search Result Colors */
+  --visual-search-match-high: var(--color-emerald-500);
+  --visual-search-match-medium: var(--color-orange-500);
+  --visual-search-match-low: var(--color-zinc-400);
+  --visual-search-bg: var(--color-white);
+  --visual-search-border: var(--color-zinc-200);
+  --visual-search-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Camera Tokens */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --camera-controls-bg: rgba(39, 39, 42, 0.95);
+    --camera-overlay-bg: rgba(0, 0, 0, 0.9);
+    --visual-search-bg: var(--color-zinc-800);
+    --visual-search-border: var(--color-zinc-700);
+    --visual-search-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Reduced Motion Camera Tokens */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --camera-transition-fast: 0ms;
+    --camera-transition-medium: 0ms;
+    --camera-transition-slow: 0ms;
+    --camera-capture-duration: 0ms;
+    --camera-focus-duration: 0ms;
+    --camera-permission-duration: 0ms;
+  }
 }
 
 html {

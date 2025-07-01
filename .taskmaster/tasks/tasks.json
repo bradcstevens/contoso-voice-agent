@@ -3,21 +3,76 @@
     "tasks": [
       {
         "id": 1,
-        "title": "Setup Camera Integration and Media Device Access",
-        "description": "Implement camera device access using Web Media Devices API with real-time video feed display and permission handling",
-        "details": "Create camera service using getUserMedia API for real-time video feed. Implement permission handling with graceful fallbacks. Add camera UI components with video preview element. Handle cross-browser compatibility (Chrome, Firefox, Safari, Edge). Implement error recovery for camera access failures.\n\nPseudo-code:\n```typescript\nclass CameraService {\n  async requestCameraAccess(): Promise<MediaStream> {\n    try {\n      const stream = await navigator.mediaDevices.getUserMedia({ video: true });\n      return stream;\n    } catch (error) {\n      // Handle permission denied, device not found, etc.\n      throw new CameraAccessError(error.message);\n    }\n  }\n  \n  captureFrame(videoElement: HTMLVideoElement): string {\n    const canvas = document.createElement('canvas');\n    const ctx = canvas.getContext('2d');\n    ctx.drawImage(videoElement, 0, 0);\n    return canvas.toDataURL('image/jpeg', 0.8); // Base64 encoded\n  }\n}\n```",
-        "testStrategy": "Unit tests for camera service methods, integration tests for permission flows, cross-browser compatibility testing, mock camera device testing, error handling validation",
-        "priority": "high",
+        "title": "Setup Camera Integration Infrastructure",
+        "description": "Implement Web Media Devices API integration for real-time camera access and video feed display in the Next.js frontend using atomic design principles with enhanced multi-modal capabilities",
+        "status": "in-progress",
         "dependencies": [],
-        "status": "pending",
-        "subtasks": []
+        "priority": "high",
+        "details": "Create comprehensive camera service using navigator.mediaDevices.getUserMedia() with atomic design component architecture. Implement atomic components (CameraPermissionButton, CameraFeedDisplay, CaptureButton, CameraStatusIndicator, CameraControlIcon), molecular components (CameraPermissionFlow, CameraFeedContainer, CaptureInterface, CameraErrorHandler, VisualAnalysisDisplay), and organism-level components (AdvancedCameraWidget, VisualSearchInterface, MultiModalOrchestrator, CameraSettingsPanel). Ensure 30fps minimum video feed, <3s visual analysis response time, <100ms multi-modal coordination latency, and WCAG AAA accessibility compliance. Include voice-triggered capture, haptic feedback, real-time status announcements, and progressive enhancement with fallback modes.",
+        "testStrategy": "Unit tests for atomic components and camera service methods, integration tests for molecular component interactions and permission flows, organism-level testing for complete camera workflows, cross-browser compatibility testing (Chrome, Firefox, Safari, Edge), performance testing for 30fps video feed and response time targets, accessibility testing for WCAG AAA compliance, mock MediaDevices API for automated testing, visual regression tests for all component levels, multi-modal interaction testing",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Atomic Camera Components",
+            "description": "Create foundational atomic design components for camera functionality",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Build CameraPermissionButton with enhanced permission request and graceful degradation, CameraFeedDisplay with 30fps optimization, CaptureButton with voice-triggered and manual capture plus haptic feedback, CameraStatusIndicator with real-time status and accessibility announcements, and CameraControlIcon with proper ARIA labeling",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Molecular Camera Component Groups",
+            "description": "Create molecular components that combine atomic elements for specific camera workflows",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Build CameraPermissionFlow for complete permission request and error handling, CameraFeedContainer for video display with controls and status, CaptureInterface for multi-modal capture controls (voice, touch, keyboard), CameraErrorHandler for graceful error states with recovery options, and VisualAnalysisDisplay for product match results with accessibility",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Organism-Level Camera Sections",
+            "description": "Create complex camera organisms that orchestrate multiple molecular components",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement AdvancedCameraWidget for complete camera integration in chat interface, VisualSearchInterface for full visual search experience with results, MultiModalOrchestrator for coordination between voice, camera, and text inputs, and CameraSettingsPanel for advanced camera configuration and preferences",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Core Camera Service with Web Media Devices API",
+            "description": "Create the foundational camera service with proper error handling and browser compatibility",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement navigator.mediaDevices.getUserMedia() integration, camera device enumeration and selection, proper cleanup and stream disposal, TypeScript interfaces for MediaStream and MediaDeviceInfo types, and cross-browser compatibility for Chrome, Firefox, Safari, and Edge",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Optimize Performance and Multi-Modal Coordination",
+            "description": "Ensure performance targets are met and multi-modal interactions work seamlessly",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Optimize for 30fps camera feed minimum, achieve <3s visual analysis response time, implement <100ms multi-modal coordination latency, add real-time video processing optimization, and ensure smooth coordination between voice, camera, and text inputs",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement Accessibility and Progressive Enhancement",
+            "description": "Ensure WCAG AAA compliance and graceful degradation for unsupported scenarios",
+            "status": "pending",
+            "dependencies": [],
+            "details": "Implement WCAG AAA accessibility compliance, add proper ARIA labeling and announcements, create fallback UI for unsupported browsers or denied permissions, implement progressive enhancement with fallback modes, and ensure voice-triggered features work with screen readers",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 2,
-        "title": "Implement Azure OpenAI Voice Processing Integration",
-        "description": "Integrate Azure OpenAI GPT-4o Realtime API for voice processing using AZURE_VOICE_ENDPOINT with Web Audio worklets",
-        "details": "Set up Azure OpenAI Realtime API connection using gpt-4o-realtime-preview model. Implement Web Audio worklets for real-time audio capture and playback. Create voice service with WebSocket connection to Azure endpoint. Handle audio streaming with minimal latency (<100ms). Implement voice activity detection and audio processing pipeline.\n\nPseudo-code:\n```python\nclass VoiceService:\n    def __init__(self):\n        self.azure_voice_endpoint = os.getenv('AZURE_VOICE_ENDPOINT')\n        self.websocket = None\n    \n    async def connect_realtime_api(self):\n        headers = {'Authorization': f'Bearer {self.api_key}'}\n        self.websocket = await websockets.connect(\n            f'{self.azure_voice_endpoint}/realtime',\n            extra_headers=headers\n        )\n    \n    async def process_audio_stream(self, audio_data: bytes):\n        await self.websocket.send(audio_data)\n        response = await self.websocket.recv()\n        return self.parse_voice_response(response)\n```",
-        "testStrategy": "Unit tests for voice service methods, WebSocket connection testing, audio processing pipeline validation, latency measurement tests, Azure API integration testing",
+        "title": "Implement Voice Processing with Azure OpenAI Realtime API",
+        "description": "Integrate Azure OpenAI GPT-4o Realtime API (gpt-4o-realtime-preview) for real-time voice conversations using AZURE_VOICE_ENDPOINT",
+        "details": "Create WebSocket connection to Azure OpenAI Realtime API using the gpt-4o-realtime-preview model. Implement custom Web Audio worklets for real-time audio capture and playback with <100ms latency. Create VoiceService class with methods for startRecording(), stopRecording(), and processAudioStream(). Handle audio format conversion (PCM 16-bit, 24kHz sample rate). Implement voice activity detection (VAD) for automatic speech detection. Add proper error handling for network issues and API rate limits. Create voice-specific UI components with visual indicators for recording/processing states. Implement session management for voice conversations with proper authentication using Azure API keys.",
+        "testStrategy": "Mock Azure Realtime API responses, audio processing unit tests, latency measurement tests, voice activity detection accuracy tests, WebSocket connection reliability tests, cross-browser audio API compatibility testing",
         "priority": "high",
         "dependencies": [],
         "status": "pending",
@@ -25,10 +80,10 @@
       },
       {
         "id": 3,
-        "title": "Develop Visual Analysis System with Azure GPT-4.1-mini",
-        "description": "Create visual analysis service using Azure OpenAI GPT-4.1-mini for multi-modal image processing and product matching",
-        "details": "Implement visual analysis service using GPT-4.1-mini via AZURE_OPENAI_ENDPOINT. Create image processing pipeline for base64 encoded images. Develop product matching algorithm based on visual similarity. Implement structured prompts for outdoor gear visual analysis. Add visual feature extraction and catalog matching.\n\nPseudo-code:\n```python\nclass VisualAnalysisService:\n    def __init__(self):\n        self.client = AzureOpenAI(\n            azure_endpoint=os.getenv('AZURE_OPENAI_ENDPOINT'),\n            api_key=os.getenv('AZURE_OPENAI_KEY'),\n            api_version='2024-02-15-preview'\n        )\n    \n    async def analyze_image(self, image_base64: str, user_query: str):\n        response = await self.client.chat.completions.create(\n            model='gpt-4-vision-preview',\n            messages=[\n                {\n                    'role': 'user',\n                    'content': [\n                        {'type': 'text', 'text': f'Analyze this outdoor gear: {user_query}'},\n                        {'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{image_base64}'}}\n                    ]\n                }\n            ]\n        )\n        return self.extract_product_features(response.choices[0].message.content)\n```",
-        "testStrategy": "Unit tests for image analysis methods, visual matching accuracy testing, product catalog integration tests, multi-modal prompt validation, performance testing for 3-second response target",
+        "title": "Develop Visual Analysis System with GPT-4.1-mini",
+        "description": "Create visual analysis service using Azure OpenAI GPT-4.1-mini for multi-modal image processing via AZURE_OPENAI_ENDPOINT",
+        "details": "Implement VisualAnalysisService class with analyzeImage() method that accepts base64 encoded images. Configure GPT-4.1-mini model with specialized prompts for outdoor gear identification and feature extraction. Create image preprocessing pipeline for optimal analysis (resize, format conversion, quality optimization). Implement product matching algorithm that compares visual features with catalog metadata. Add confidence scoring for visual matches. Create structured response format for visual analysis results including detected objects, colors, materials, and brand identification. Handle large image files with compression and chunking. Implement caching for repeated visual queries to reduce API costs.",
+        "testStrategy": "Visual analysis accuracy tests with diverse product images, performance tests for image processing pipeline, API response validation tests, confidence score calibration tests, cache effectiveness tests, error handling for malformed images",
         "priority": "high",
         "dependencies": [],
         "status": "pending",
@@ -37,9 +92,9 @@
       {
         "id": 4,
         "title": "Create Voice-Triggered Camera Capture System",
-        "description": "Implement automatic camera capture functionality triggered by voice commands and questions detection",
-        "details": "Develop voice command detection system to automatically trigger camera capture. Implement natural language processing to identify visual search intents. Create seamless coordination between voice input and camera capture. Add visual indicators for capture events and processing states.\n\nPseudo-code:\n```typescript\nclass VoiceVisualCoordinator {\n  private voiceService: VoiceService;\n  private cameraService: CameraService;\n  \n  async processVoiceCommand(audioData: ArrayBuffer) {\n    const transcript = await this.voiceService.transcribe(audioData);\n    \n    if (this.detectVisualIntent(transcript)) {\n      const imageData = await this.cameraService.captureFrame();\n      return await this.processVisualQuery(transcript, imageData);\n    }\n    \n    return await this.voiceService.processTextOnly(transcript);\n  }\n  \n  private detectVisualIntent(text: string): boolean {\n    const visualKeywords = ['show', 'like these', 'similar to', 'find', 'match'];\n    return visualKeywords.some(keyword => text.toLowerCase().includes(keyword));\n  }\n}\n```",
-        "testStrategy": "Integration tests for voice-camera coordination, intent detection accuracy testing, user experience flow validation, timing and synchronization tests, error handling for failed captures",
+        "description": "Implement automatic camera capture functionality triggered by voice commands and questions",
+        "details": "Create VoiceCameraCoordinator service that listens for specific voice patterns and triggers camera capture. Implement natural language processing to detect visual search intent from voice input (phrases like 'find boots like these', 'show me similar', 'what is this'). Create automatic image capture with visual feedback (flash effect, capture sound). Implement frame selection algorithm to capture the best quality image from video stream. Add manual capture button as fallback option. Create CaptureEvent system for coordinating between voice detection and camera capture. Implement proper timing to ensure user has positioned item before capture. Add visual indicators showing when system is ready for capture and when capture occurs.",
+        "testStrategy": "Voice pattern recognition accuracy tests, capture timing tests, image quality validation tests, user experience testing for capture feedback, integration tests between voice and camera systems, edge case testing for simultaneous voice/visual input",
         "priority": "medium",
         "dependencies": [
           1,
@@ -50,10 +105,10 @@
       },
       {
         "id": 5,
-        "title": "Build Enhanced Product Matching Engine",
-        "description": "Develop AI-powered product matching system that combines visual analysis with catalog data for accurate recommendations",
-        "details": "Create product matching algorithm using visual features and metadata. Implement similarity scoring based on visual analysis results. Enhance product catalog with visual metadata for better matching. Add cross-selling and upselling capabilities based on visual similarity.\n\nPseudo-code:\n```python\nclass ProductMatchingEngine:\n    def __init__(self, catalog: ProductCatalog):\n        self.catalog = catalog\n        self.visual_analyzer = VisualAnalysisService()\n    \n    async def find_similar_products(self, image_analysis: Dict, user_context: Dict) -> List[Product]:\n        visual_features = self.extract_visual_features(image_analysis)\n        \n        scored_products = []\n        for product in self.catalog.products:\n            similarity_score = self.calculate_similarity(\n                visual_features, \n                product.visual_features\n            )\n            scored_products.append((product, similarity_score))\n        \n        # Sort by similarity and apply business rules\n        return self.rank_and_filter_products(scored_products, user_context)\n    \n    def calculate_similarity(self, features1: Dict, features2: Dict) -> float:\n        # Implement cosine similarity or other matching algorithm\n        return cosine_similarity(features1, features2)\n```",
-        "testStrategy": "Unit tests for similarity algorithms, product matching accuracy validation, catalog integration testing, recommendation quality assessment, performance testing for large catalogs",
+        "title": "Build Visual Product Matching Engine",
+        "description": "Develop AI-powered product matching system that compares captured images with product catalog using visual similarity",
+        "details": "Create ProductMatcher class with findSimilarProducts() method that processes visual analysis results. Enhance product catalog with visual metadata including dominant colors, shapes, materials, and key visual features. Implement similarity scoring algorithm combining visual features, category matching, and brand recognition. Create product comparison matrix for ranking similar items. Add filtering capabilities by category, price range, and feature similarity. Implement result ranking based on visual similarity confidence and product relevance. Create structured response format with matched products, similarity scores, and matching rationale. Add fallback logic for low-confidence matches with broader category suggestions.",
+        "testStrategy": "Product matching accuracy tests with known similar items, similarity scoring validation tests, performance tests with large catalog, edge case testing with unclear images, A/B testing for ranking algorithms, user feedback integration for match quality",
         "priority": "medium",
         "dependencies": [
           3
@@ -63,28 +118,26 @@
       },
       {
         "id": 6,
-        "title": "Implement Multi-Modal Session Management",
-        "description": "Extend existing session management to handle voice, visual, and text interactions with comprehensive context preservation",
-        "details": "Enhance session management to track multi-modal conversation history. Implement visual search history storage and retrieval. Add context preservation across voice, visual, and text interactions. Create session state management for complex multi-modal flows.\n\nPseudo-code:\n```python\nclass MultiModalSession:\n    def __init__(self, session_id: str):\n        self.session_id = session_id\n        self.messages: List[Message] = []\n        self.visual_history: List[VisualSearch] = []\n        self.voice_context: Dict = {}\n        self.user_preferences: Dict = {}\n    \n    def add_visual_interaction(self, image_data: str, analysis: Dict, products: List[int]):\n        visual_search = VisualSearch(\n            id=generate_id(),\n            image_data=image_data,\n            analysis_result=analysis,\n            matched_products=products,\n            timestamp=datetime.now()\n        )\n        self.visual_history.append(visual_search)\n    \n    def get_conversation_context(self) -> str:\n        context = f\"Session: {self.session_id}\\n\"\n        context += f\"Recent messages: {self.messages[-5:]}\\n\"\n        context += f\"Visual searches: {len(self.visual_history)}\\n\"\n        return context\n```",
-        "testStrategy": "Unit tests for session management methods, context preservation validation, multi-modal history testing, session persistence verification, concurrent session handling tests",
+        "title": "Enhance Session Management for Multi-Modal Context",
+        "description": "Extend existing session management to handle voice, visual, and text conversation context with comprehensive history tracking",
+        "details": "Extend ConversationSession model to include visual_history, voice_interactions, and multi_modal_context fields. Create SessionManager class with methods for addVisualSearch(), addVoiceInteraction(), and getMultiModalContext(). Implement context preservation across different interaction modalities with proper serialization. Create conversation threading that maintains context when switching between text, voice, and visual inputs. Add visual search history with image thumbnails and analysis results. Implement context injection for AI prompts that includes recent visual searches and voice interactions. Create session cleanup and optimization to prevent memory bloat. Add session analytics for tracking multi-modal usage patterns.",
+        "testStrategy": "Session persistence tests across modalities, context injection validation tests, memory usage tests for long sessions, concurrent session handling tests, session cleanup verification tests, context accuracy tests for AI responses",
         "priority": "medium",
         "dependencies": [
-          1,
-          2,
-          3
+          4,
+          5
         ],
         "status": "pending",
         "subtasks": []
       },
       {
         "id": 7,
-        "title": "Create Integrated User Interface Components",
-        "description": "Build React components that seamlessly integrate camera feed, voice controls, and chat interface with visual search capabilities",
-        "details": "Develop React components for integrated multi-modal interface. Create camera preview component with capture indicators. Implement voice control UI with visual feedback. Design chat interface that displays visual search results inline. Add responsive design for desktop and mobile.\n\nPseudo-code:\n```typescript\nconst MultiModalChat: React.FC = () => {\n  const [cameraEnabled, setCameraEnabled] = useState(false);\n  const [isRecording, setIsRecording] = useState(false);\n  const [messages, setMessages] = useState<Message[]>([]);\n  \n  return (\n    <div className=\"multi-modal-chat\">\n      <CameraFeed \n        enabled={cameraEnabled}\n        onCapture={handleImageCapture}\n        showIndicators={isRecording}\n      />\n      <VoiceControls \n        onStartRecording={() => setIsRecording(true)}\n        onStopRecording={handleVoiceInput}\n        isActive={isRecording}\n      />\n      <ChatInterface \n        messages={messages}\n        onSendMessage={handleTextMessage}\n        showVisualResults={true}\n      />\n    </div>\n  );\n};\n\nconst CameraFeed: React.FC<CameraFeedProps> = ({ enabled, onCapture, showIndicators }) => {\n  const videoRef = useRef<HTMLVideoElement>(null);\n  \n  useEffect(() => {\n    if (enabled && videoRef.current) {\n      navigator.mediaDevices.getUserMedia({ video: true })\n        .then(stream => {\n          videoRef.current!.srcObject = stream;\n        });\n    }\n  }, [enabled]);\n  \n  return (\n    <div className=\"camera-feed\">\n      <video ref={videoRef} autoPlay muted />\n      {showIndicators && <div className=\"capture-indicator\" />}\n    </div>\n  );\n};\n```",
-        "testStrategy": "Component unit tests, integration testing for multi-modal interactions, responsive design validation, accessibility testing, user experience flow testing",
+        "title": "Develop Integrated Conversation Flow System",
+        "description": "Create seamless conversation experience that combines text, voice, and visual inputs in a unified interface",
+        "details": "Create ConversationOrchestrator class that manages multi-modal input coordination and response generation. Implement conversation flow that can handle simultaneous or sequential voice and visual inputs. Create unified message format that supports text, voice transcripts, and visual analysis results. Implement context-aware response generation that references previous visual searches and voice interactions. Create conversation branching logic for different input combinations (voice+visual, text+visual, voice-only). Add conversation summarization for long multi-modal sessions. Implement proper error handling when one modality fails while others continue working. Create conversation export functionality for user reference.",
+        "testStrategy": "Multi-modal conversation flow tests, context preservation validation tests, error handling tests for partial system failures, conversation quality assessment tests, user experience testing for flow transitions, performance tests for complex conversations",
         "priority": "medium",
         "dependencies": [
-          4,
           6
         ],
         "status": "pending",
@@ -92,44 +145,156 @@
       },
       {
         "id": 8,
-        "title": "Implement Real-Time WebSocket Communication for Multi-Modal Data",
-        "description": "Enhance WebSocket system to handle concurrent audio, video, and text streams with optimized performance",
-        "details": "Extend existing WebSocket infrastructure to handle multi-modal data streams. Implement message routing for different data types (audio, image, text). Add connection management for concurrent streams. Optimize for real-time performance with minimal latency.\n\nPseudo-code:\n```python\nclass MultiModalWebSocketManager:\n    def __init__(self):\n        self.connections: Dict[str, WebSocket] = {}\n        self.voice_service = VoiceService()\n        self.visual_service = VisualAnalysisService()\n    \n    async def handle_websocket(self, websocket: WebSocket, session_id: str):\n        self.connections[session_id] = websocket\n        \n        async for message in websocket.iter_text():\n            data = json.loads(message)\n            \n            if data['type'] == 'audio':\n                response = await self.voice_service.process_audio(data['content'])\n            elif data['type'] == 'image':\n                response = await self.visual_service.analyze_image(data['content'])\n            elif data['type'] == 'text':\n                response = await self.chat_service.process_message(data['content'])\n            \n            await websocket.send_text(json.dumps(response))\n    \n    async def broadcast_to_session(self, session_id: str, message: Dict):\n        if session_id in self.connections:\n            await self.connections[session_id].send_text(json.dumps(message))\n```",
-        "testStrategy": "WebSocket connection testing, concurrent stream handling validation, message routing accuracy tests, performance testing for latency targets, connection reliability testing",
-        "priority": "medium",
+        "title": "Build Enhanced UI Components for Multi-Modal Interface",
+        "description": "Create comprehensive UI components that support camera feed, voice interaction, and visual search results in a cohesive interface using enhanced atomic design system with camera integration",
+        "status": "in-progress",
         "dependencies": [
-          2,
-          3,
-          6
+          7
         ],
-        "status": "pending",
-        "subtasks": []
+        "priority": "medium",
+        "details": "Implement enhanced atomic design system for multi-modal interface with camera integration. Create Templates including CameraEnabledChatLayout for enhanced chat with camera integration, VisualSearchResultsLayout for product recommendations display, and MultiModalErrorLayout for error recovery. Build complete Pages including EnhancedChatWithCamera for full multi-modal experience, VisualSearchResults with product details, and CameraPermissionOnboarding for user education. Implement advanced design tokens for camera-specific colors, animation tokens for smooth transitions, spacing tokens for multi-modal coordination, and performance tokens for optimization. Create mobile-first responsive strategy with touch-optimized camera controls, desktop enhancements with keyboard shortcuts, cross-browser WebRTC compatibility, and progressive enhancement. Implement advanced accessibility including screen reader support for camera status, full keyboard navigation, voice control integration, motor accessibility with large touch targets, and cognitive accessibility with clear workflows. Coordinate with Voice Processing (Task 2) and Visual Analysis System (Task 3) for seamless multi-modal session management.",
+        "testStrategy": "Component unit tests with React Testing Library for atomic design components, visual regression tests for camera UI states, accessibility testing with screen readers for camera interactions, responsive design tests across mobile and desktop devices, cross-browser WebRTC compatibility tests, user interaction tests for multi-modal controls with camera integration, performance tests for real-time camera UI updates and frame rate optimization, progressive enhancement tests for camera unavailable scenarios",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Camera-Specific Design Tokens",
+            "description": "Create advanced design tokens for camera UI including status indicators, capture states, error conditions, animation timings, and performance thresholds",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build CameraEnabledChatLayout Template",
+            "description": "Create enhanced chat layout template with integrated camera feed, capture controls, and multi-modal coordination",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement VisualSearchResultsLayout Template",
+            "description": "Build results display template with product recommendations, similarity scores, and visual feedback integration",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create MultiModalErrorLayout Template",
+            "description": "Implement error recovery layout with alternative interaction modes when camera or other modalities fail",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Build EnhancedChatWithCamera Page",
+            "description": "Create complete multi-modal chat experience page integrating camera, voice, and text interactions",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement VisualSearchResults Page",
+            "description": "Build full visual search results page with detailed product information and recommendations",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Create CameraPermissionOnboarding Page",
+            "description": "Implement user education and camera permission flow with clear instructions and fallback options",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Implement Mobile-First Camera Controls",
+            "description": "Create touch-optimized camera controls with gesture support and mobile-specific interactions",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Add Desktop Camera Enhancements",
+            "description": "Implement keyboard shortcuts, hover states, and advanced camera controls for desktop users",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Ensure Cross-Browser WebRTC Compatibility",
+            "description": "Test and optimize camera functionality across Chrome, Firefox, Safari, and Edge browsers",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 11,
+            "title": "Implement Advanced Accessibility Features",
+            "description": "Add screen reader support for camera status, keyboard navigation, voice control integration, and motor accessibility features",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 12,
+            "title": "Create Progressive Enhancement System",
+            "description": "Implement graceful degradation when camera is unavailable with alternative interaction methods",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 13,
+            "title": "Integrate Multi-Modal Session Management",
+            "description": "Coordinate camera UI with Voice Processing (Task 2) and Visual Analysis System (Task 3) for seamless multi-modal experience",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 9,
-        "title": "Develop Comprehensive Error Handling and Fallback Systems",
-        "description": "Implement robust error handling for camera access, voice processing, and visual analysis with graceful degradation",
-        "details": "Create comprehensive error handling for all multi-modal components. Implement fallback mechanisms when camera or voice is unavailable. Add user-friendly error messages and recovery options. Ensure graceful degradation to text-only mode when needed.\n\nPseudo-code:\n```typescript\nclass ErrorHandler {\n  static handleCameraError(error: Error): FallbackAction {\n    switch (error.name) {\n      case 'NotAllowedError':\n        return {\n          type: 'SHOW_PERMISSION_PROMPT',\n          message: 'Camera access required for visual search. Please enable camera permissions.'\n        };\n      case 'NotFoundError':\n        return {\n          type: 'DISABLE_CAMERA',\n          message: 'No camera found. Visual search disabled, voice and text chat available.'\n        };\n      default:\n        return {\n          type: 'FALLBACK_TO_TEXT',\n          message: 'Camera unavailable. You can still use voice and text chat.'\n        };\n    }\n  }\n  \n  static handleVoiceError(error: Error): FallbackAction {\n    return {\n      type: 'FALLBACK_TO_TEXT',\n      message: 'Voice processing unavailable. Please use text chat.'\n    };\n  }\n  \n  static handleVisualAnalysisError(error: Error): FallbackAction {\n    return {\n      type: 'RETRY_WITH_TEXT',\n      message: 'Visual analysis failed. Please describe the item in text.'\n    };\n  }\n}\n```",
-        "testStrategy": "Error scenario testing, fallback mechanism validation, user experience testing for error states, recovery flow testing, graceful degradation verification",
+        "title": "Implement Comprehensive Error Handling and Fallback Systems",
+        "description": "Create robust error handling for camera access, voice processing, and visual analysis with graceful degradation",
+        "details": "Create ErrorBoundary components for each modality (camera, voice, visual analysis) with specific error recovery strategies. Implement permission handling for camera and microphone access with user-friendly error messages and retry mechanisms. Create fallback modes: text-only when camera/mic unavailable, voice-only when camera fails, camera-only when voice fails. Implement API error handling for Azure OpenAI endpoints with exponential backoff and circuit breaker patterns. Create user notification system for temporary failures vs permanent issues. Implement offline detection and queue system for when network is unavailable. Add comprehensive logging for debugging multi-modal issues. Create health check endpoints for monitoring system status.",
+        "testStrategy": "Error scenario simulation tests, permission denial handling tests, API failure recovery tests, offline functionality tests, error boundary isolation tests, user experience testing for error states, monitoring and alerting validation tests",
         "priority": "medium",
         "dependencies": [
-          1,
-          2,
-          3,
-          7
+          8
         ],
         "status": "pending",
         "subtasks": []
       },
       {
         "id": 10,
-        "title": "Implement Performance Optimization and Monitoring",
-        "description": "Optimize system performance for real-time multi-modal interactions and implement comprehensive monitoring",
-        "details": "Implement performance optimizations for camera feed (30fps), voice processing (<100ms latency), and visual analysis (<3 seconds). Add monitoring for dual Azure endpoint usage, response times, and error rates. Implement caching strategies and request optimization.\n\nPseudo-code:\n```python\nclass PerformanceMonitor:\n    def __init__(self):\n        self.metrics = {\n            'voice_latency': [],\n            'visual_analysis_time': [],\n            'camera_fps': [],\n            'azure_endpoint_usage': {'voice': 0, 'vision': 0}\n        }\n    \n    @contextmanager\n    def measure_latency(self, operation: str):\n        start_time = time.time()\n        try:\n            yield\n        finally:\n            latency = time.time() - start_time\n            self.metrics[f'{operation}_latency'].append(latency)\n            \n            if operation == 'voice' and latency > 0.1:  # 100ms threshold\n                logger.warning(f'Voice latency exceeded threshold: {latency}s')\n    \n    def track_azure_usage(self, endpoint_type: str, tokens_used: int):\n        self.metrics['azure_endpoint_usage'][endpoint_type] += tokens_used\n        \n        # Alert if approaching rate limits\n        if tokens_used > 1000:  # Example threshold\n            logger.warning(f'High {endpoint_type} endpoint usage: {tokens_used} tokens')\n```",
-        "testStrategy": "Performance benchmarking, latency measurement validation, monitoring system testing, load testing for concurrent users, Azure endpoint usage tracking verification",
+        "title": "Optimize Performance for Real-Time Multi-Modal Processing",
+        "description": "Implement performance optimizations for concurrent voice, visual, and text processing with minimal latency",
+        "details": "Implement request queuing and prioritization for Azure OpenAI API calls across dual endpoints. Create intelligent caching system for visual analysis results and voice processing. Implement image compression and optimization pipeline for faster visual analysis. Create WebSocket connection pooling and management for concurrent voice streams. Implement lazy loading for UI components and progressive image loading. Create performance monitoring with metrics for response times, API usage, and user interaction latency. Implement resource cleanup and memory management for long-running sessions. Add performance budgets and monitoring alerts. Create CDN integration for static assets and optimize bundle sizes.",
+        "testStrategy": "Performance benchmarking tests for each modality, load testing for concurrent users, memory leak detection tests, API response time monitoring tests, image processing performance tests, WebSocket connection stress tests, bundle size analysis",
         "priority": "medium",
         "dependencies": [
-          8,
           9
         ],
         "status": "pending",
@@ -137,38 +302,73 @@
       },
       {
         "id": 11,
-        "title": "Create Comprehensive Test Suite for Multi-Modal Features",
-        "description": "Develop extensive testing coverage for voice, visual, and integrated multi-modal functionality",
-        "details": "Create comprehensive test suite covering all multi-modal features. Implement unit tests, integration tests, and end-to-end tests. Add mock services for Azure endpoints. Create test data for visual analysis and voice processing. Implement automated testing for user flows.\n\nPseudo-code:\n```python\n# Test suite structure\nclass TestMultiModalIntegration:\n    def setup_method(self):\n        self.mock_camera = MockCameraService()\n        self.mock_voice = MockVoiceService()\n        self.mock_visual = MockVisualAnalysisService()\n        self.test_session = MultiModalSession('test-session')\n    \n    async def test_voice_triggered_visual_search(self):\n        # Simulate voice command \"Find boots like these\"\n        voice_input = self.create_mock_audio_data(\"Find boots like these\")\n        \n        # Mock camera capture\n        self.mock_camera.set_mock_image(self.load_test_image('boot.jpg'))\n        \n        # Process voice command\n        result = await self.voice_visual_coordinator.process_voice_command(voice_input)\n        \n        # Verify visual analysis was triggered\n        assert self.mock_visual.analyze_image.called\n        assert 'boot' in result.matched_products[0].category\n    \n    def test_camera_permission_fallback(self):\n        # Simulate camera permission denied\n        self.mock_camera.simulate_permission_error()\n        \n        # Verify graceful fallback to text mode\n        result = self.error_handler.handle_camera_error(NotAllowedError())\n        assert result.type == 'SHOW_PERMISSION_PROMPT'\n```",
-        "testStrategy": "Unit test coverage >90%, integration test validation, end-to-end user flow testing, mock service verification, automated test execution in CI/CD pipeline",
-        "priority": "medium",
+        "title": "Enhance Security and Privacy for Multi-Modal Data",
+        "description": "Implement comprehensive security measures for handling camera, voice, and visual data with privacy protection",
+        "details": "Implement secure image transmission using base64 encoding with proper validation and sanitization. Create data retention policies for voice recordings and visual searches with automatic cleanup. Implement Content Security Policy (CSP) headers for camera and microphone access. Create secure environment variable management for dual Azure API endpoints with key rotation support. Implement input validation for all multi-modal data inputs. Create privacy controls allowing users to delete voice and visual history. Implement secure session management with proper token handling. Add audit logging for sensitive operations. Create GDPR compliance features for data export and deletion.",
+        "testStrategy": "Security penetration testing for multi-modal endpoints, data validation tests for malicious inputs, privacy control functionality tests, secure transmission verification tests, audit log validation tests, compliance requirement verification tests",
+        "priority": "high",
         "dependencies": [
-          4,
-          5,
-          7,
-          9
+          10
         ],
         "status": "pending",
         "subtasks": []
       },
       {
         "id": 12,
+        "title": "Create Comprehensive Testing Suite for Multi-Modal Features",
+        "description": "Develop extensive testing framework covering voice, visual, and integrated conversation functionality",
+        "details": "Create mock implementations for Azure OpenAI Realtime API and Vision API for consistent testing. Implement visual regression testing for camera feed and UI components. Create voice processing tests with synthetic audio samples and speech recognition validation. Implement integration tests for voice-triggered camera capture workflows. Create end-to-end tests for complete user journeys including visual search scenarios. Implement performance testing for concurrent multi-modal operations. Create accessibility testing suite for voice and visual features. Add cross-browser testing automation for camera and audio APIs. Create test data sets with diverse product images and voice samples.",
+        "testStrategy": "Test coverage analysis for multi-modal features, automated test execution in CI/CD pipeline, cross-browser test automation, performance regression testing, accessibility compliance testing, user acceptance testing scenarios",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Implement Advanced AI Prompt Engineering for Multi-Modal Context",
+        "description": "Develop sophisticated prompt engineering system that leverages voice, visual, and conversation context for optimal AI responses",
+        "details": "Create PromptOrchestrator class that combines text conversation history, visual analysis results, and voice interaction context into optimized prompts. Implement context-aware prompt templates for different scenarios (visual search, voice questions, combined interactions). Create dynamic prompt injection system that includes relevant visual search history and voice interaction patterns. Implement prompt optimization for outdoor gear expertise with specialized vocabulary and technical knowledge. Create conversation context summarization to maintain relevant history without exceeding token limits. Implement A/B testing framework for prompt variations and response quality measurement. Add prompt versioning and rollback capabilities. Create specialized prompts for visual product matching with confidence scoring.",
+        "testStrategy": "Prompt effectiveness testing with response quality metrics, A/B testing for prompt variations, context injection accuracy tests, token usage optimization tests, conversation quality assessment tests, outdoor gear expertise validation tests",
+        "priority": "medium",
+        "dependencies": [
+          12
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Setup Production Monitoring and Analytics for Multi-Modal Usage",
+        "description": "Implement comprehensive monitoring, analytics, and observability for voice, visual, and conversation features",
+        "details": "Create monitoring dashboard for multi-modal feature usage including voice interaction rates, visual search frequency, and conversion metrics. Implement real-time performance monitoring for Azure OpenAI dual endpoint usage with cost tracking and rate limit monitoring. Create user behavior analytics for multi-modal interaction patterns and feature adoption. Implement error tracking and alerting for camera access failures, voice processing errors, and visual analysis issues. Create business metrics tracking for visual search conversion rates and voice interaction effectiveness. Implement A/B testing infrastructure for multi-modal feature optimization. Add user feedback collection system for voice and visual search quality. Create automated reporting for stakeholder insights on multi-modal feature performance.",
+        "testStrategy": "Monitoring system accuracy tests, analytics data validation tests, alerting system functionality tests, dashboard performance tests, A/B testing framework validation tests, user feedback system integration tests",
+        "priority": "low",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
         "title": "Deploy Production System with Dual Azure Endpoint Configuration",
-        "description": "Configure and deploy complete system with proper Azure endpoint management, security, and monitoring",
-        "details": "Set up production deployment with dual Azure OpenAI endpoint configuration. Implement environment variable management for AZURE_VOICE_ENDPOINT and AZURE_OPENAI_ENDPOINT. Configure SSL/TLS for camera access, implement security policies, and set up monitoring infrastructure.\n\nPseudo-code:\n```yaml\n# docker-compose.yml\nversion: '3.8'\nservices:\n  backend:\n    build: ./backend\n    environment:\n      - AZURE_VOICE_ENDPOINT=${AZURE_VOICE_ENDPOINT}\n      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}\n      - AZURE_VOICE_KEY=${AZURE_VOICE_KEY}\n      - AZURE_OPENAI_KEY=${AZURE_OPENAI_KEY}\n    ports:\n      - \"8000:8000\"\n  \n  frontend:\n    build: ./frontend\n    environment:\n      - NEXT_PUBLIC_API_URL=${API_URL}\n      - NEXT_PUBLIC_WS_URL=${WS_URL}\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - backend\n\n# nginx.conf for SSL and WebSocket support\nserver {\n    listen 443 ssl http2;\n    ssl_certificate /path/to/cert.pem;\n    ssl_certificate_key /path/to/key.pem;\n    \n    location /api/voice {\n        proxy_pass http://backend:8000;\n        proxy_http_version 1.1;\n        proxy_set_header Upgrade $http_upgrade;\n        proxy_set_header Connection \"upgrade\";\n    }\n}\n```",
-        "testStrategy": "Production deployment testing, SSL certificate validation, WebSocket connection testing in production, Azure endpoint connectivity verification, monitoring system validation, load testing in production environment",
+        "description": "Deploy complete multi-modal voice agent system to production with proper Azure OpenAI endpoint configuration and infrastructure",
+        "details": "Create Docker containerization for both frontend and backend with multi-stage builds for optimization. Implement production deployment pipeline with automated testing and rollback capabilities. Configure dual Azure OpenAI endpoints (AZURE_VOICE_ENDPOINT for Realtime API, AZURE_OPENAI_ENDPOINT for Vision API) with proper load balancing and failover. Setup SSL/TLS termination for secure camera and microphone access. Implement horizontal scaling for WebSocket connections and concurrent voice processing. Create production environment variable management with secure key storage. Setup CDN for static assets and media optimization. Implement health checks and monitoring for all multi-modal components. Create backup and disaster recovery procedures. Configure production logging and error tracking.",
+        "testStrategy": "Production deployment validation tests, load testing for concurrent multi-modal users, SSL certificate validation tests, environment configuration tests, disaster recovery testing, production monitoring validation tests, security scanning for production environment",
         "priority": "high",
         "dependencies": [
-          10,
-          11
+          14
         ],
         "status": "pending",
         "subtasks": []
       }
     ],
     "metadata": {
-      "created": "2025-06-30T18:56:50.247Z",
-      "updated": "2025-06-30T18:56:50.247Z",
+      "created": "2025-07-01T04:20:07.566Z",
+      "updated": "2025-07-01T04:20:28.146Z",
       "description": "Tasks for master context"
     }
   }
