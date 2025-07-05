@@ -477,7 +477,7 @@
 }
 
 /* Accessibility announcements positioning */
-[aria-live] {
+.accessibilityAnnouncement {
   /* Ensure announcements are properly positioned */
   position: absolute;
   left: -10000px;

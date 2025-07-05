@@ -452,7 +452,7 @@ export const AdvancedCameraWidget = forwardRef<AdvancedCameraWidgetRef, Advanced
       retryLastAction,
       auditAccessibility,
       validateKeyboardNavigation: () => {
-        return containerRef.current?.querySelectorAll('[tabindex], button, input, select, textarea').length > 0;
+        return (containerRef.current?.querySelectorAll('[tabindex], button, input, select, textarea')?.length ?? 0) > 0;
       },
       getAccessibilityContext: () => ({ ...accessibilityContextRef.current })
     }));

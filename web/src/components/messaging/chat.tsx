@@ -57,6 +57,35 @@ const Chat = ({ options }: Props) => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
 
+  /** Auto-resize textarea */
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const autoResizeTextarea = useCallback(() => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      const maxHeight = 120; // Max height in pixels
+      const minHeight = 30; // Min height in pixels (from CSS)
+      
+      // If textarea is empty, reset to minimum height
+      if (!textarea.value.trim()) {
+        textarea.style.height = minHeight + 'px';
+        return;
+      }
+      
+      // Check if content overflows current height
+      const currentHeight = textarea.clientHeight;
+      const isOverflowing = textarea.scrollHeight > currentHeight;
+      
+      // Only resize if content is overflowing or we need to shrink
+      if (isOverflowing || textarea.scrollHeight < currentHeight) {
+        // Set to minimal height to get true content height
+        textarea.style.height = '1px';
+        const newHeight = Math.max(minHeight, Math.min(textarea.scrollHeight, maxHeight));
+        textarea.style.height = newHeight + 'px';
+      }
+    }
+  }, []);
+
   const defaultUser = {
     name: "Brad Stevens",
     email: "bradstevens@microsoft.com",
@@ -231,6 +260,13 @@ const Chat = ({ options }: Props) => {
       // reset image
       setCurrentImage(null);
 
+      // Reset textarea size to minimum after clearing message
+      setTimeout(() => {
+        if (textareaRef.current) {
+          textareaRef.current.style.height = '30px'; // Reset to minimum height
+        }
+      }, 0);
+
       // process on server
       //execute(turn);
       if (server.current && server.current.ready) {
@@ -335,6 +371,16 @@ const Chat = ({ options }: Props) => {
   useEffect(() => {
     scrollChat();
   }, [state?.turns.length, state?.currentImage]);
+
+  // Auto-resize textarea when message changes
+  useEffect(() => {
+    autoResizeTextarea();
+  }, [state?.message, autoResizeTextarea]);
+
+  // Auto-resize textarea on component mount
+  useEffect(() => {
+    autoResizeTextarea();
+  }, [autoResizeTextarea]);
 
   useEffect(() => {
     if (contextRef.current && contextRef.current.call >= 5) {
@@ -445,17 +491,25 @@ const Chat = ({ options }: Props) => {
             )}
             {/* chat input section */}
             <div className={styles.chatInputSection}>
-              <input
+              <textarea
                 id="chat"
                 name="chat"
-                type="text"
                 title="Type a message"
+                placeholder="Type a message..."
                 value={state ? state.message : ""}
-                onChange={(e) => state && state.setMessage(e.target.value)}
-                onKeyUp={(e) => {
-                  if (e.code === "Enter") sendMessage();
+                onChange={(e) => {
+                  if (state) state.setMessage(e.target.value);
+                  autoResizeTextarea();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
                 }}
                 className={styles.chatInput}
+                ref={textareaRef}
+                rows={1}
               />
               {options && options.file && (
                 <FileImagePicker setCurrentImage={state.setCurrentImage} />

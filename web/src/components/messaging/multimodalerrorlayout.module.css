@@ -1,0 +1,1074 @@
+/* MultiModalErrorLayout Template Styles */
+/* Following Enhanced Design Mode architecture with compound component patterns */
+
+/* Template Container - Main layout structure for multi-modal error management */
+.templateContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: var(--background-primary);
+  overflow: hidden;
+  position: relative;
+  
+  /* Performance optimization for <500ms SLA */
+  contain: layout style paint;
+  will-change: transform;
+  
+  /* Template-level responsive variables */
+  --error-panel-max-height: 60vh;
+  --recovery-panel-height: 30vh;
+  --header-height: 4rem;
+  --footer-height: 3rem;
+  --controls-height: 3.5rem;
+  --panel-gap: 1rem;
+  --error-card-gap: 0.75rem;
+}
+
+/* Responsive layout modes */
+.templateContainer.mobile {
+  --header-height: 3.5rem;
+  --footer-height: 2.5rem;
+  --controls-height: 3rem;
+  --panel-gap: 0.5rem;
+  --error-card-gap: 0.5rem;
+}
+
+.templateContainer.tablet {
+  --error-panel-max-height: 50vh;
+  --recovery-panel-height: 35vh;
+}
+
+.templateContainer.desktop {
+  --error-panel-max-height: 65vh;
+  --recovery-panel-height: 25vh;
+}
+
+/* Template Header Styles */
+.templateHeader {
+  height: var(--header-height);
+  background: var(--background-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.systemStatus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.statusHealthy {
+  background: var(--success-light);
+  color: var(--success-dark);
+  border: 1px solid var(--success-primary);
+}
+
+.statusDegraded {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+  border: 1px solid var(--warning-primary);
+}
+
+.statusCritical {
+  background: var(--error-light);
+  color: var(--error-dark);
+  border: 1px solid var(--error-primary);
+  animation: pulse 2s infinite;
+}
+
+.statusOffline {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 1px solid var(--neutral-300);
+}
+
+.statusUnknown {
+  background: var(--neutral-50);
+  color: var(--neutral-600);
+  border: 1px solid var(--neutral-200);
+}
+
+.statusIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.statusText {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.systemActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.actionButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.375rem;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actionButton:hover {
+  background: var(--background-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.actionButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.actionButton:active {
+  transform: translateY(0);
+}
+
+/* Error Panel Styles */
+.errorPanel {
+  flex: 1;
+  max-height: var(--error-panel-max-height);
+  overflow-y: auto;
+  padding: var(--panel-gap);
+  background: var(--background-primary);
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--error-card-gap);
+  max-width: 100%;
+}
+
+.noErrors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--success-light);
+  border-radius: 0.75rem;
+  border: 1px solid var(--success-primary);
+}
+
+.noErrorsIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.noErrors h3 {
+  color: var(--success-dark);
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.noErrors p {
+  color: var(--success-dark);
+  margin: 0;
+}
+
+.errorsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modalityGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--error-card-gap);
+}
+
+.modalityTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.modalityIcon {
+  font-size: 1.25rem;
+}
+
+.errorCount {
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+/* Error Card Styles */
+.errorCard {
+  background: var(--background-secondary);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-primary);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.errorCard:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.errorCard.low {
+  border-left: 4px solid var(--info-primary);
+}
+
+.errorCard.medium {
+  border-left: 4px solid var(--warning-primary);
+}
+
+.errorCard.high {
+  border-left: 4px solid var(--error-primary);
+}
+
+.errorCard.critical {
+  border-left: 4px solid var(--error-dark);
+  background: var(--error-light);
+  animation: pulse 3s infinite;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.errorIcons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.errorIcons .modalityIcon,
+.errorIcons .severityIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.errorContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.errorTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.errorActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.selectButton,
+.dismissButton {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.25rem;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.selectButton:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-primary);
+  color: var(--primary-dark);
+}
+
+.dismissButton:hover {
+  background: var(--error-light);
+  border-color: var(--error-primary);
+  color: var(--error-dark);
+}
+
+.selectButton:focus,
+.dismissButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.errorDetails {
+  padding: 0 1rem 1rem 1rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--background-tertiary);
+}
+
+.errorMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.errorMeta span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--background-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-light);
+}
+
+.errorImpact {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.impactBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.impactBadge.none {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+}
+
+.impactBadge.minor {
+  background: var(--info-light);
+  color: var(--info-dark);
+}
+
+.impactBadge.major {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.impactBadge.blocking {
+  background: var(--error-light);
+  color: var(--error-dark);
+}
+
+.recoverableBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  background: var(--success-light);
+  color: var(--success-dark);
+}
+
+/* Recovery Panel Styles */
+.recoveryPanel {
+  height: var(--recovery-panel-height);
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-primary);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.recoveryContainer {
+  padding: var(--panel-gap);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recoveryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.recoveryHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.createPlanButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-primary);
+  border-radius: 0.375rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.createPlanButton:hover {
+  background: var(--primary-primary);
+  color: white;
+}
+
+.createPlanButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.noRecoveryPlans {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+.plansList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recoveryPlan {
+  background: var(--background-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.recoveryPlan.active {
+  border-color: var(--primary-primary);
+  background: var(--primary-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.planHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.planInfo {
+  flex: 1;
+}
+
+.planTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.strategyIcon {
+  font-size: 1.25rem;
+}
+
+.planStats {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.planActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.executeButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--success-primary);
+  border-radius: 0.375rem;
+  background: var(--success-light);
+  color: var(--success-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.executeButton:hover:not(:disabled) {
+  background: var(--success-primary);
+  color: white;
+}
+
+.executeButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.executeButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.planSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recoveryStep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: var(--background-secondary);
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-light);
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--primary-primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.stepContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.stepAction {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.stepTarget {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.stepDuration {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+.stepType {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.confirmationRequired {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--warning-light);
+  color: var(--warning-dark);
+  border-radius: 0.375rem;
+  border: 1px solid var(--warning-primary);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Degradation Panel Styles */
+.degradationPanel {
+  background: var(--warning-light);
+  border: 1px solid var(--warning-primary);
+  border-radius: 0.5rem;
+  margin: var(--panel-gap);
+  overflow: hidden;
+}
+
+.degradationContainer {
+  padding: 1rem;
+}
+
+.degradationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--warning-primary);
+}
+
+.degradationHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--warning-dark);
+  margin: 0;
+}
+
+.degradationLevel {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.degradationNone {
+  background: var(--success-light);
+  color: var(--success-dark);
+}
+
+.degradationPartial {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.degradationMinimal {
+  background: var(--error-light);
+  color: var(--error-dark);
+}
+
+.degradationTextOnly {
+  background: var(--neutral-200);
+  color: var(--neutral-700);
+}
+
+.degradationUnknown {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+}
+
+.degradationStatus {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.availableModalities,
+.disabledFeatures {
+  background: var(--background-primary);
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-primary);
+}
+
+.availableModalities h4,
+.disabledFeatures h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.availableModalities ul,
+.disabledFeatures ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.availableModality,
+.disabledFeature {
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.availableModality {
+  color: var(--success-dark);
+}
+
+.disabledFeature {
+  color: var(--error-dark);
+}
+
+.alternativeWorkflows {
+  background: var(--background-primary);
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-primary);
+  margin-bottom: 1rem;
+}
+
+.alternativeWorkflows h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.workflow {
+  margin-bottom: 0.75rem;
+}
+
+.workflowTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.workflowGuidance {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.degradationActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.restoreButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-primary);
+  border-radius: 0.375rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.restoreButton:hover {
+  background: var(--primary-primary);
+  color: white;
+}
+
+.restoreButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Controls Styles */
+.templateControls {
+  height: var(--controls-height);
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+.controlsLeft,
+.controlsRight {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.controlButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.375rem;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controlButton:hover {
+  background: var(--background-hover);
+  border-color: var(--border-hover);
+}
+
+.controlButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Footer Styles */
+.templateFooter {
+  height: var(--footer-height);
+  background: var(--background-tertiary);
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.performanceMetrics {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.performanceMetrics span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.slaCompliant {
+  color: var(--success-dark);
+}
+
+.slaViolation {
+  color: var(--error-dark);
+  font-weight: 600;
+}
+
+.lastUpdate {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* Hidden components for coordination */
+.hiddenOrchestrator,
+.hiddenFusion {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .templateContainer {
+    --header-height: 3.5rem;
+    --footer-height: 2.5rem;
+    --controls-height: 3rem;
+    --panel-gap: 0.5rem;
+    --error-card-gap: 0.5rem;
+  }
+  
+  .headerContent {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  
+  .systemActions {
+    justify-content: center;
+  }
+  
+  .actionButton {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .degradationStatus {
+    grid-template-columns: 1fr;
+  }
+  
+  .planHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  
+  .planActions {
+    justify-content: stretch;
+  }
+  
+  .executeButton {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .performanceMetrics {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .templateContainer {
+    --panel-gap: 0.25rem;
+    --error-card-gap: 0.25rem;
+  }
+  
+  .errorHeader {
+    padding: 0.75rem;
+  }
+  
+  .errorActions {
+    flex-direction: column;
+  }
+  
+  .planStats {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .stepContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .templateContainer,
+  .errorCard,
+  .recoveryPlan,
+  .actionButton,
+  .controlButton {
+    transition: none;
+  }
+  
+  .statusCritical {
+    animation: none;
+  }
+  
+  .errorCard.critical {
+    animation: none;
+  }
+}
+
+@media (prefers-high-contrast: high) {
+  .statusIndicator {
+    border-width: 2px;
+  }
+  
+  .errorCard {
+    border-width: 2px;
+  }
+  
+  .actionButton,
+  .controlButton {
+    border-width: 2px;
+  }
+}
+
+/* Focus trap for modal error states */
+.templateContainer:focus-within .errorCard.critical:first-child {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.01);
+  }
+}
+
+/* Screen reader optimizations */
+.srOnly {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Performance monitoring visual indicators */
+.templateContainer[data-sla-violation="true"] {
+  border: 2px solid var(--error-primary);
+}
+
+.templateContainer[data-sla-violation="true"]::before {
+  content: "⚠️ Performance SLA Violation";
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--error-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1000;
+  border-radius: 0 0 0.375rem 0.375rem;
+}

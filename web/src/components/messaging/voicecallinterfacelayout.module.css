@@ -1,0 +1,884 @@
+/* VoiceCallInterfaceLayout Template Styles */
+/* Following Enhanced Design Mode architecture with compound component patterns */
+
+/* Template Container - Main layout structure for voice call interface */
+.templateContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: var(--background-primary);
+  overflow: hidden;
+  position: relative;
+  
+  /* Performance optimization for <500ms SLA */
+  contain: layout style paint;
+  will-change: transform;
+  
+  /* Template-level responsive variables */
+  --header-height: 4.5rem;
+  --controls-height: 5rem;
+  --footer-height: 3rem;
+  --panel-gap: 1rem;
+  --call-primary: #10B981;
+  --call-danger: #EF4444;
+  --call-warning: #F59E0B;
+  --call-muted: #6B7280;
+}
+
+/* Responsive layout modes */
+.templateContainer.mobile {
+  --header-height: 4rem;
+  --controls-height: 4.5rem;
+  --footer-height: 2.5rem;
+  --panel-gap: 0.5rem;
+}
+
+.templateContainer.tablet {
+  --header-height: 4.25rem;
+  --controls-height: 4.75rem;
+}
+
+.templateContainer.desktop {
+  --header-height: 4.5rem;
+  --controls-height: 5rem;
+}
+
+/* Template Header Styles */
+.templateHeader {
+  height: var(--header-height);
+  background: var(--background-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.callStatus {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+}
+
+.statusConnected {
+  background: var(--success-light);
+  color: var(--success-dark);
+  border: 1px solid var(--success-primary);
+}
+
+.statusConnecting {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+  border: 1px solid var(--warning-primary);
+  animation: pulse 2s infinite;
+}
+
+.statusOnHold {
+  background: var(--info-light);
+  color: var(--info-dark);
+  border: 1px solid var(--info-primary);
+}
+
+.statusEnding {
+  background: var(--error-light);
+  color: var(--error-dark);
+  border: 1px solid var(--error-primary);
+}
+
+.statusIdle {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 1px solid var(--neutral-300);
+}
+
+.statusIcon {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.statusText {
+  font-weight: 700;
+}
+
+.callDuration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.durationLabel {
+  font-weight: 500;
+}
+
+.durationTime {
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.callInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.participantCount {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.participantIcon {
+  font-size: 1rem;
+}
+
+.recordingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--error-light);
+  color: var(--error-dark);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.recordingDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--error-primary);
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+.windowControls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.windowButton {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.25rem;
+  background: var(--background-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.windowButton:hover {
+  background: var(--background-hover);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.windowButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Call Controls Styles */
+.callControls {
+  height: var(--controls-height);
+  background: var(--background-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  flex-shrink: 0;
+}
+
+.controlsContainer {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.primaryControls,
+.secondaryControls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.controlButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid var(--border-primary);
+  border-radius: 50%;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.controlButton:hover:not(:disabled) {
+  background: var(--background-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.controlButton:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.controlButton:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.controlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.controlButton.active {
+  background: var(--primary-primary);
+  color: white;
+  border-color: var(--primary-dark);
+}
+
+.controlButton.endCall {
+  background: var(--error-primary);
+  color: white;
+  border-color: var(--error-dark);
+}
+
+.controlButton.endCall:hover:not(:disabled) {
+  background: var(--error-dark);
+  transform: translateY(-2px);
+}
+
+.controlIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.controlLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* Audio Visualization Styles */
+.audioVisualization {
+  flex: 1;
+  background: var(--background-primary);
+  overflow-y: auto;
+  padding: var(--panel-gap);
+}
+
+.visualizationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.visualizationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.visualizationHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.currentLevel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.levelWarning {
+  color: var(--error-primary);
+  font-weight: 600;
+  animation: blink 0.5s infinite;
+}
+
+.visualizationCanvas {
+  width: 100%;
+  height: 100px;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+}
+
+.visualizationDisabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.participantLevels {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.participantLevels h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.participantLevel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.participantLevel:last-child {
+  margin-bottom: 0;
+}
+
+.participantName {
+  min-width: 6rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.levelBar {
+  flex: 1;
+  height: 0.5rem;
+  background: var(--neutral-200);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.levelFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-primary) 0%, var(--warning-primary) 70%, var(--error-primary) 100%);
+  border-radius: 0.25rem;
+  transition: width 0.1s ease;
+}
+
+.levelValue {
+  min-width: 3rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* Participant Panel Styles */
+.participantPanel {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.participantContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.participantHeader {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-primary);
+  background: var(--background-tertiary);
+}
+
+.participantHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.noParticipants {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.participantsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.participantItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--background-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.participantItem:hover {
+  background: var(--background-hover);
+  border-color: var(--border-hover);
+}
+
+.participantItem.self {
+  background: var(--primary-light);
+  border-color: var(--primary-primary);
+}
+
+.participantInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.participantAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.participantAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitial {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-600);
+}
+
+.participantDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.participantName {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.hostBadge,
+.selfBadge {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+}
+
+.hostBadge {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.selfBadge {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.participantStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.connectionQuality {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.qualityExcellent {
+  background: var(--success-light);
+  color: var(--success-dark);
+}
+
+.qualityGood {
+  background: var(--info-light);
+  color: var(--info-dark);
+}
+
+.qualityFair {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.qualityPoor {
+  background: var(--error-light);
+  color: var(--error-dark);
+}
+
+.qualityUnknown {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+}
+
+.participantActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.participantActionButton {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.25rem;
+  background: var(--background-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.participantActionButton:hover {
+  background: var(--background-hover);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.participantActionButton:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* Footer Styles */
+.templateFooter {
+  height: var(--footer-height);
+  background: var(--background-tertiary);
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.qualityMetrics {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.qualityMetrics span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.networkStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.networkIcon {
+  font-size: 0.875rem;
+}
+
+/* Hidden components for coordination */
+.hiddenOrchestrator,
+.hiddenFusion {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .templateContainer {
+    --header-height: 4rem;
+    --controls-height: 4.5rem;
+    --footer-height: 2.5rem;
+    --panel-gap: 0.5rem;
+  }
+  
+  .headerContent {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .callStatus {
+    gap: 1rem;
+  }
+  
+  .statusIndicator {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .controlsContainer {
+    gap: 1rem;
+  }
+  
+  .primaryControls,
+  .secondaryControls {
+    gap: 0.75rem;
+  }
+  
+  .controlButton {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .controlIcon {
+    font-size: 1.125rem;
+  }
+  
+  .controlLabel {
+    font-size: 0.625rem;
+  }
+  
+  .participantLevel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .levelBar {
+    height: 0.375rem;
+  }
+  
+  .qualityMetrics {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .templateContainer {
+    --panel-gap: 0.25rem;
+  }
+  
+  .headerContent {
+    padding: 0 1rem;
+  }
+  
+  .callDuration {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .controlsContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .controlButton {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .participantItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .participantActions {
+    justify-content: center;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .templateContainer,
+  .statusIndicator,
+  .controlButton,
+  .participantItem {
+    transition: none;
+  }
+  
+  .statusConnecting,
+  .recordingDot,
+  .levelWarning {
+    animation: none;
+  }
+}
+
+@media (prefers-high-contrast: high) {
+  .statusIndicator,
+  .controlButton,
+  .participantItem {
+    border-width: 2px;
+  }
+  
+  .controlButton.active,
+  .controlButton.endCall {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+/* Screen reader optimizations */
+.srOnly {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Performance monitoring visual indicators */
+.templateContainer[data-sla-violation="true"] {
+  border: 2px solid var(--error-primary);
+}
+
+.templateContainer[data-sla-violation="true"]::before {
+  content: "⚠️ Performance SLA Violation";
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--error-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1000;
+  border-radius: 0 0 0.375rem 0.375rem;
+}
+
+/* Call quality indicators */
+.templateContainer[data-call-quality="poor"] .qualityMetrics {
+  color: var(--error-primary);
+  animation: blink 2s infinite;
+}
+
+.templateContainer[data-call-quality="fair"] .qualityMetrics {
+  color: var(--warning-primary);
+}
+
+.templateContainer[data-call-quality="good"] .qualityMetrics {
+  color: var(--success-primary);
+}
+
+.templateContainer[data-call-quality="excellent"] .qualityMetrics {
+  color: var(--primary-primary);
+}

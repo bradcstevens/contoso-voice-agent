@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { clsx } from 'clsx';
 import { FiEye, FiMic, FiType, FiActivity, FiCheckCircle, FiAlertTriangle } from 'react-icons/fi';
 import styles from './accessibilityfusionlayer.module.css';
@@ -14,7 +14,7 @@ export type AccessibilityLevel = 'A' | 'AA' | 'AAA';
 export interface CameraInput {
   type: 'camera';
   imageData?: string;
-  analysisResults?: any[];
+  analysisResults?: Array<{ label: string; confidence: number; [key: string]: unknown }>;
   confidence?: number;
   altText?: string;
   timestamp: number;
@@ -255,7 +255,7 @@ export const AccessibilityFusionLayer = React.forwardRef<
   wcagLevel = 'AAA',
   maxProcessingTime = 200,
   realTimeProcessing = true,
-  processingInterval = 100,
+  processingInterval: _processingInterval = 100,
   onFusionComplete,
   onWCAGViolation,
   onStateChange,
@@ -277,7 +277,7 @@ export const AccessibilityFusionLayer = React.forwardRef<
   const fusionWorkerRef = useRef<Worker | null>(null);
 
   // Combine default and custom rules
-  const allRules = [...DEFAULT_WCAG_RULES, ...customRules];
+  const allRules = useMemo(() => [...DEFAULT_WCAG_RULES, ...customRules], [customRules]);
 
   // Initialize fusion worker for performance optimization
   useEffect(() => {
@@ -325,7 +325,7 @@ export const AccessibilityFusionLayer = React.forwardRef<
     
     if (type === 'fusion-complete') {
       // Continue with WCAG validation and result generation
-      processValidationAndComplete(fusedInputs, processingTime);
+      processValidationAndComplete(fusedInputs);
     }
   }, []);
 
@@ -475,7 +475,7 @@ export const AccessibilityFusionLayer = React.forwardRef<
   }, [allRules, wcagLevel]);
 
   // Generate alt text for camera inputs
-  const generateAltText = useCallback(async (imageData?: string, analysisResults?: any[]) => {
+  const generateAltText = useCallback(async (imageData?: string, analysisResults?: Array<{ label: string; confidence: number; [key: string]: unknown }>) => {
     if (!imageData) return 'Image captured from camera';
     
     // Use analysis results if available
@@ -563,7 +563,7 @@ export const AccessibilityFusionLayer = React.forwardRef<
   }, [getInputConfidence]);
 
   // Complete validation processing
-  const processValidationAndComplete = useCallback(async (fusedInputs: any, fusionTime: number) => {
+  const processValidationAndComplete = useCallback(async (fusedInputs: Record<string, ModalityInput>) => {
     try {
       const inputs = Object.values(fusedInputs) as ModalityInput[];
       const result = await processInputs(inputs);
