@@ -1,0 +1,336 @@
+/**
+ * SEARCH FIELD MOLECULE STYLES
+ * 
+ * Comprehensive styling for the SearchField molecule combining
+ * Input, Icon, Label, and Button atoms with search-specific features.
+ */
+
+.searchField {
+  --search-gap: var(--spacing-2);
+  --search-border-radius: var(--border-radius-md);
+  --search-transition: all 0.2s ease-in-out;
+  
+  display: flex;
+  flex-direction: column;
+  gap: var(--search-gap);
+  width: 100%;
+  position: relative;
+}
+
+/* ===================================
+   FIELD CONTAINER
+   =================================== */
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  position: relative;
+}
+
+/* ===================================
+   LABEL STYLING
+   =================================== */
+
+.label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  transition: var(--search-transition);
+}
+
+/* ===================================
+   INPUT CONTAINER
+   =================================== */
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.focusIndicator {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--search-border-radius);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--spacing-3);
+  color: var(--color-text-secondary);
+  z-index: 2;
+  transition: var(--search-transition);
+}
+
+.input {
+  flex: 1;
+  padding-left: var(--spacing-10) !important; /* Space for search icon */
+  padding-right: var(--spacing-20) !important; /* Space for action buttons */
+  border-radius: var(--search-border-radius);
+}
+
+.actions {
+  position: absolute;
+  right: var(--spacing-2);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  z-index: 2;
+}
+
+.clearButton {
+  padding: var(--spacing-1);
+  min-width: unset;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+}
+
+.searchButton {
+  padding: var(--spacing-1) var(--spacing-2);
+  min-width: unset;
+}
+
+/* ===================================
+   SUGGESTIONS DROPDOWN
+   =================================== */
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--search-border-radius);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: var(--spacing-1);
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  cursor: pointer;
+  transition: var(--search-transition);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.suggestion:last-child {
+  border-bottom: none;
+}
+
+.suggestion:hover,
+.suggestion.active {
+  background-color: var(--color-background-secondary);
+}
+
+.suggestionIcon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.suggestionText {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+/* ===================================
+   SIZE VARIANTS
+   =================================== */
+
+.small {
+  --search-gap: var(--spacing-1);
+}
+
+.small .searchIcon {
+  left: var(--spacing-2);
+}
+
+.small .input {
+  padding-left: var(--spacing-8) !important;
+  padding-right: var(--spacing-16) !important;
+}
+
+.small .actions {
+  right: var(--spacing-1);
+}
+
+.small .clearButton {
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+}
+
+.medium {
+  --search-gap: var(--spacing-2);
+}
+
+.large {
+  --search-gap: var(--spacing-3);
+}
+
+.large .searchIcon {
+  left: var(--spacing-4);
+}
+
+.large .input {
+  padding-left: var(--spacing-12) !important;
+  padding-right: var(--spacing-24) !important;
+}
+
+.large .actions {
+  right: var(--spacing-3);
+}
+
+.large .clearButton {
+  width: var(--spacing-10);
+  height: var(--spacing-10);
+}
+
+/* ===================================
+   VARIANT STYLES
+   =================================== */
+
+.default {
+  /* Uses default input styling */
+}
+
+.compact {
+  --search-gap: var(--spacing-1);
+}
+
+.compact .fieldContainer {
+  gap: var(--spacing-05);
+}
+
+.compact .label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+}
+
+.prominent {
+  --search-border-radius: var(--border-radius-lg);
+}
+
+.prominent .inputContainer {
+  box-shadow: var(--shadow-sm);
+}
+
+.prominent .input {
+  border-width: 2px;
+  font-size: var(--font-size-lg);
+}
+
+.prominent .searchIcon {
+  transform: scale(1.1);
+}
+
+/* ===================================
+   STATE STYLES
+   =================================== */
+
+.searchField:focus-within .searchIcon {
+  color: var(--color-primary-600);
+}
+
+.searchField:focus-within .label {
+  color: var(--color-primary-600);
+}
+
+/* Loading state */
+.input:disabled .searchIcon {
+  color: var(--color-text-disabled);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ===================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .suggestions {
+    border-width: 2px;
+    border-color: var(--color-text-primary);
+  }
+  
+  .suggestion:hover,
+  .suggestion.active {
+    background-color: var(--color-text-primary);
+    color: var(--color-background-primary);
+  }
+  
+  .suggestion:hover .suggestionIcon,
+  .suggestion.active .suggestionIcon,
+  .suggestion:hover .suggestionText,
+  .suggestion.active .suggestionText {
+    color: var(--color-background-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .searchField,
+  .searchIcon,
+  .label,
+  .suggestion {
+    transition: none;
+  }
+  
+  .input:disabled .searchIcon {
+    animation: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.suggestion:focus {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: -2px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .suggestions {
+    max-height: 200px;
+  }
+  
+  .suggestion {
+    padding: var(--spacing-4);
+  }
+  
+  .suggestionText {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .suggestion {
+    min-height: var(--spacing-12);
+    padding: var(--spacing-4);
+  }
+  
+  .clearButton {
+    min-width: var(--spacing-10);
+    min-height: var(--spacing-10);
+  }
+} 

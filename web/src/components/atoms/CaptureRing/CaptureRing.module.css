@@ -1,0 +1,1380 @@
+/**
+ * CAPTURE RING ATOM STYLES - CAMERA CAPTURE PROGRESS & EFFECTS VISUALIZATION
+ * 
+ * Comprehensive capture ring styles with progress indicators, capture effects,
+ * burst mode support, timer displays, and professional camera capture features.
+ */
+
+.captureRing {
+  /* Base capture ring styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Custom properties for dynamic styling */
+  --capture-idle-color: #6b7280;
+  --capture-preparing-color: #f59e0b;
+  --capture-capturing-color: #ef4444;
+  --capture-processing-color: #8b5cf6;
+  --capture-complete-color: #10b981;
+  --capture-error-color: #dc2626;
+  --capture-burst-color: #3b82f6;
+  --capture-timer-color: #06b6d4;
+  --capture-inactive-color: var(--color-neutral-400, #9ca3af);
+  --capture-progress: 0%;
+  --capture-duration: 1000ms;
+  --timer-value: 0;
+  --burst-progress: 0%;
+  --quality-level: 100%;
+  --flash-intensity: 1;
+  --flash-duration: 200ms;
+  --animation-speed: 1;
+  --pulse-frequency: 1.5s;
+  --ring-width: 120px;
+  --ring-height: 120px;
+  --ring-thickness: 4px;
+  --ring-gap: 2px;
+  --segments: 8;
+  --state-color: var(--capture-idle-color);
+  --ring-opacity: 1;
+  --recording-progress: 0%;
+  
+  /* Layout */
+  width: var(--ring-width);
+  height: var(--ring-height);
+  opacity: var(--ring-opacity);
+  
+  /* Transitions */
+  transition: all calc(200ms / var(--animation-speed)) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 10;
+  
+  /* Performance optimization */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Size Variants */
+.xs {
+  --ring-width: 60px;
+  --ring-height: 60px;
+  --ring-thickness: 2px;
+}
+
+.sm {
+  --ring-width: 80px;
+  --ring-height: 80px;
+  --ring-thickness: 3px;
+}
+
+.md {
+  --ring-width: 120px;
+  --ring-height: 120px;
+  --ring-thickness: 4px;
+}
+
+.lg {
+  --ring-width: 160px;
+  --ring-height: 160px;
+  --ring-thickness: 5px;
+}
+
+.xl {
+  --ring-width: 200px;
+  --ring-height: 200px;
+  --ring-thickness: 6px;
+}
+
+/* Color Variants */
+.default {
+  /* Default styling already defined */
+}
+
+.primary {
+  --capture-preparing-color: var(--color-primary-500, #3b82f6);
+  --capture-capturing-color: var(--color-primary-600, #2563eb);
+  --capture-complete-color: var(--color-primary-400, #60a5fa);
+}
+
+.success {
+  --capture-preparing-color: var(--color-green-500, #22c55e);
+  --capture-capturing-color: var(--color-green-600, #16a34a);
+  --capture-complete-color: var(--color-green-400, #4ade80);
+}
+
+.warning {
+  --capture-preparing-color: var(--color-orange-500, #f59e0b);
+  --capture-capturing-color: var(--color-orange-600, #ea580c);
+  --capture-complete-color: var(--color-orange-400, #fb923c);
+}
+
+.error {
+  --capture-preparing-color: var(--color-red-500, #ef4444);
+  --capture-capturing-color: var(--color-red-600, #dc2626);
+  --capture-complete-color: var(--color-red-400, #f87171);
+}
+
+/* Capture States */
+.idle {
+  --state-color: var(--capture-idle-color);
+}
+
+.preparing {
+  --state-color: var(--capture-preparing-color);
+  animation: capturePrep var(--pulse-frequency) ease-in-out infinite;
+}
+
+.capturing {
+  --state-color: var(--capture-capturing-color);
+}
+
+.processing {
+  --state-color: var(--capture-processing-color);
+  animation: captureProcess 2s linear infinite;
+}
+
+.complete {
+  --state-color: var(--capture-complete-color);
+  animation: captureComplete 0.6s ease-out;
+}
+
+.error {
+  --state-color: var(--capture-error-color);
+  animation: captureError 0.5s ease-out;
+}
+
+.burst {
+  --state-color: var(--capture-burst-color);
+}
+
+.timer {
+  --state-color: var(--capture-timer-color);
+}
+
+/* Capture Modes */
+.single {
+  /* Single shot mode */
+}
+
+.burst .captureRingMain {
+  animation: burstMode 0.1s ease-out;
+}
+
+.timer .captureRingMain {
+  animation: timerMode var(--pulse-frequency) ease-in-out infinite;
+}
+
+.continuous {
+  animation: continuousCapture 2s linear infinite;
+}
+
+.hdr {
+  animation: hdrCapture 1s ease-in-out 3;
+}
+
+.panorama {
+  animation: panoramaCapture 3s ease-in-out infinite;
+}
+
+/* Active State */
+.active {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 8px var(--state-color));
+}
+
+.pulsate {
+  animation: capturePulsate var(--pulse-frequency) ease-in-out infinite;
+}
+
+.flashing {
+  animation: captureFlash var(--flash-duration) ease-out;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+.circular {
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+/* Visual Effects */
+.glow {
+  filter: drop-shadow(0 0 12px var(--state-color));
+}
+
+.shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.blur {
+  filter: blur(0.5px);
+}
+
+.scale.active {
+  transform: scale(1.1);
+}
+
+/* Main Capture Ring Container */
+.captureRingMain {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform calc(200ms / var(--animation-speed)) ease-out;
+}
+
+/* ===========================
+   RING & ARC TYPES
+   ========================= */
+
+.progressSvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(0deg);
+}
+
+.progressTrack {
+  stroke: var(--capture-inactive-color);
+  opacity: 0.3;
+  stroke-linecap: round;
+}
+
+.progressCircle {
+  stroke-linecap: round;
+  transition: stroke-dashoffset calc(300ms / var(--animation-speed)) ease-out;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.ring .progressCircle {
+  stroke-dasharray: var(--circumference, 283);
+  stroke-dashoffset: var(--progress-offset, 283);
+}
+
+.arc .progressCircle {
+  stroke-dasharray: calc(var(--circumference, 283) * 0.75);
+  stroke-dashoffset: calc(var(--progress-offset, 283) * 0.75);
+}
+
+/* ===========================
+   PULSE TYPE
+   ========================= */
+
+.pulse {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulseRing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: var(--ring-thickness) solid var(--state-color);
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.6;
+  animation: pulseExpand var(--pulse-frequency) ease-out infinite;
+}
+
+.pulseCore {
+  width: 50%;
+  height: 50%;
+  background: var(--state-color);
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.8;
+  animation: pulseCore var(--pulse-frequency) ease-in-out infinite;
+}
+
+/* ===========================
+   FLASH TYPE
+   ========================= */
+
+.flash {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+.flashOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, var(--flash-intensity, 1)) 0%,
+    rgba(255, 255, 255, 0.6) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.flashBurst {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--state-color) 60deg,
+    transparent 120deg,
+    var(--state-color) 180deg,
+    transparent 240deg,
+    var(--state-color) 300deg,
+    transparent 360deg
+  );
+  border-radius: var(--border-radius-full, 9999px);
+  animation: flashBurst 0.3s ease-out;
+}
+
+.flashing .flashOverlay {
+  animation: flashEffect var(--flash-duration) ease-out;
+}
+
+/* ===========================
+   SHUTTER TYPE
+   ========================= */
+
+.shutter {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--border-radius-full, 9999px);
+  background: var(--color-neutral-900, #1f2937);
+}
+
+.shutterBlade {
+  position: absolute;
+  width: 60%;
+  height: 2px;
+  background: var(--state-color);
+  transform-origin: center;
+  transform: rotate(calc(var(--blade-index) * 45deg));
+  animation: shutterBlade 0.2s ease-out calc(var(--blade-index) * 0.02s);
+}
+
+.capturing .shutterBlade {
+  animation: shutterClose 0.1s ease-out calc(var(--blade-index) * 0.01s),
+             shutterOpen 0.1s ease-out calc(0.15s + var(--blade-index) * 0.01s);
+}
+
+/* ===========================
+   TIMER TYPE
+   ========================= */
+
+.timerDisplay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerValue {
+  font-size: calc(var(--ring-width) / 4);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--state-color);
+  font-family: var(--font-family-mono, monospace);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.timerRing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.timerRing svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+/* ===========================
+   BURST MODE SEGMENTS
+   ========================= */
+
+.burstSegment {
+  transition: all 0.2s ease-out;
+  opacity: 0.4;
+}
+
+.burstComplete {
+  opacity: 1;
+  filter: drop-shadow(0 0 3px currentColor);
+  animation: burstSegmentComplete 0.3s ease-out;
+}
+
+/* ===========================
+   CAPTURE INDICATORS
+   ========================= */
+
+.captureIndicators {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.progressIndicator {
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-white, #ffffff);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-family-mono, monospace);
+}
+
+.progressValue {
+  color: var(--state-color);
+}
+
+.burstCounter {
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-white, #ffffff);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-family-mono, monospace);
+}
+
+.burstValue {
+  color: var(--capture-burst-color);
+}
+
+.qualityIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-px, 1px);
+}
+
+.qualityLabel {
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-white, #ffffff);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.qualityBar {
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-full, 9999px);
+  overflow: hidden;
+  position: relative;
+}
+
+.qualityBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--quality-width, 100%);
+  background: var(--state-color);
+  border-radius: inherit;
+  transition: width 200ms ease-out;
+}
+
+.frameRateIndicator {
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-white, #ffffff);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-family-mono, monospace);
+}
+
+/* ===========================
+   CAMERA SETTINGS
+   ========================= */
+
+.cameraSettings {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--spacing-3, 0.75rem);
+  background: rgba(0, 0, 0, 0.8);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-white, #ffffff);
+  pointer-events: none;
+}
+
+.settingItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.settingLabel {
+  font-weight: var(--font-weight-medium, 500);
+  opacity: 0.8;
+}
+
+.settingValue {
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-family-mono, monospace);
+  color: var(--state-color);
+}
+
+/* ===========================
+   COMPLETION INDICATORS
+   ========================= */
+
+.completionIndicators {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.checkmark {
+  width: calc(var(--ring-width) / 3);
+  height: calc(var(--ring-height) / 3);
+  color: var(--capture-complete-color);
+  animation: checkmarkAppear 0.5s ease-out;
+}
+
+.checkmark svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.errorIcon {
+  width: calc(var(--ring-width) / 3);
+  height: calc(var(--ring-height) / 3);
+  color: var(--capture-error-color);
+  animation: errorIconAppear 0.5s ease-out;
+}
+
+.errorIcon svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* ===========================
+   METADATA DISPLAY
+   ========================= */
+
+.metadata {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+  background: rgba(0, 0, 0, 0.9);
+  padding: var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-white, #ffffff);
+  pointer-events: none;
+  min-width: 120px;
+}
+
+.metadataItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metadataLabel {
+  font-weight: var(--font-weight-medium, 500);
+  opacity: 0.8;
+}
+
+.metadataValue {
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-family-mono, monospace);
+}
+
+/* ===========================
+   CAPTURE PREVIEW
+   ========================= */
+
+.capturePreview {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border-radius: var(--border-radius-lg, 0.5rem);
+  overflow: hidden;
+  opacity: 0;
+  z-index: 15;
+}
+
+.animatePreview {
+  animation: previewAppear 0.8s ease-out;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Flash Overlay */
+.flashOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, var(--flash-intensity, 1));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ===========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes capturePrep {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes capturePulsate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes captureProcess {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes captureComplete {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes captureError {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes captureFlash {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulseExpand {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseCore {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes flashEffect {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes flashBurst {
+  0% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shutterBlade {
+  0% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(0);
+  }
+  100% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(-20px);
+  }
+}
+
+@keyframes shutterClose {
+  0% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(-20px);
+  }
+  100% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(0);
+  }
+}
+
+@keyframes shutterOpen {
+  0% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(0);
+  }
+  100% {
+    transform: rotate(calc(var(--blade-index) * 45deg)) translateY(-20px);
+  }
+}
+
+@keyframes burstMode {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes burstSegmentComplete {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes timerMode {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes continuousCapture {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hdrCapture {
+  0%, 100% {
+    filter: brightness(1) contrast(1);
+  }
+  33% {
+    filter: brightness(0.7) contrast(1.2);
+  }
+  66% {
+    filter: brightness(1.3) contrast(0.8);
+  }
+}
+
+@keyframes panoramaCapture {
+  0% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(-10px);
+  }
+}
+
+@keyframes checkmarkAppear {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes errorIconAppear {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes previewAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ===========================
+   SCREEN READER ONLY
+   ========================= */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===========================
+   HIGH CONTRAST MODE
+   ========================= */
+
+@media (prefers-contrast: high) {
+  .captureRing {
+    filter: contrast(1.3);
+  }
+  
+  .progressTrack,
+  .progressCircle {
+    stroke-width: calc(var(--ring-thickness) + 1px);
+  }
+  
+  .pulseRing {
+    border-width: calc(var(--ring-thickness) + 1px);
+  }
+  
+  .captureIndicators,
+  .cameraSettings,
+  .metadata {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid var(--color-neutral-400, #9ca3af);
+  }
+  
+  .settingValue,
+  .progressValue,
+  .burstValue {
+    text-shadow: 0 0 4px currentColor;
+  }
+}
+
+/* ===========================
+   REDUCED MOTION SUPPORT
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .captureRing {
+    transition: opacity 0.1s ease-out;
+  }
+  
+  .captureRing *,
+  .captureRing::before,
+  .captureRing::after {
+    animation: none !important;
+    transition: opacity 0.1s ease-out !important;
+  }
+  
+  .progressCircle {
+    transition: stroke-dashoffset 0.2s ease-out !important;
+  }
+  
+  /* Provide alternative feedback for reduced motion */
+  .preparing::after {
+    content: '🔄';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .capturing::after {
+    content: '📸';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .processing::after {
+    content: '⚙️';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .complete::after {
+    content: '✅';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--capture-complete-color);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .error::after {
+    content: '❌';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+}
+
+/* ===========================
+   DARK MODE SUPPORT
+   ========================= */
+
+@media (prefers-color-scheme: dark) {
+  .captureRing {
+    --capture-inactive-color: var(--color-neutral-500, #6b7280);
+  }
+  
+  .captureIndicators,
+  .cameraSettings,
+  .metadata {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .qualityBar {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .progressTrack {
+    stroke: var(--color-neutral-600, #52525b);
+  }
+  
+  .flashOverlay {
+    background: rgba(255, 255, 255, var(--flash-intensity, 1));
+  }
+  
+  .timerValue {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  
+  .settingValue,
+  .progressValue,
+  .burstValue,
+  .metadataValue {
+    color: var(--color-neutral-200, #e4e4e7);
+  }
+}
+
+/* ===========================
+   PRINT STYLES
+   ========================= */
+
+@media print {
+  .captureRing {
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .captureRing * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .progressTrack,
+  .progressCircle {
+    stroke: black !important;
+  }
+  
+  .pulseRing,
+  .pulseCore {
+    border-color: black !important;
+    background: black !important;
+  }
+  
+  .captureIndicators,
+  .cameraSettings,
+  .metadata {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+  
+  .flashOverlay {
+    display: none !important;
+  }
+}
+
+/* ===========================
+   MOBILE TOUCH OPTIMIZATION
+   ========================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .captureRing {
+    /* Larger touch targets on mobile */
+    min-width: 80px;
+    min-height: 80px;
+  }
+  
+  .captureIndicators {
+    top: -50px;
+  }
+  
+  .cameraSettings {
+    bottom: -45px;
+    flex-direction: column;
+    gap: var(--spacing-1, 0.25rem);
+  }
+  
+  .metadata {
+    top: -80px;
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .settingItem {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .timerValue {
+    font-size: calc(var(--ring-width) / 3.5);
+  }
+}
+
+/* ===========================
+   RESPONSIVE SIZE ADJUSTMENTS
+   ========================= */
+
+@media (max-width: 640px) {
+  .xl {
+    --ring-width: 160px;
+    --ring-height: 160px;
+  }
+  
+  .lg {
+    --ring-width: 140px;
+    --ring-height: 140px;
+  }
+  
+  .captureIndicators {
+    top: -35px;
+  }
+  
+  .cameraSettings {
+    bottom: -40px;
+  }
+  
+  .metadata {
+    top: -65px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xl,
+  .lg {
+    --ring-width: 120px;
+    --ring-height: 120px;
+  }
+  
+  .md {
+    --ring-width: 100px;
+    --ring-height: 100px;
+  }
+  
+  .captureIndicators,
+  .cameraSettings,
+  .metadata {
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+  
+  .qualityBar {
+    width: 30px;
+  }
+  
+  .timerValue {
+    font-size: calc(var(--ring-width) / 4);
+  }
+}
+
+/* ===========================
+   PERFORMANCE OPTIMIZATIONS
+   ========================= */
+
+.captureRing {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.progressCircle,
+.pulseRing,
+.pulseCore,
+.flashBurst {
+  /* Optimize animation performance */
+  will-change: transform, opacity, stroke-dashoffset;
+  transform: translateZ(0);
+}
+
+.captureIndicators,
+.cameraSettings,
+.metadata {
+  /* Optimize text rendering */
+  will-change: opacity;
+}
+
+/* ===========================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================= */
+
+.captureRing[role="progressbar"] {
+  /* Progress bar semantics */
+}
+
+.captureRing[aria-live="polite"] {
+  /* Capture state announcements */
+}
+
+.captureRing:focus {
+  outline: 2px solid var(--color-primary-500, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   CUSTOM PROPERTY SUPPORT
+   ========================= */
+
+.captureRing[style*="--capture-progress"] {
+  /* Custom progress level support */
+}
+
+.captureRing[style*="--state-color"] {
+  /* Custom state color support */
+}
+
+.captureRing[style*="--flash-intensity"] {
+  /* Custom flash intensity support */
+}
+
+/* ===========================
+   CAPTURE STATE INDICATORS
+   ========================= */
+
+.captureRing[data-state="idle"]::before {
+  content: 'READY';
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--state-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.captureRing[data-state="preparing"]::before {
+  content: 'PREP';
+}
+
+.captureRing[data-state="capturing"]::before {
+  content: 'CAPTURE';
+}
+
+.captureRing[data-state="processing"]::before {
+  content: 'PROCESS';
+}
+
+.captureRing[data-state="complete"]::before {
+  content: 'DONE';
+}
+
+.captureRing[data-state="error"]::before {
+  content: 'ERROR';
+}
+
+.captureRing[data-state="burst"]::before {
+  content: 'BURST';
+}
+
+.captureRing[data-state="timer"]::before {
+  content: 'TIMER';
+}
+
+/* ===========================
+   CAPTURE MODE INDICATORS
+   ========================= */
+
+.captureRing[data-mode="single"] {
+  /* Single shot mode styling */
+}
+
+.captureRing[data-mode="burst"] {
+  /* Burst mode styling */
+}
+
+.captureRing[data-mode="timer"] {
+  /* Timer mode styling */
+}
+
+.captureRing[data-mode="continuous"] {
+  /* Continuous mode styling */
+}
+
+.captureRing[data-mode="hdr"] {
+  /* HDR mode styling */
+}
+
+.captureRing[data-mode="panorama"] {
+  /* Panorama mode styling */
+}
+
+/* ===========================
+   CAPTURE TYPE STYLING
+   ========================= */
+
+.captureRing[data-type="ring"] .captureRingMain {
+  /* Ring-specific styling */
+}
+
+.captureRing[data-type="arc"] .captureRingMain {
+  /* Arc-specific styling */
+}
+
+.captureRing[data-type="pulse"] .captureRingMain {
+  /* Pulse-specific styling */
+}
+
+.captureRing[data-type="flash"] .captureRingMain {
+  /* Flash-specific styling */
+}
+
+.captureRing[data-type="shutter"] .captureRingMain {
+  /* Shutter-specific styling */
+}
+
+.captureRing[data-type="timer"] .captureRingMain {
+  /* Timer-specific styling */
+}
+
+.captureRing[data-type="burst"] .captureRingMain {
+  /* Burst-specific styling */
+}

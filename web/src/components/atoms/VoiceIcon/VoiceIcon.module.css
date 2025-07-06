@@ -1,0 +1,584 @@
+/**
+ * VOICE ICON ATOM STYLES - ENHANCED VOICE INTERACTION SYSTEM
+ * 
+ * Comprehensive voice icon styles with state visualization, activity feedback,
+ * wave animations, and accessibility features for voice interfaces.
+ */
+
+.voiceIcon {
+  /* Base voice icon styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Custom properties for dynamic styling */
+  --voice-active-color: var(--multimodal-voice-active, #10b981);
+  --voice-inactive-color: var(--color-neutral-500, #71717a);
+  --animation-duration: 300ms;
+  --activity-level: 0%;
+  --activation-threshold: 50%;
+  --wave-scale: 1;
+  
+  /* Color */
+  color: var(--voice-inactive-color);
+  
+  /* Interactions */
+  user-select: none;
+  
+  /* Transitions */
+  transition: all var(--animation-duration) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+/* Size Variants */
+.xs {
+  width: var(--spacing-6, 1.5rem);
+  height: var(--spacing-6, 1.5rem);
+}
+
+.sm {
+  width: var(--spacing-8, 2rem);
+  height: var(--spacing-8, 2rem);
+}
+
+.md {
+  width: var(--spacing-10, 2.5rem);
+  height: var(--spacing-10, 2.5rem);
+}
+
+.lg {
+  width: var(--spacing-12, 3rem);
+  height: var(--spacing-12, 3rem);
+}
+
+.xl {
+  width: var(--spacing-16, 4rem);
+  height: var(--spacing-16, 4rem);
+}
+
+.2xl {
+  width: var(--spacing-20, 5rem);
+  height: var(--spacing-20, 5rem);
+}
+
+/* Main Icon Styling */
+.icon {
+  position: relative;
+  z-index: 2;
+  transition: all var(--animation-duration) ease-out;
+}
+
+/* Voice State Variants */
+.idle {
+  color: var(--voice-inactive-color);
+}
+
+.listening {
+  color: var(--voice-active-color);
+  filter: drop-shadow(0 0 8px var(--voice-active-color));
+}
+
+.speaking {
+  color: var(--color-blue-500, #3b82f6);
+  animation: speakingPulse 1s ease-in-out infinite;
+}
+
+.processing {
+  color: var(--color-orange-500, #f59e0b);
+  animation: processingRotate 2s linear infinite;
+}
+
+.muted {
+  color: var(--color-red-500, #ef4444);
+  opacity: 0.7;
+}
+
+.error {
+  color: var(--color-red-500, #ef4444);
+  animation: errorShake 0.5s ease-in-out;
+}
+
+.disabled {
+  color: var(--color-neutral-300, #d4d4d8);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Interactive States */
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover:not(.disabled) {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.interactive:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.interactive:focus-visible {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+/* Active State */
+.active {
+  color: var(--voice-active-color);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px var(--voice-active-color));
+}
+
+/* Push-to-Talk Styling */
+.pushToTalk {
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-full, 9999px);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  padding: var(--spacing-2, 0.5rem);
+}
+
+.pushToTalk:not(.disabled):hover {
+  border-color: var(--voice-active-color);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+}
+
+.pressed {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+  border-color: var(--voice-active-color);
+  transform: scale(0.98);
+  filter: drop-shadow(0 0 16px var(--voice-active-color));
+}
+
+/* Wave Animation */
+.withWaves .wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--voice-active-color);
+  border-radius: var(--border-radius-full, 9999px);
+  transform: translate(-50%, -50%) scale(var(--wave-scale, 1));
+  opacity: 0;
+  pointer-events: none;
+  animation: waveExpand 2s ease-out infinite;
+}
+
+@keyframes waveExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Activity Indicator */
+.activityIndicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 25%;
+  background: radial-gradient(
+    circle,
+    var(--voice-active-color) 0%,
+    transparent 70%
+  );
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: var(--activity-intensity, 0);
+  animation: activityFlicker 0.1s ease-out;
+  z-index: 3;
+}
+
+@keyframes activityFlicker {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Status Indicator */
+.status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 30%;
+  min-width: var(--spacing-2, 0.5rem);
+  min-height: var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-full, 9999px);
+  border: 2px solid var(--color-white, #ffffff);
+  z-index: 3;
+  transform: translate(25%, 25%);
+}
+
+.status.idle {
+  background-color: var(--color-neutral-400, #a1a1aa);
+}
+
+.status.listening {
+  background-color: var(--voice-active-color);
+  animation: listeningPulse 1.5s ease-in-out infinite;
+}
+
+.status.speaking {
+  background-color: var(--color-blue-500, #3b82f6);
+  animation: speakingBlink 0.5s ease-in-out infinite;
+}
+
+.status.processing {
+  background-color: var(--color-orange-500, #f59e0b);
+  animation: processingDot 1s ease-in-out infinite;
+}
+
+.status.muted {
+  background-color: var(--color-red-500, #ef4444);
+}
+
+.status.error {
+  background-color: var(--color-red-600, #dc2626);
+  animation: errorBlink 0.3s ease-in-out 3;
+}
+
+.status.disabled {
+  background-color: var(--color-neutral-300, #d4d4d8);
+  opacity: 0.5;
+}
+
+/* Pulse Animation */
+.pulse {
+  animation: voicePulse 2s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* State-Specific Animations */
+@keyframes speakingPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px var(--color-blue-500));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px var(--color-blue-500));
+  }
+}
+
+@keyframes processingRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes listeningPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(25%, 25%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(25%, 25%) scale(1.1);
+  }
+}
+
+@keyframes speakingBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes processingDot {
+  0%, 100% {
+    transform: translate(25%, 25%) scale(1);
+  }
+  50% {
+    transform: translate(25%, 25%) scale(1.2);
+  }
+}
+
+@keyframes errorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Animation Control */
+.animate {
+  /* Enhanced animation support */
+}
+
+.voiceIcon:not(.animate) {
+  transition: none;
+}
+
+.voiceIcon:not(.animate) * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .voiceIcon {
+    filter: contrast(1.2);
+  }
+  
+  .status {
+    border-width: 3px;
+  }
+  
+  .interactive:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+  
+  .wave {
+    border-width: 3px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .voiceIcon {
+    transition: none;
+  }
+  
+  .voiceIcon *,
+  .voiceIcon::before,
+  .voiceIcon::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .interactive:hover {
+    transform: none;
+  }
+  
+  .interactive:active {
+    transform: none;
+  }
+  
+  .active {
+    transform: none;
+  }
+  
+  .pressed {
+    transform: none;
+  }
+  
+  /* Provide alternative feedback */
+  .listening::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--voice-active-color);
+    border-radius: inherit;
+    opacity: 0.8;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .idle {
+    color: var(--color-neutral-400, #a1a1aa);
+  }
+  
+  .disabled {
+    color: var(--color-neutral-600, #52525b);
+  }
+  
+  .status {
+    border-color: var(--color-neutral-800, #27272a);
+  }
+  
+  .pushToTalk {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+  }
+  
+  .pushToTalk:not(.disabled):hover {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  }
+  
+  .pressed {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .voiceIcon {
+    color: black !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .voiceIcon::before,
+  .voiceIcon::after,
+  .wave,
+  .activityIndicator {
+    display: none !important;
+  }
+  
+  .status {
+    background: black !important;
+    border: 1px solid black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .interactive {
+    /* Ensure adequate touch target */
+    min-width: var(--camera-touch-target, 44px);
+    min-height: var(--camera-touch-target, 44px);
+  }
+  
+  .interactive:hover {
+    /* Remove hover effects on touch devices */
+    transform: none;
+    filter: none;
+  }
+  
+  .interactive:active {
+    /* Provide tactile feedback on touch */
+    transform: scale(0.95);
+    filter: brightness(0.9);
+  }
+  
+  .pushToTalk {
+    /* Enhanced touch target for push-to-talk */
+    padding: var(--spacing-3, 0.75rem);
+  }
+}
+
+/* Responsive Size Adjustments */
+@media (max-width: 640px) {
+  .2xl {
+    width: var(--spacing-16, 4rem);
+    height: var(--spacing-16, 4rem);
+  }
+  
+  .xl {
+    width: var(--spacing-12, 3rem);
+    height: var(--spacing-12, 3rem);
+  }
+}
+
+/* Performance Optimizations */
+.voiceIcon {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.wave {
+  /* Optimize wave animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Enhanced accessibility for screen readers */
+.voiceIcon[aria-pressed="true"] {
+  /* Active state announcement */
+}
+
+.voiceIcon[aria-live="polite"] {
+  /* Voice detection announcements */
+}
+
+/* Voice feedback visualization */
+.voiceIcon[data-voice-feedback="true"] {
+  position: relative;
+}
+
+.voiceIcon[data-voice-feedback="true"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    transparent 30%,
+    var(--voice-active-color) 60%,
+    transparent 80%
+  );
+  border-radius: var(--border-radius-full, 9999px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--animation-duration) ease-out;
+}
+
+.listening[data-voice-feedback="true"]::before,
+.speaking[data-voice-feedback="true"]::before {
+  opacity: 0.1;
+}
+
+/* Custom color support */
+.voiceIcon[style*="--voice-active-color"] {
+  /* Custom active color support */
+}
+
+.voiceIcon[style*="--voice-inactive-color"] {
+  /* Custom inactive color support */
+}

@@ -1,0 +1,385 @@
+/**
+ * FORM FIELD MOLECULE STYLES
+ * 
+ * Comprehensive styling for the FormField molecule combining
+ * Input and Label atoms with validation and form functionality.
+ */
+
+.formField {
+  --field-gap: var(--spacing-2);
+  --field-border-radius: var(--border-radius-md);
+  --field-transition: all 0.2s ease-in-out;
+  
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+  width: 100%;
+  position: relative;
+}
+
+/* ===================================
+   FIELD CONTAINER
+   =================================== */
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  position: relative;
+}
+
+/* ===================================
+   LABEL STYLING
+   =================================== */
+
+.label {
+  transition: var(--field-transition);
+}
+
+/* ===================================
+   DESCRIPTION STYLING
+   =================================== */
+
+.description {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin-top: calc(var(--spacing-1) * -0.5);
+  margin-bottom: var(--spacing-1);
+}
+
+/* ===================================
+   INPUT CONTAINER
+   =================================== */
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.focusIndicator {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--field-border-radius);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+}
+
+/* ===================================
+   STATUS ICON
+   =================================== */
+
+.statusIcon {
+  transition: var(--field-transition);
+}
+
+/* ===================================
+   MESSAGE AREA
+   =================================== */
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  padding: var(--spacing-1) 0;
+  transition: var(--field-transition);
+}
+
+.messageIcon {
+  flex-shrink: 0;
+  margin-top: calc((var(--line-height-normal) * var(--font-size-sm) - var(--spacing-4)) / 2);
+}
+
+.messageText {
+  flex: 1;
+}
+
+/* ===================================
+   MESSAGE TYPE STYLES
+   =================================== */
+
+.message.helper {
+  color: var(--color-text-secondary);
+}
+
+.message.helper .messageIcon {
+  color: var(--color-text-tertiary);
+}
+
+.message.success {
+  color: var(--color-success-700);
+}
+
+.message.success .messageIcon {
+  color: var(--color-success-600);
+}
+
+.message.warning {
+  color: var(--color-warning-700);
+}
+
+.message.warning .messageIcon {
+  color: var(--color-warning-600);
+}
+
+.message.error {
+  color: var(--color-error-700);
+}
+
+.message.error .messageIcon {
+  color: var(--color-error-600);
+}
+
+/* ===================================
+   SIZE VARIANTS
+   =================================== */
+
+.small {
+  --field-gap: var(--spacing-1);
+}
+
+.small .description {
+  font-size: var(--font-size-xs);
+}
+
+.small .message {
+  font-size: var(--font-size-xs);
+}
+
+.medium {
+  --field-gap: var(--spacing-2);
+}
+
+.large {
+  --field-gap: var(--spacing-3);
+}
+
+.large .description {
+  font-size: var(--font-size-base);
+}
+
+.large .message {
+  font-size: var(--font-size-base);
+}
+
+/* ===================================
+   VARIANT STYLES
+   =================================== */
+
+.default {
+  /* Uses default input styling */
+}
+
+.filled {
+  /* Uses filled input variant */
+}
+
+.outlined {
+  /* Uses outlined input variant */
+}
+
+.ghost {
+  /* Uses ghost input variant */
+}
+
+/* ===================================
+   STATE STYLES
+   =================================== */
+
+.formField.default .label {
+  color: var(--color-text-primary);
+}
+
+.formField.success .label {
+  color: var(--color-success-700);
+}
+
+.formField.success .statusIcon {
+  color: var(--color-success-600);
+}
+
+.formField.warning .label {
+  color: var(--color-warning-700);
+}
+
+.formField.warning .statusIcon {
+  color: var(--color-warning-600);
+}
+
+.formField.error .label {
+  color: var(--color-error-700);
+}
+
+.formField.error .statusIcon {
+  color: var(--color-error-600);
+}
+
+/* ===================================
+   FOCUS STYLES
+   =================================== */
+
+.formField:focus-within .label {
+  color: var(--color-primary-600);
+}
+
+.formField:focus-within .description {
+  color: var(--color-text-primary);
+}
+
+/* Override state colors when focused */
+.formField.success:focus-within .label {
+  color: var(--color-primary-600);
+}
+
+.formField.warning:focus-within .label {
+  color: var(--color-primary-600);
+}
+
+.formField.error:focus-within .label {
+  color: var(--color-error-700); /* Keep error color on focus */
+}
+
+/* ===================================
+   DISABLED STYLES
+   =================================== */
+
+.formField:has(.input:disabled) .label {
+  color: var(--color-text-disabled);
+}
+
+.formField:has(.input:disabled) .description {
+  color: var(--color-text-disabled);
+}
+
+.formField:has(.input:disabled) .message {
+  color: var(--color-text-disabled);
+}
+
+.formField:has(.input:disabled) .statusIcon {
+  color: var(--color-text-disabled);
+}
+
+/* ===================================
+   LOADING STYLES
+   =================================== */
+
+.formField:has(.input[aria-busy="true"]) .label {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ===================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .message.error {
+    background-color: var(--color-error-50);
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-error-600);
+  }
+  
+  .message.warning {
+    background-color: var(--color-warning-50);
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-warning-600);
+  }
+  
+  .message.success {
+    background-color: var(--color-success-50);
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-success-600);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .formField,
+  .label,
+  .statusIcon,
+  .message {
+    transition: none;
+  }
+  
+  .formField:has(.input[aria-busy="true"]) .label {
+    animation: none;
+  }
+}
+
+/* Focus management for keyboard users */
+.formField:focus-within {
+  outline: none; /* Input handles focus outline */
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .small .description,
+  .small .message {
+    font-size: var(--font-size-sm);
+  }
+  
+  .medium .description,
+  .medium .message {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .message {
+    min-height: var(--spacing-10);
+    align-items: center;
+  }
+}
+
+/* ===================================
+   MULTI-MODAL CONTEXT STYLES
+   =================================== */
+
+.formField[data-modality="voice"] {
+  --field-border-radius: var(--border-radius-lg);
+}
+
+.formField[data-modality="voice"] .label {
+  font-weight: var(--font-weight-semibold);
+}
+
+.formField[data-modality="camera"] {
+  --field-border-radius: var(--border-radius-lg);
+}
+
+.formField[data-modality="camera"] .description {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.formField[data-modality="multimodal"] {
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--field-border-radius);
+  padding: var(--spacing-3);
+  background-color: var(--color-background-secondary);
+}
+
+.formField[data-modality="multimodal"] .fieldContainer {
+  gap: var(--spacing-2);
+} 

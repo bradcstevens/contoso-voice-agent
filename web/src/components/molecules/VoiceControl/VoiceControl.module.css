@@ -1,0 +1,522 @@
+/**
+ * VOICE CONTROL MOLECULE STYLES
+ * 
+ * Comprehensive styling for the VoiceControl molecule combining
+ * VoiceIcon, VoiceIndicator, and VoiceStatus atoms for complete voice interface.
+ */
+
+.voiceControl {
+  --voice-gap: var(--spacing-3);
+  --voice-border-radius: var(--border-radius-lg);
+  --voice-transition: all 0.2s ease-in-out;
+  --voice-primary: var(--color-primary-600);
+  --voice-secondary: var(--color-secondary-600);
+  --voice-error: var(--color-error-600);
+  --voice-success: var(--color-success-600);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--voice-gap);
+  padding: var(--spacing-4);
+  border-radius: var(--voice-border-radius);
+  background-color: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  position: relative;
+  transition: var(--voice-transition);
+}
+
+/* ===================================
+   CONTROLS CONTAINER
+   =================================== */
+
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+/* ===================================
+   VOICE BUTTON CONTAINER
+   =================================== */
+
+.voiceButtonContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.focusIndicator {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.voiceButton {
+  position: relative;
+  border-radius: 50%;
+  min-width: var(--spacing-12);
+  min-height: var(--spacing-12);
+  padding: var(--spacing-2);
+  transition: var(--voice-transition);
+  z-index: 2;
+}
+
+.voiceIcon {
+  transition: var(--voice-transition);
+}
+
+/* Activity overlay */
+.activityOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.activityIndicator {
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+
+/* ===================================
+   MUTE BUTTON
+   =================================== */
+
+.muteButton {
+  border-radius: 50%;
+  min-width: var(--spacing-10);
+  min-height: var(--spacing-10);
+  padding: var(--spacing-1);
+  transition: var(--voice-transition);
+}
+
+/* ===================================
+   STATUS CONTAINER
+   =================================== */
+
+.statusContainer {
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.voiceStatus {
+  width: 100%;
+}
+
+/* ===================================
+   INSTRUCTIONS
+   =================================== */
+
+.instructions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.instructionText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+/* ===================================
+   SIZE VARIANTS
+   =================================== */
+
+.small {
+  --voice-gap: var(--spacing-2);
+  padding: var(--spacing-3);
+}
+
+.small .controlsContainer {
+  gap: var(--spacing-2);
+}
+
+.small .voiceButton {
+  min-width: var(--spacing-10);
+  min-height: var(--spacing-10);
+  padding: var(--spacing-1);
+}
+
+.small .muteButton {
+  min-width: var(--spacing-8);
+  min-height: var(--spacing-8);
+  padding: var(--spacing-1);
+}
+
+.small .instructions {
+  padding: var(--spacing-1) var(--spacing-2);
+}
+
+.small .instructionText {
+  font-size: var(--font-size-xs);
+}
+
+.medium {
+  --voice-gap: var(--spacing-3);
+  padding: var(--spacing-4);
+}
+
+.large {
+  --voice-gap: var(--spacing-4);
+  padding: var(--spacing-6);
+}
+
+.large .controlsContainer {
+  gap: var(--spacing-4);
+}
+
+.large .voiceButton {
+  min-width: var(--spacing-16);
+  min-height: var(--spacing-16);
+  padding: var(--spacing-3);
+}
+
+.large .muteButton {
+  min-width: var(--spacing-12);
+  min-height: var(--spacing-12);
+  padding: var(--spacing-2);
+}
+
+.large .instructions {
+  padding: var(--spacing-3) var(--spacing-4);
+}
+
+.large .instructionText {
+  font-size: var(--font-size-base);
+}
+
+/* ===================================
+   ORIENTATION VARIANTS
+   =================================== */
+
+.horizontal .controlsContainer {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vertical {
+  width: auto;
+  max-width: 200px;
+}
+
+.vertical .controlsContainer {
+  flex-direction: column;
+  gap: var(--spacing-4);
+  align-items: center;
+}
+
+.vertical .statusContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.compact {
+  padding: var(--spacing-2);
+  --voice-gap: var(--spacing-1);
+}
+
+.compact .controlsContainer {
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.compact .voiceButton {
+  min-width: var(--spacing-8);
+  min-height: var(--spacing-8);
+  padding: var(--spacing-1);
+}
+
+.compact .muteButton {
+  min-width: var(--spacing-6);
+  min-height: var(--spacing-6);
+  padding: var(--spacing-05);
+}
+
+.compact .instructions {
+  display: none; /* Hide instructions in compact mode */
+}
+
+/* ===================================
+   VOICE STATE STYLES
+   =================================== */
+
+.voiceControl[data-voice-state="idle"] {
+  border-color: var(--color-border-secondary);
+  background-color: var(--color-background-primary);
+}
+
+.voiceControl[data-voice-state="listening"] {
+  border-color: var(--voice-primary);
+  background-color: var(--color-primary-50);
+  box-shadow: 0 0 0 2px var(--color-primary-200);
+}
+
+.voiceControl[data-voice-state="listening"] .voiceButton {
+  animation: pulse 2s infinite;
+}
+
+.voiceControl[data-voice-state="speaking"] {
+  border-color: var(--voice-success);
+  background-color: var(--color-success-50);
+}
+
+.voiceControl[data-voice-state="speaking"] .voiceIcon {
+  animation: bounce 1s infinite;
+}
+
+.voiceControl[data-voice-state="processing"] {
+  border-color: var(--color-warning-600);
+  background-color: var(--color-warning-50);
+}
+
+.voiceControl[data-voice-state="processing"] .voiceIcon {
+  animation: spin 1s linear infinite;
+}
+
+.voiceControl[data-voice-state="muted"] {
+  border-color: var(--color-text-tertiary);
+  background-color: var(--color-background-secondary);
+  opacity: 0.7;
+}
+
+.voiceControl[data-voice-state="error"] {
+  border-color: var(--voice-error);
+  background-color: var(--color-error-50);
+  box-shadow: 0 0 0 2px var(--color-error-200);
+}
+
+.voiceControl[data-voice-state="error"] .voiceButton {
+  animation: shake 0.5s ease-in-out;
+}
+
+.voiceControl[data-voice-state="disabled"] {
+  border-color: var(--color-border-disabled);
+  background-color: var(--color-background-disabled);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--voice-primary);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+/* ===================================
+   INTERACTION STATES
+   =================================== */
+
+.voiceButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.voiceButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.muteButton:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.muteButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Push-to-talk specific styles */
+.voiceControl[data-voice-state="listening"] .voiceButton:active {
+  transform: scale(0.95);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .voiceControl {
+    border-width: 2px;
+  }
+  
+  .voiceControl[data-voice-state="listening"] {
+    border-color: var(--color-text-primary);
+    background-color: var(--color-background-primary);
+  }
+  
+  .voiceControl[data-voice-state="error"] {
+    border-color: var(--color-text-primary);
+    background-color: var(--color-background-primary);
+  }
+  
+  .instructions {
+    border-width: 2px;
+    border-color: var(--color-text-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .voiceControl,
+  .voiceButton,
+  .muteButton,
+  .voiceIcon,
+  .activityIndicator {
+    transition: none;
+    animation: none !important;
+  }
+  
+  .voiceButton:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  .muteButton:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Focus management for keyboard users */
+.voiceButton:focus-visible {
+  outline: 2px solid var(--voice-primary);
+  outline-offset: 2px;
+}
+
+.muteButton:focus-visible {
+  outline: 2px solid var(--voice-primary);
+  outline-offset: 2px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .voiceControl:not(.compact) {
+    padding: var(--spacing-3);
+  }
+  
+  .controlsContainer {
+    gap: var(--spacing-2);
+  }
+  
+  .voiceButton {
+    min-width: var(--spacing-12);
+    min-height: var(--spacing-12);
+  }
+  
+  .muteButton {
+    min-width: var(--spacing-10);
+    min-height: var(--spacing-10);
+  }
+  
+  .vertical .controlsContainer {
+    gap: var(--spacing-3);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .voiceButton {
+    min-width: var(--spacing-12);
+    min-height: var(--spacing-12);
+  }
+  
+  .muteButton {
+    min-width: var(--spacing-10);
+    min-height: var(--spacing-10);
+  }
+  
+  .small .voiceButton {
+    min-width: var(--spacing-10);
+    min-height: var(--spacing-10);
+  }
+  
+  .small .muteButton {
+    min-width: var(--spacing-8);
+    min-height: var(--spacing-8);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .voiceControl[data-voice-state="listening"] {
+    background-color: var(--color-primary-900);
+    border-color: var(--color-primary-400);
+  }
+  
+  .voiceControl[data-voice-state="speaking"] {
+    background-color: var(--color-success-900);
+    border-color: var(--color-success-400);
+  }
+  
+  .voiceControl[data-voice-state="error"] {
+    background-color: var(--color-error-900);
+    border-color: var(--color-error-400);
+  }
+  
+  .instructions {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-border-primary);
+  }
+} 

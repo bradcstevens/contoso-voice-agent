@@ -1,0 +1,1122 @@
+/**
+ * FOCUS RING ATOM STYLES - ADVANCED CAMERA FOCUS VISUALIZATION
+ * 
+ * Comprehensive focus ring styles with professional camera focus features,
+ * confidence scoring, zone focus, tracking, and advanced visualization modes.
+ */
+
+.focusRing {
+  /* Base focus ring styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Custom properties for dynamic styling */
+  --focus-excellent-color: #10b981;
+  --focus-good-color: #3b82f6;
+  --focus-fair-color: #f59e0b;
+  --focus-poor-color: #ef4444;
+  --focus-searching-color: #8b5cf6;
+  --focus-inactive-color: var(--color-neutral-400, #9ca3af);
+  --focus-confidence: 0%;
+  --focus-adjustment: 0;
+  --focus-distance: 50%;
+  --focus-speed: 1;
+  --animation-duration: 300ms;
+  --pulse-frequency: 1.5s;
+  --area-size: 1;
+  --center-x: 0.5;
+  --center-y: 0.5;
+  --ring-width: 80px;
+  --ring-height: 80px;
+  --max-size: 200px;
+  --min-size: 50px;
+  --confidence-color: var(--focus-poor-color);
+  --ring-opacity: 1;
+  --grid-density: 3;
+  --beam-width: 4px;
+  --direction: 0;
+  
+  /* Layout */
+  width: var(--ring-width);
+  height: var(--ring-height);
+  opacity: var(--ring-opacity);
+  
+  /* Transitions */
+  transition: all calc(var(--animation-duration) / var(--focus-speed)) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 10;
+  
+  /* Performance optimization */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Size Variants */
+.xs {
+  --ring-width: 40px;
+  --ring-height: 40px;
+}
+
+.sm {
+  --ring-width: 60px;
+  --ring-height: 60px;
+}
+
+.md {
+  --ring-width: 80px;
+  --ring-height: 80px;
+}
+
+.lg {
+  --ring-width: 120px;
+  --ring-height: 120px;
+}
+
+.xl {
+  --ring-width: 160px;
+  --ring-height: 160px;
+}
+
+/* Color Variants */
+.default {
+  /* Default styling already defined */
+}
+
+.primary {
+  --focus-excellent-color: var(--color-primary-600, #0284c7);
+  --focus-good-color: var(--color-primary-500, #0ea5e9);
+  --focus-fair-color: var(--color-primary-400, #38bdf8);
+  --focus-searching-color: var(--color-primary-300, #7dd3fc);
+}
+
+.success {
+  --focus-excellent-color: var(--color-green-600, #16a34a);
+  --focus-good-color: var(--color-green-500, #22c55e);
+  --focus-fair-color: var(--color-green-400, #4ade80);
+  --focus-searching-color: var(--color-green-300, #86efac);
+}
+
+.warning {
+  --focus-excellent-color: var(--color-orange-600, #ea580c);
+  --focus-good-color: var(--color-orange-500, #f59e0b);
+  --focus-fair-color: var(--color-orange-400, #fb923c);
+  --focus-searching-color: var(--color-orange-300, #fdba74);
+}
+
+.error {
+  --focus-excellent-color: var(--color-red-600, #dc2626);
+  --focus-good-color: var(--color-red-500, #ef4444);
+  --focus-fair-color: var(--color-red-400, #f87171);
+  --focus-searching-color: var(--color-red-300, #fca5a5);
+}
+
+/* Focus Mode States */
+.auto {
+  /* Automatic focus mode */
+}
+
+.manual {
+  /* Manual focus mode */
+  --focus-searching-color: var(--color-blue-500, #3b82f6);
+}
+
+.macro {
+  /* Macro focus mode */
+  --focus-searching-color: var(--color-purple-500, #8b5cf6);
+}
+
+.infinity {
+  /* Infinity focus mode */
+  --focus-searching-color: var(--color-cyan-500, #06b6d4);
+}
+
+.zone {
+  /* Zone focus mode */
+  --focus-searching-color: var(--color-indigo-500, #6366f1);
+}
+
+.tracking {
+  /* Tracking focus mode */
+  --focus-searching-color: var(--color-pink-500, #ec4899);
+}
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Focus States */
+.active {
+  animation: focusSearching var(--pulse-frequency) ease-in-out infinite;
+}
+
+.locked {
+  animation: none;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px var(--confidence-color));
+}
+
+.focused {
+  --confidence-color: var(--focus-excellent-color);
+}
+
+.noFocus {
+  --confidence-color: var(--focus-poor-color);
+  opacity: 0.6;
+}
+
+.pulsate.active:not(.locked) {
+  animation: focusPulsate var(--pulse-frequency) ease-in-out infinite;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.continuous {
+  animation: continuousFocus 2s linear infinite;
+}
+
+.circular {
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+/* Focus Ring Main Container */
+.focusRingMain {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========================
+   RING TYPE
+   ========================= */
+
+.ring .ringOuter {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--confidence-color);
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.8;
+  transition: all calc(var(--animation-duration) / var(--focus-speed)) ease-out;
+}
+
+.ring .ringInner {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  border: 1px solid var(--confidence-color);
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.4;
+  transition: all calc(var(--animation-duration) / var(--focus-speed)) ease-out;
+}
+
+.active .ring .ringOuter {
+  border-width: 2px;
+  border-style: dashed;
+  animation: ringRotate var(--pulse-frequency) linear infinite;
+}
+
+.locked .ring .ringOuter {
+  border-width: 4px;
+  border-style: solid;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ===========================
+   CROSSHAIR TYPE
+   ========================= */
+
+.crosshair {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crosshairHorizontal {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--confidence-color);
+  opacity: 0.8;
+}
+
+.crosshairVertical {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: var(--confidence-color);
+  opacity: 0.8;
+}
+
+.crosshairCenter {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--confidence-color);
+  border-radius: var(--border-radius-full, 9999px);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 1px var(--confidence-color);
+}
+
+.active .crosshair .crosshairCenter {
+  animation: crosshairPulse var(--pulse-frequency) ease-in-out infinite;
+}
+
+/* ===========================
+   GRID TYPE
+   ========================= */
+
+.grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.gridLineHorizontal,
+.gridLineVertical {
+  position: absolute;
+  background: var(--confidence-color);
+  opacity: 0.6;
+}
+
+.gridLineHorizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.gridLineVertical {
+  width: 1px;
+  height: 100%;
+}
+
+.active .grid .gridLineHorizontal,
+.active .grid .gridLineVertical {
+  animation: gridPulse var(--pulse-frequency) ease-in-out infinite;
+}
+
+/* ===========================
+   BEAM TYPE
+   ========================= */
+
+.beam {
+  position: absolute;
+  width: 100%;
+  height: var(--beam-width);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--confidence-color) 50%,
+    transparent 100%
+  );
+  transform: rotate(var(--beam-rotation, 0deg));
+  opacity: 0.8;
+}
+
+.active .beam {
+  animation: beamSweep calc(var(--pulse-frequency) * 2) linear infinite;
+}
+
+/* ===========================
+   SPOT TYPE
+   ========================= */
+
+.spot {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(
+    circle,
+    var(--confidence-color) 0%,
+    transparent 70%
+  );
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.6;
+}
+
+.active .spot {
+  animation: spotPulse var(--pulse-frequency) ease-in-out infinite;
+}
+
+/* ===========================
+   FOCUS ZONES
+   ========================= */
+
+.focusZone {
+  position: absolute;
+  border: 2px solid var(--zone-color, var(--focus-inactive-color));
+  border-radius: var(--border-radius-md, 0.375rem);
+  opacity: 0.7;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.focusZone:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.activeZone {
+  border-width: 3px;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.activeZone::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--zone-color);
+  border-radius: var(--border-radius-full, 9999px);
+  transform: translate(-50%, -50%);
+}
+
+/* ===========================
+   TRACKING PREDICTION
+   ========================= */
+
+.trackingPrediction {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  opacity: calc(var(--tracking-stability, 0) * 0.8);
+}
+
+.predictionIndicator {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--focus-searching-color);
+  border-radius: var(--border-radius-full, 9999px);
+  animation: predictionPulse 1s ease-in-out infinite;
+}
+
+.velocityVector {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
+.velocityLine {
+  width: calc(var(--velocity-x, 0) * 20px);
+  height: 2px;
+  background: var(--focus-searching-color);
+  transform-origin: left center;
+  transform: translate(-50%, -50%) rotate(calc(atan2(var(--velocity-y, 0), var(--velocity-x, 0)) * 1rad));
+}
+
+/* ===========================
+   INDICATORS
+   ========================= */
+
+/* Confidence Indicator */
+.confidenceIndicator {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  pointer-events: none;
+}
+
+.confidenceValue {
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--confidence-color);
+  font-family: var(--font-family-mono, monospace);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.confidenceBar {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-full, 9999px);
+  overflow: hidden;
+}
+
+.confidenceBarFill {
+  height: 100%;
+  background: var(--confidence-color);
+  border-radius: inherit;
+  transition: width 200ms ease-out;
+}
+
+/* Distance Indicator */
+.distanceIndicator {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  pointer-events: none;
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-white, #ffffff);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.distanceLabel {
+  font-weight: var(--font-weight-medium, 500);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.distanceScale {
+  position: relative;
+  width: 60px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--border-radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.distanceNear,
+.distanceFar {
+  font-size: var(--font-size-xs, 0.75rem);
+  position: absolute;
+  top: -16px;
+}
+
+.distanceNear {
+  left: 0;
+}
+
+.distanceFar {
+  right: 0;
+}
+
+.distanceMarker {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--confidence-color);
+  border-radius: var(--border-radius-full, 9999px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transform: translateX(-50%);
+  transition: left 200ms ease-out;
+}
+
+/* Adjustment Indicator */
+.adjustmentIndicator {
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  pointer-events: none;
+}
+
+.adjustmentIndicator.near {
+  left: -30px;
+  right: auto;
+}
+
+.adjustmentArrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.adjustmentIndicator.far .adjustmentArrow {
+  border-left: 6px solid var(--focus-searching-color);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.adjustmentIndicator.near .adjustmentArrow {
+  border-right: 6px solid var(--focus-searching-color);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.adjustmentBar {
+  width: 3px;
+  height: calc(var(--adjustment-intensity, 0) * 20px);
+  background: var(--focus-searching-color);
+  border-radius: var(--border-radius-full, 9999px);
+  opacity: 0.8;
+}
+
+/* Direction Indicator */
+.directionIndicator {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  pointer-events: none;
+}
+
+.directionArrow {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--confidence-color);
+  border-bottom: none;
+  border-right: none;
+  transform: rotate(calc(var(--direction-rotation, 0deg) + 45deg));
+}
+
+/* Acquisition Timer */
+.acquisitionTimer {
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--focus-searching-color);
+  font-family: var(--font-family-mono, monospace);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* ===========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes focusSearching {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes focusPulsate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes continuousFocus {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ringRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes crosshairPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+@keyframes gridPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes beamSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+}
+
+@keyframes predictionPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+}
+
+/* ===========================
+   SCREEN READER ONLY
+   ========================= */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===========================
+   HIGH CONTRAST MODE
+   ========================= */
+
+@media (prefers-contrast: high) {
+  .focusRing {
+    filter: contrast(1.3);
+  }
+  
+  .ring .ringOuter,
+  .ring .ringInner {
+    border-width: 4px;
+  }
+  
+  .crosshairHorizontal,
+  .crosshairVertical {
+    height: 3px;
+    width: 3px;
+  }
+  
+  .focusZone {
+    border-width: 3px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .confidenceBar,
+  .distanceScale {
+    border: 1px solid var(--color-neutral-400, #9ca3af);
+  }
+  
+  .confidenceValue,
+  .acquisitionTimer,
+  .distanceLabel {
+    text-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  }
+}
+
+/* ===========================
+   REDUCED MOTION SUPPORT
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .focusRing {
+    transition: opacity 0.1s ease-out;
+  }
+  
+  .focusRing *,
+  .focusRing::before,
+  .focusRing::after {
+    animation: none !important;
+    transition: opacity 0.1s ease-out !important;
+  }
+  
+  /* Provide alternative feedback for reduced motion */
+  .active::after {
+    content: '🔍';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .locked::after {
+    content: '🔒';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--confidence-color);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .focused::after {
+    content: '✓';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--focus-excellent-color);
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: bold;
+  }
+  
+  .noFocus::after {
+    content: '❌';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+}
+
+/* ===========================
+   DARK MODE SUPPORT
+   ========================= */
+
+@media (prefers-color-scheme: dark) {
+  .focusRing {
+    --focus-inactive-color: var(--color-neutral-500, #6b7280);
+  }
+  
+  .confidenceBar,
+  .distanceScale {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .focusZone {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .crosshairCenter {
+    border-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .confidenceValue,
+  .acquisitionTimer,
+  .distanceLabel,
+  .distanceNear,
+  .distanceFar {
+    color: var(--color-neutral-200, #e4e4e7);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  }
+  
+  .distanceMarker {
+    border-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* ===========================
+   PRINT STYLES
+   ========================= */
+
+@media print {
+  .focusRing {
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .focusRing * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .ring .ringOuter,
+  .ring .ringInner,
+  .crosshairHorizontal,
+  .crosshairVertical,
+  .focusZone {
+    border-color: black !important;
+  }
+  
+  .crosshairCenter,
+  .spot,
+  .confidenceBarFill {
+    background: black !important;
+  }
+  
+  .confidenceValue,
+  .acquisitionTimer,
+  .distanceLabel {
+    color: black !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ===========================
+   MOBILE TOUCH OPTIMIZATION
+   ========================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .focusZone {
+    /* Ensure adequate touch targets */
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .focusRing {
+    /* Larger touch targets on mobile */
+    min-width: 60px;
+    min-height: 60px;
+  }
+  
+  .confidenceIndicator,
+  .distanceIndicator,
+  .adjustmentIndicator {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .confidenceBar {
+    height: 6px;
+  }
+  
+  .distanceMarker {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* ===========================
+   RESPONSIVE SIZE ADJUSTMENTS
+   ========================= */
+
+@media (max-width: 640px) {
+  .xl {
+    --ring-width: 120px;
+    --ring-height: 120px;
+  }
+  
+  .lg {
+    --ring-width: 100px;
+    --ring-height: 100px;
+  }
+  
+  .confidenceIndicator {
+    top: -25px;
+  }
+  
+  .distanceIndicator {
+    bottom: -35px;
+  }
+  
+  .adjustmentIndicator {
+    right: -25px;
+  }
+  
+  .adjustmentIndicator.near {
+    left: -25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xl,
+  .lg {
+    --ring-width: 80px;
+    --ring-height: 80px;
+  }
+  
+  .md {
+    --ring-width: 60px;
+    --ring-height: 60px;
+  }
+  
+  .confidenceBar {
+    width: 30px;
+  }
+  
+  .distanceScale {
+    width: 40px;
+  }
+  
+  .confidenceIndicator,
+  .distanceIndicator,
+  .adjustmentIndicator,
+  .acquisitionTimer {
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+}
+
+/* ===========================
+   PERFORMANCE OPTIMIZATIONS
+   ========================= */
+
+.focusRing {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.ring .ringOuter,
+.ring .ringInner,
+.crosshair,
+.grid,
+.beam,
+.spot {
+  /* Optimize focus element animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.focusZone {
+  /* Optimize zone animations */
+  will-change: transform, opacity;
+}
+
+/* ===========================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================= */
+
+.focusRing[role="status"] {
+  /* Focus status semantics */
+}
+
+.focusRing[aria-live="polite"] {
+  /* Focus change announcements */
+}
+
+.focusZone[role="button"] {
+  /* Zone selection accessibility */
+}
+
+.focusZone:focus {
+  outline: 2px solid var(--color-primary-500, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   CUSTOM PROPERTY SUPPORT
+   ========================= */
+
+.focusRing[style*="--focus-confidence"] {
+  /* Custom confidence level support */
+}
+
+.focusRing[style*="--confidence-color"] {
+  /* Custom confidence color support */
+}
+
+.focusRing[style*="--center-x"] {
+  /* Custom center point support */
+  transform: translate(
+    calc((var(--center-x) - 0.5) * 100px),
+    calc((var(--center-y) - 0.5) * 100px)
+  );
+}
+
+/* ===========================
+   FOCUS MODE INDICATORS
+   ========================= */
+
+.focusRing[data-mode="auto"]::before {
+  content: 'AUTO';
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--confidence-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.focusRing[data-mode="manual"]::before {
+  content: 'MANUAL';
+}
+
+.focusRing[data-mode="macro"]::before {
+  content: 'MACRO';
+}
+
+.focusRing[data-mode="infinity"]::before {
+  content: '∞';
+  font-size: var(--font-size-lg, 1.125rem);
+}
+
+.focusRing[data-mode="zone"]::before {
+  content: 'ZONE';
+}
+
+.focusRing[data-mode="tracking"]::before {
+  content: 'TRACK';
+}
+
+/* ===========================
+   CONFIDENCE LEVEL STYLING
+   ========================= */
+
+.focusRing[data-confidence="excellent"] {
+  --confidence-color: var(--focus-excellent-color);
+}
+
+.focusRing[data-confidence="good"] {
+  --confidence-color: var(--focus-good-color);
+}
+
+.focusRing[data-confidence="fair"] {
+  --confidence-color: var(--focus-fair-color);
+}
+
+.focusRing[data-confidence="poor"] {
+  --confidence-color: var(--focus-poor-color);
+}
+
+.focusRing[data-confidence="searching"] {
+  --confidence-color: var(--focus-searching-color);
+}
+
+/* ===========================
+   FOCUS TYPE STYLING
+   ========================= */
+
+.focusRing[data-type="ring"] .focusRingMain {
+  /* Ring-specific styling */
+}
+
+.focusRing[data-type="crosshair"] .focusRingMain {
+  /* Crosshair-specific styling */
+}
+
+.focusRing[data-type="grid"] .focusRingMain {
+  /* Grid-specific styling */
+}
+
+.focusRing[data-type="zones"] .focusRingMain {
+  /* Zones-specific styling */
+}
+
+.focusRing[data-type="beam"] .focusRingMain {
+  /* Beam-specific styling */
+}
+
+.focusRing[data-type="spot"] .focusRingMain {
+  /* Spot-specific styling */
+}

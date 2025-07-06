@@ -1,0 +1,888 @@
+/* Error Recovery Interface Organism Styles */
+.errorRecoveryInterface {
+  /* Professional error recovery container */
+  display: grid;
+  grid-template-areas: 
+    "error-panel error-panel"
+    "recovery-panel status-panel"
+    "recovery-guide coordination-panel"
+    "diagnostic-panel user-profile"
+    "report-panel report-panel";
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  
+  /* Professional error recovery optimization */
+  contain: layout style paint;
+  will-change: transform;
+  
+  /* Professional error recovery animations */
+  transition: all 0.3s var(--transition-smooth);
+  
+  /* Error state styling */
+  border: 2px solid var(--color-error);
+  border-radius: var(--border-radius-large);
+  box-shadow: 0 0 20px rgba(var(--color-error-rgb), 0.15);
+}
+
+/* Layout Variants */
+.compactLayout {
+  grid-template-areas: 
+    "error-panel"
+    "recovery-panel"
+    "status-panel"
+    "coordination-panel"
+    "user-profile";
+  grid-template-columns: 1fr;
+}
+
+.standardLayout {
+  grid-template-areas: 
+    "error-panel error-panel"
+    "recovery-panel status-panel"
+    "recovery-guide coordination-panel"
+    "diagnostic-panel user-profile"
+    "report-panel report-panel";
+  grid-template-columns: 2fr 1fr;
+}
+
+.detailedLayout {
+  grid-template-areas: 
+    "error-panel error-panel error-panel"
+    "recovery-panel status-panel coordination-panel"
+    "recovery-guide diagnostic-panel user-profile"
+    "report-panel report-panel report-panel";
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Error Recovery States */
+.hasError {
+  border-color: var(--color-error);
+  background: linear-gradient(135deg, 
+    var(--color-background-primary) 0%, 
+    rgba(var(--color-error-rgb), 0.05) 100%);
+}
+
+.recovering {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 20px rgba(var(--color-warning-rgb), 0.2);
+  animation: recoveryPulse 2s infinite;
+}
+
+.reporting {
+  border-color: var(--color-info);
+  box-shadow: 0 0 20px rgba(var(--color-info-rgb), 0.2);
+}
+
+.professionalMode {
+  background: linear-gradient(135deg, 
+    var(--color-background-primary) 0%, 
+    var(--color-background-professional) 100%);
+  border-color: var(--color-professional-primary);
+}
+
+.debugMode {
+  border: 2px dashed var(--color-warning);
+  background: linear-gradient(135deg, 
+    var(--color-background-primary) 0%, 
+    rgba(var(--color-warning-rgb), 0.05) 100%);
+}
+
+/* No Error State */
+.noError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--color-background-success);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+
+/* Error Panel */
+.errorPanel {
+  grid-area: error-panel;
+  padding: 1.5rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-border-error);
+  box-shadow: var(--shadow-professional);
+  
+  /* Professional error panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.errorIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  animation: errorIconPulse 2s infinite;
+}
+
+.errorInfo {
+  flex: 1;
+}
+
+.errorTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-error);
+}
+
+.errorMessage {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.errorMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+}
+
+.errorCode {
+  font-family: var(--font-mono);
+  background: var(--color-background-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-small);
+}
+
+.errorTime {
+  font-style: italic;
+}
+
+/* Technical Details */
+.technicalDetails {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--color-background-tertiary);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.technicalDetails h3 {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detailItem span {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+}
+
+.truncated {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+/* Recovery Panel */
+.recoveryPanel {
+  grid-area: recovery-panel;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional recovery panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+.recoveryPanel h3 {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Recovery Progress */
+.recoveryProgress {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--color-background-warning);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-warning);
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-background-tertiary);
+  border-radius: var(--border-radius-small);
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    var(--color-warning) 0%, 
+    var(--color-success) 100%);
+  border-radius: var(--border-radius-small);
+  transition: width 0.5s var(--transition-smooth);
+  animation: progressShimmer 2s infinite;
+}
+
+.progressDetails {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* Recovery Actions */
+.recoveryActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.professionalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--color-background-professional);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-professional-border);
+}
+
+/* Recovery Guide */
+.recoveryGuide {
+  grid-area: recovery-guide;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional recovery guide optimization */
+  contain: layout style;
+  will-change: transform;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.recoveryGuide h3 {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.recoverySteps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recoveryStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--color-background-tertiary);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border-subtle);
+  transition: all 0.2s var(--transition-smooth);
+}
+
+.recoveryStep.completed {
+  background: var(--color-background-success);
+  border-color: var(--color-success);
+}
+
+.recoveryStep.current {
+  background: var(--color-background-warning);
+  border-color: var(--color-warning);
+  animation: currentStepPulse 2s infinite;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--color-background-primary);
+  border: 2px solid var(--color-border-subtle);
+  border-radius: 50%;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+.recoveryStep.completed .stepNumber {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-text-inverse);
+}
+
+.recoveryStep.current .stepNumber {
+  background: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-text-inverse);
+}
+
+.stepText {
+  flex: 1;
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+/* Status Panel */
+.statusPanel {
+  grid-area: status-panel;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional status panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+/* Diagnostic Panel */
+.diagnosticPanel {
+  grid-area: diagnostic-panel;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional diagnostic panel optimization */
+  contain: layout style;
+  will-change: transform;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.diagnosticPanel h3 {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.diagnosticMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.metricItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--color-background-tertiary);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.stackTrace {
+  margin-top: 1rem;
+}
+
+.stackTrace h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.codeBlock {
+  padding: 1rem;
+  background: var(--color-background-dark);
+  border-radius: var(--border-radius-small);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  color: var(--color-text-inverse);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* Report Panel */
+.reportPanel {
+  grid-area: report-panel;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional report panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+.reportPanel h3 {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.reportForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reportActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* Coordination Panel */
+.coordinationPanel {
+  grid-area: coordination-panel;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional coordination panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+/* User Profile Panel */
+.userProfilePanel {
+  grid-area: user-profile;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Professional user profile panel optimization */
+  contain: layout style;
+  will-change: transform;
+}
+
+/* Animations */
+@keyframes recoveryPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(var(--color-warning-rgb), 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(var(--color-warning-rgb), 0.4);
+  }
+}
+
+@keyframes errorIconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes progressShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes currentStepPulse {
+  0%, 100% {
+    background: var(--color-background-warning);
+  }
+  50% {
+    background: rgba(var(--color-warning-rgb), 0.3);
+  }
+}
+
+/* Accessibility Features */
+.highContrast {
+  --color-background-primary: #000000;
+  --color-background-secondary: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-border-subtle: #555555;
+  --color-error: #ff4444;
+  --color-warning: #ffaa44;
+  --color-success: #44ff44;
+  
+  filter: contrast(1.5);
+}
+
+.reducedMotion {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+.reducedMotion * {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+.screenReaderMode {
+  /* Enhanced screen reader support */
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.screenReaderMode:focus-within {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Focus Management */
+.errorRecoveryInterface:focus-within {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.errorRecoveryInterface [tabindex="0"]:focus,
+.errorRecoveryInterface button:focus,
+.errorRecoveryInterface input:focus,
+.errorRecoveryInterface textarea:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  z-index: 1000;
+}
+
+/* Error State Focus */
+.errorRecoveryInterface.hasError button:focus {
+  outline-color: var(--color-error);
+}
+
+.errorRecoveryInterface.recovering button:focus {
+  outline-color: var(--color-warning);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .errorRecoveryInterface {
+    grid-template-areas: 
+      "error-panel error-panel"
+      "recovery-panel status-panel"
+      "recovery-guide coordination-panel"
+      "diagnostic-panel user-profile"
+      "report-panel report-panel";
+    grid-template-columns: 1fr 1fr;
+    padding: 0.5rem;
+  }
+  
+  .standardLayout,
+  .detailedLayout {
+    grid-template-areas: 
+      "error-panel error-panel"
+      "recovery-panel status-panel"
+      "recovery-guide coordination-panel"
+      "diagnostic-panel user-profile"
+      "report-panel report-panel";
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .errorRecoveryInterface {
+    grid-template-areas: 
+      "error-panel"
+      "recovery-panel"
+      "recovery-guide"
+      "status-panel"
+      "diagnostic-panel"
+      "coordination-panel"
+      "user-profile"
+      "report-panel";
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+  
+  .compactLayout,
+  .standardLayout,
+  .detailedLayout {
+    grid-template-areas: 
+      "error-panel"
+      "recovery-panel"
+      "recovery-guide"
+      "status-panel"
+      "diagnostic-panel"
+      "coordination-panel"
+      "user-profile"
+      "report-panel";
+    grid-template-columns: 1fr;
+  }
+  
+  .errorHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .errorIcon {
+    font-size: 1.5rem;
+  }
+  
+  .errorMeta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .recoveryActions {
+    gap: 0.5rem;
+  }
+  
+  .professionalActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .diagnosticMetrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .reportActions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorRecoveryInterface {
+    padding: 0.25rem;
+    gap: 0.5rem;
+  }
+  
+  .errorPanel,
+  .recoveryPanel,
+  .recoveryGuide,
+  .statusPanel,
+  .diagnosticPanel,
+  .reportPanel,
+  .coordinationPanel,
+  .userProfilePanel {
+    padding: 0.5rem;
+    border-radius: var(--border-radius-small);
+  }
+  
+  .technicalDetails {
+    padding: 0.5rem;
+  }
+  
+  .detailsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .recoveryProgress {
+    padding: 0.5rem;
+  }
+  
+  .professionalActions {
+    padding: 0.5rem;
+  }
+}
+
+/* Professional Theme Enhancements */
+.professionalMode .errorPanel {
+  border-color: var(--color-professional-primary);
+  background: var(--color-professional-background);
+}
+
+.professionalMode .errorTitle {
+  color: var(--color-professional-accent);
+}
+
+.professionalMode .recoveryPanel,
+.professionalMode .recoveryGuide,
+.professionalMode .statusPanel,
+.professionalMode .diagnosticPanel,
+.professionalMode .reportPanel,
+.professionalMode .coordinationPanel,
+.professionalMode .userProfilePanel {
+  background: var(--color-professional-background);
+  border: 1px solid var(--color-professional-border);
+}
+
+.professionalMode .recoveryStep {
+  background: var(--color-professional-secondary);
+  border-color: var(--color-professional-border);
+}
+
+.professionalMode .metricItem {
+  background: var(--color-professional-secondary);
+  border-color: var(--color-professional-border);
+}
+
+.professionalMode .codeBlock {
+  background: var(--color-professional-dark);
+  border-color: var(--color-professional-border);
+}
+
+/* Debug Mode Enhancements */
+.debugMode .diagnosticPanel {
+  border: 2px dashed var(--color-warning);
+  background: rgba(var(--color-warning-rgb), 0.05);
+}
+
+.debugMode .codeBlock {
+  background: var(--color-background-dark);
+  border: 1px solid var(--color-warning);
+}
+
+.debugMode .metricItem {
+  border: 1px solid var(--color-warning);
+}
+
+/* Print Styles */
+@media print {
+  .errorRecoveryInterface {
+    background: white;
+    color: black;
+    box-shadow: none;
+    border: 1px solid #000;
+    grid-template-areas: 
+      "error-panel"
+      "recovery-panel"
+      "recovery-guide"
+      "diagnostic-panel"
+      "report-panel";
+    grid-template-columns: 1fr;
+  }
+  
+  .statusPanel,
+  .coordinationPanel,
+  .userProfilePanel {
+    display: none;
+  }
+  
+  .errorPanel,
+  .recoveryPanel,
+  .recoveryGuide,
+  .diagnosticPanel,
+  .reportPanel {
+    background: white;
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+  
+  .codeBlock {
+    background: #f5f5f5;
+    border: 1px solid #000;
+    color: black;
+  }
+}
+
+/* Performance Optimizations */
+.errorRecoveryInterface * {
+  box-sizing: border-box;
+}
+
+.errorRecoveryInterface img,
+.errorRecoveryInterface video {
+  max-width: 100%;
+  height: auto;
+}
+
+.errorRecoveryInterface button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.errorRecoveryInterface input,
+.errorRecoveryInterface textarea {
+  touch-action: manipulation;
+}
+
+/* Loading States */
+.errorRecoveryInterface.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.errorRecoveryInterface.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+/* Success Recovery State */
+.errorRecoveryInterface.success {
+  border-color: var(--color-success);
+  background: rgba(var(--color-success-rgb), 0.05);
+}
+
+.errorRecoveryInterface.success .errorPanel {
+  background: var(--color-background-success);
+  border-color: var(--color-success);
+}
+
+.errorRecoveryInterface.success .errorTitle {
+  color: var(--color-success);
+}
+
+/* Critical Error State */
+.errorRecoveryInterface.critical {
+  border-color: var(--color-error);
+  background: rgba(var(--color-error-rgb), 0.1);
+  animation: criticalErrorPulse 1s infinite;
+}
+
+@keyframes criticalErrorPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(var(--color-error-rgb), 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(var(--color-error-rgb), 0.6);
+  }
+} 

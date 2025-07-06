@@ -1,0 +1,571 @@
+/* VisualSearchDashboard Organism Styles */
+/* Implementation of Adaptive Split-View Interface architecture */
+
+.visualSearchDashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-background-primary, #ffffff);
+  color: var(--color-text-primary, #1a1a1a);
+  font-family: var(--font-family-system, system-ui, -apple-system, sans-serif);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Theme variants */
+.visualSearchDashboard.light {
+  --color-camera-accent: #3b82f6;
+  --color-search-accent: #10b981;
+  --color-results-accent: #8b5cf6;
+  --color-panel-bg: #ffffff;
+  --color-section-bg: #f8f9fa;
+  --color-border: #e5e7eb;
+}
+
+.visualSearchDashboard.dark {
+  --color-camera-accent: #60a5fa;
+  --color-search-accent: #34d399;
+  --color-results-accent: #a78bfa;
+  --color-panel-bg: #1f2937;
+  --color-section-bg: #111827;
+  --color-border: #374151;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+/* Screen size variants */
+.visualSearchDashboard.mobile {
+  --panel-spacing: 0.75rem;
+  --section-padding: 0.75rem;
+  --grid-gap: 0.75rem;
+}
+
+.visualSearchDashboard.tablet {
+  --panel-spacing: 1rem;
+  --section-padding: 1rem;
+  --grid-gap: 1rem;
+}
+
+.visualSearchDashboard.desktop {
+  --panel-spacing: 1.5rem;
+  --section-padding: 1.5rem;
+  --grid-gap: 1.5rem;
+}
+
+/* Single-Operation Mode Layout */
+.singleOperationLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.tabNavigation {
+  display: flex;
+  background: var(--color-panel-bg, #ffffff);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding: 0 var(--panel-spacing, 1rem);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  position: relative;
+}
+
+.tab:hover {
+  color: var(--color-text-primary, #1a1a1a);
+  background: var(--color-background-hover, #f3f4f6);
+}
+
+.tab:focus {
+  outline: 2px solid var(--color-focus-ring, #3b82f6);
+  outline-offset: -2px;
+}
+
+.tab.active {
+  color: var(--color-primary, #3b82f6);
+  border-bottom-color: var(--color-primary, #3b82f6);
+  background: var(--color-background-subtle, #f8fafc);
+}
+
+.tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.resultsBadge {
+  margin-left: 0.25rem;
+}
+
+.activeViewContent {
+  flex: 1;
+  overflow: auto;
+  padding: var(--section-padding, 1rem);
+}
+
+.cameraView,
+.searchView,
+.resultsView {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.statusPanel {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--color-section-bg, #f8f9fa);
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #e5e7eb);
+}
+
+/* Multi-Operation Mode Layout */
+.multiOperationLayout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  height: 100vh;
+  gap: var(--panel-spacing, 1.5rem);
+  padding: var(--panel-spacing, 1.5rem);
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-padding, 1rem);
+  overflow-y: auto;
+}
+
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-padding, 1rem);
+  overflow: hidden;
+}
+
+.cameraSection,
+.searchSection,
+.statusSection,
+.resultsSection,
+.coordinationSection {
+  background: var(--color-panel-bg, #ffffff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0;
+  padding: var(--section-padding, 1rem);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-section-bg, #f8f9fa);
+}
+
+.cameraSection {
+  border-top: 3px solid var(--color-camera-accent, #3b82f6);
+}
+
+.searchSection {
+  border-top: 3px solid var(--color-search-accent, #10b981);
+}
+
+.resultsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid var(--color-results-accent, #8b5cf6);
+  overflow: hidden;
+}
+
+.statusSection,
+.coordinationSection {
+  border-top: 3px solid var(--color-border, #e5e7eb);
+}
+
+.cameraSection > div,
+.searchSection > div,
+.statusSection > div {
+  padding: var(--section-padding, 1rem);
+}
+
+/* Results Section */
+.resultsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--section-padding, 1rem);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-section-bg, #f8f9fa);
+}
+
+.resultsActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.resultsGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--grid-gap, 1rem);
+  padding: var(--section-padding, 1rem);
+  overflow-y: auto;
+}
+
+.resultCard {
+  background: var(--color-background-elevated, #ffffff);
+  border: 1px solid var(--color-border-light, #f0f0f0);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.resultCard:hover {
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.resultCard:focus {
+  outline: 2px solid var(--color-focus-ring, #3b82f6);
+  outline-offset: 2px;
+}
+
+.resultCard.selected {
+  border-color: var(--color-primary, #3b82f6);
+  background: var(--color-primary-50, #eff6ff);
+  box-shadow: 0 0 0 2px var(--color-primary-200, #bfdbfe);
+}
+
+.resultImage {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background: var(--color-background-subtle, #f3f4f6);
+}
+
+.resultInfo {
+  padding: 1rem;
+}
+
+.resultTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.resultPrice {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-success, #10b981);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.resultMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary, #9ca3af);
+}
+
+.confidence {
+  background: var(--color-primary-100, #dbeafe);
+  color: var(--color-primary-700, #1d4ed8);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.category {
+  background: var(--color-background-subtle, #f3f4f6);
+  color: var(--color-text-secondary, #6b7280);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.emptyResults {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.emptyResults h3,
+.emptyResults h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 1rem 0 0.5rem 0;
+}
+
+.emptyResults p {
+  font-size: 0.875rem;
+  margin: 0;
+  max-width: 300px;
+}
+
+/* Error Banner */
+.errorBanner {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-error-50, #fef2f2);
+  color: var(--color-error-700, #b91c1c);
+  border: 1px solid var(--color-error-200, #fecaca);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  max-width: 400px;
+}
+
+/* Custom styling for molecular components */
+.cameraControlCustom {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.searchFieldCustom {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.statusCustom {
+  border: none !important;
+  background: transparent !important;
+}
+
+.coordinationPanelCustom {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Responsive Design Breakpoints */
+@media (max-width: 1023px) {
+  .multiOperationLayout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  
+  .leftPanel {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  
+  .cameraSection,
+  .searchSection,
+  .statusSection {
+    min-width: 300px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .visualSearchDashboard {
+    --panel-spacing: 0.5rem;
+    --section-padding: 0.75rem;
+    --grid-gap: 0.75rem;
+  }
+  
+  .tabNavigation {
+    padding: 0 0.5rem;
+  }
+  
+  .tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .resultsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resultCard {
+    max-width: none;
+  }
+  
+  .multiOperationLayout {
+    padding: 0.5rem;
+    gap: 0.75rem;
+  }
+  
+  .leftPanel {
+    flex-direction: column;
+  }
+  
+  .cameraSection,
+  .searchSection,
+  .statusSection {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .tab {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .resultInfo {
+    padding: 0.75rem;
+  }
+  
+  .resultsHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .resultsActions {
+    justify-content: center;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .visualSearchDashboard {
+    --color-border: #000000;
+    --color-panel-bg: #ffffff;
+    --color-section-bg: #f0f0f0;
+  }
+  
+  .resultCard {
+    border: 2px solid #000000;
+  }
+  
+  .resultCard.selected {
+    background: #e0e0e0;
+    border-color: #000000;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .resultCard,
+  .tab {
+    transition: none;
+  }
+  
+  .resultCard:hover {
+    transform: none;
+  }
+}
+
+/* Focus Management */
+.visualSearchDashboard:focus-within {
+  --color-focus-accent: var(--color-focus-ring, #3b82f6);
+}
+
+/* Performance Optimization */
+.resultsGrid {
+  contain: layout style;
+}
+
+.resultCard {
+  contain: layout style paint;
+  will-change: transform, box-shadow;
+}
+
+.activeViewContent {
+  contain: layout style;
+}
+
+/* Print Styles */
+@media print {
+  .tabNavigation,
+  .statusSection,
+  .coordinationSection {
+    display: none;
+  }
+  
+  .resultsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Loading States */
+.visualSearchDashboard.loading .resultsSection {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.visualSearchDashboard.loading .resultCard {
+  opacity: 0.5;
+}
+
+/* Adaptive Mode Specific Styles */
+.visualSearchDashboard.single-operation .multiOperationLayout {
+  display: none;
+}
+
+.visualSearchDashboard.multi-operation .singleOperationLayout {
+  display: none;
+}
+
+/* Professional Theme Overrides */
+.visualSearchDashboard.professional .cameraSection,
+.visualSearchDashboard.professional .searchSection,
+.visualSearchDashboard.professional .resultsSection {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-width: 2px;
+}
+
+.visualSearchDashboard.professional .sectionTitle {
+  background: linear-gradient(135deg, var(--color-section-bg, #f8f9fa), #ffffff);
+  font-weight: 700;
+}
+
+.visualSearchDashboard.professional .resultCard.selected {
+  box-shadow: 0 0 0 3px var(--color-primary-200, #bfdbfe);
+} 

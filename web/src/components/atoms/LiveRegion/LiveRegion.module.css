@@ -1,0 +1,790 @@
+/**
+ * LIVE REGION ATOM STYLES - DYNAMIC ACCESSIBILITY ANNOUNCEMENTS FOR MULTI-MODAL CHANGES
+ * 
+ * Professional live region styles providing dynamic announcements,
+ * multi-modal state coordination, and comprehensive accessibility support.
+ */
+
+.liveRegion {
+  /* Base live region styling */
+  position: relative;
+  
+  /* Custom properties for dynamic styling */
+  --lr-default-color: #6b7280;
+  --lr-low-priority: #9ca3af;
+  --lr-medium-priority: #6b7280;
+  --lr-high-priority: #374151;
+  --lr-critical-priority: #1f2937;
+  --lr-voice-color: #8b5cf6;
+  --lr-camera-color: #06b6d4;
+  --lr-text-color: #10b981;
+  --lr-focus-color: #f59e0b;
+  --lr-error-color: #ef4444;
+  --lr-warning-color: #f59e0b;
+  --lr-success-color: #10b981;
+  --lr-notification-bg: rgba(0, 0, 0, 0.9);
+  --lr-notification-text: #ffffff;
+  --lr-history-bg: rgba(0, 0, 0, 0.05);
+  --lr-history-border: 1px solid rgba(0, 0, 0, 0.1);
+  --lr-debug-bg: rgba(255, 0, 0, 0.1);
+  --lr-debug-border: 1px solid red;
+  
+  /* Base accessibility */
+  color: var(--lr-default-color);
+  font-family: var(--font-family-sans, system-ui, -apple-system, sans-serif);
+  font-size: var(--font-size-base, 1rem);
+  line-height: var(--line-height-normal, 1.5);
+  
+  /* Performance optimization */
+  will-change: contents;
+}
+
+/* ===========================
+   LIVE REGION CORE
+   ========================= */
+
+.liveRegion .liveRegion {
+  /* Screen reader only by default */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  
+  /* Ensure content is announced */
+  speak: normal;
+  speak-punctuation: inherit;
+  speak-numeral: inherit;
+}
+
+.active {
+  /* Active live region styling */
+}
+
+.inactive {
+  /* Inactive live region styling */
+  display: none;
+}
+
+/* ===========================
+   PRIORITY VARIANTS
+   ========================= */
+
+.low {
+  color: var(--lr-low-priority);
+  opacity: 0.8;
+}
+
+.medium {
+  color: var(--lr-medium-priority);
+  opacity: 0.9;
+}
+
+.high {
+  color: var(--lr-high-priority);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.critical {
+  color: var(--lr-critical-priority);
+  font-weight: var(--font-weight-bold, 700);
+  
+  /* Critical announcements use assertive politeness */
+}
+
+/* ===========================
+   ROLE VARIANTS
+   ========================= */
+
+.status {
+  /* Status role styling */
+}
+
+.alert {
+  /* Alert role styling */
+  color: var(--lr-error-color);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.log {
+  /* Log role styling */
+  font-family: var(--font-family-mono, monospace);
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.marquee {
+  /* Marquee role styling */
+  font-style: italic;
+}
+
+.timer {
+  /* Timer role styling */
+  font-family: var(--font-family-mono, monospace);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.progressbar {
+  /* Progress bar role styling */
+  font-family: var(--font-family-mono, monospace);
+}
+
+/* ===========================
+   DEBUG MODE
+   ========================= */
+
+.debug {
+  /* Debug mode styling */
+  background: var(--lr-debug-bg);
+  border: var(--lr-debug-border);
+  padding: var(--spacing-3, 0.75rem);
+  border-radius: var(--border-radius-md, 0.375rem);
+  position: relative;
+}
+
+.debug .liveRegion {
+  /* Make live regions visible in debug mode */
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: var(--spacing-2, 0.5rem) !important;
+  margin: var(--spacing-1, 0.25rem) 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  border: 1px solid var(--color-blue-300, #93c5fd) !important;
+  background: var(--color-blue-50, #eff6ff) !important;
+  border-radius: var(--border-radius-sm, 0.125rem) !important;
+}
+
+.debug::before {
+  content: '📢 Live Region';
+  position: absolute;
+  top: -10px;
+  left: var(--spacing-2, 0.5rem);
+  background: var(--lr-debug-bg);
+  padding: 0 var(--spacing-1, 0.25rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-bold, 700);
+  color: red;
+}
+
+/* ===========================
+   VISUAL INDICATORS
+   ========================= */
+
+.visualIndicators {
+  /* Visual indicators enabled */
+  position: relative;
+}
+
+.visualNotification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  max-width: 400px;
+  background: var(--lr-notification-bg);
+  color: var(--lr-notification-text);
+  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  border-radius: var(--border-radius-lg, 0.5rem);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* Animation */
+  animation: notificationSlideIn 300ms ease-out;
+  
+  /* Auto-hide after delay */
+  animation-delay: 0s;
+  animation-fill-mode: both;
+}
+
+.notificationContent {
+  font-size: var(--font-size-sm, 0.875rem);
+  line-height: var(--line-height-relaxed, 1.625);
+  word-wrap: break-word;
+}
+
+.visualNotification::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--lr-voice-color) 0%,
+    var(--lr-camera-color) 50%,
+    var(--lr-text-color) 100%
+  );
+  border-radius: var(--border-radius-lg, 0.5rem) 0 0 var(--border-radius-lg, 0.5rem);
+}
+
+/* Priority-based notification styling */
+.critical .visualNotification {
+  background: var(--lr-error-color);
+  border-color: rgba(255, 255, 255, 0.3);
+  animation: criticalPulse 1s ease-in-out infinite;
+}
+
+.high .visualNotification {
+  background: var(--lr-warning-color);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.medium .visualNotification {
+  background: var(--lr-text-color);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.low .visualNotification {
+  background: var(--lr-default-color);
+  border-color: rgba(255, 255, 255, 0.1);
+  opacity: 0.9;
+}
+
+/* ===========================
+   ANNOUNCEMENT HISTORY
+   ========================= */
+
+.announcementHistory {
+  margin-top: var(--spacing-4, 1rem);
+  padding: var(--spacing-3, 0.75rem);
+  background: var(--lr-history-bg);
+  border: var(--lr-history-border);
+  border-radius: var(--border-radius-md, 0.375rem);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.announcementHistory h3 {
+  margin: 0 0 var(--spacing-3, 0.75rem) 0;
+  font-size: var(--font-size-lg, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-gray-900, #111827);
+  border-bottom: 1px solid var(--color-gray-200, #e5e7eb);
+  padding-bottom: var(--spacing-2, 0.5rem);
+}
+
+.announcementHistory ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.historyItem {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: var(--spacing-2, 0.5rem);
+  align-items: start;
+  padding: var(--spacing-2, 0.5rem);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.historyItem:last-child {
+  border-bottom: none;
+}
+
+.historyItem:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.timestamp {
+  font-family: var(--font-family-mono, monospace);
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-gray-500, #6b7280);
+  white-space: nowrap;
+}
+
+.modality {
+  font-weight: var(--font-weight-medium, 500);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-full, 9999px);
+  font-size: var(--font-size-xs, 0.75rem);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Modality-specific styling */
+.modality[data-modality="voice"] {
+  background: var(--lr-voice-color);
+  color: white;
+}
+
+.modality[data-modality="camera"] {
+  background: var(--lr-camera-color);
+  color: white;
+}
+
+.modality[data-modality="text"] {
+  background: var(--lr-text-color);
+  color: white;
+}
+
+.modality[data-modality="focus"] {
+  background: var(--lr-focus-color);
+  color: white;
+}
+
+.modality[data-modality="system"] {
+  background: var(--lr-default-color);
+  color: white;
+}
+
+.content {
+  word-wrap: break-word;
+  line-height: var(--line-height-relaxed, 1.625);
+}
+
+/* ===========================
+   DEBUG METRICS
+   ========================= */
+
+.debugMetrics {
+  margin-top: var(--spacing-4, 1rem);
+  padding: var(--spacing-3, 0.75rem);
+  background: var(--color-gray-50, #f9fafb);
+  border: 1px solid var(--color-gray-200, #e5e7eb);
+  border-radius: var(--border-radius-md, 0.375rem);
+  font-family: var(--font-family-mono, monospace);
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.debugMetrics h3 {
+  margin: 0 0 var(--spacing-2, 0.5rem) 0;
+  font-family: var(--font-family-sans, system-ui);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-gray-900, #111827);
+}
+
+.debugMetrics > div {
+  margin: var(--spacing-1, 0.25rem) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debugMetrics > div::after {
+  content: attr(data-value);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-blue-600, #2563eb);
+}
+
+/* ===========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes notificationSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes criticalPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes urgentBlink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes successFade {
+  0% {
+    opacity: 1;
+    background: var(--lr-success-color);
+  }
+  100% {
+    opacity: 0.8;
+    background: var(--lr-default-color);
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes coordinationFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===========================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================= */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .liveRegion {
+    filter: contrast(1.3);
+  }
+  
+  .visualNotification {
+    background: black !important;
+    color: white !important;
+    border: 2px solid white !important;
+  }
+  
+  .announcementHistory {
+    border-width: 2px;
+  }
+  
+  .debugMetrics {
+    border-width: 2px;
+  }
+  
+  .modality {
+    filter: contrast(1.5);
+  }
+  
+  .critical {
+    text-shadow: 0 0 4px currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .liveRegion *,
+  .liveRegion::before,
+  .liveRegion::after {
+    animation: none !important;
+    transition: opacity 0.1s ease-out !important;
+  }
+  
+  .visualNotification {
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .critical .visualNotification {
+    animation: none !important;
+    background: var(--lr-error-color) !important;
+  }
+  
+  /* Provide alternative feedback for reduced motion */
+  .critical::before {
+    content: '⚠️ URGENT ';
+  }
+  
+  .high::before {
+    content: '⚡ IMPORTANT ';
+  }
+  
+  .medium::before {
+    content: 'ℹ️ ';
+  }
+}
+
+/* ===========================
+   DARK MODE SUPPORT
+   ========================= */
+
+@media (prefers-color-scheme: dark) {
+  .liveRegion {
+    --lr-default-color: #d1d5db;
+    --lr-low-priority: #6b7280;
+    --lr-medium-priority: #9ca3af;
+    --lr-high-priority: #e5e7eb;
+    --lr-critical-priority: #f3f4f6;
+    --lr-notification-bg: rgba(0, 0, 0, 0.95);
+    --lr-notification-text: #f9fafb;
+    --lr-history-bg: rgba(255, 255, 255, 0.05);
+    --lr-history-border: 1px solid rgba(255, 255, 255, 0.1);
+    --lr-debug-bg: rgba(255, 0, 0, 0.2);
+  }
+  
+  .announcementHistory h3 {
+    color: var(--color-gray-100, #f3f4f6);
+    border-bottom-color: var(--color-gray-700, #374151);
+  }
+  
+  .debugMetrics {
+    background: var(--color-gray-800, #1f2937);
+    border-color: var(--color-gray-600, #4b5563);
+    color: var(--color-gray-100, #f3f4f6);
+  }
+  
+  .debugMetrics h3 {
+    color: var(--color-gray-100, #f3f4f6);
+  }
+}
+
+/* ===========================
+   MOBILE OPTIMIZATIONS
+   ========================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .visualNotification {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    width: auto;
+  }
+  
+  .announcementHistory {
+    max-height: 200px;
+    font-size: var(--font-size-base, 1rem);
+  }
+  
+  .debugMetrics {
+    font-size: var(--font-size-base, 1rem);
+  }
+}
+
+/* ===========================
+   RESPONSIVE SIZE ADJUSTMENTS
+   ========================= */
+
+@media (max-width: 640px) {
+  .visualNotification {
+    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .historyItem {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-1, 0.25rem);
+  }
+  
+  .timestamp,
+  .modality {
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+  
+  .debugMetrics {
+    padding: var(--spacing-2, 0.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .visualNotification {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    margin: var(--spacing-2, 0.5rem) 0;
+    max-width: none;
+  }
+  
+  .announcementHistory {
+    margin-top: var(--spacing-2, 0.5rem);
+    padding: var(--spacing-2, 0.5rem);
+  }
+}
+
+/* ===========================
+   PERFORMANCE OPTIMIZATIONS
+   ========================= */
+
+.liveRegion {
+  /* Promote to GPU layer for smooth updates */
+  will-change: contents;
+  transform: translateZ(0);
+}
+
+.visualNotification {
+  /* Optimize notification animations */
+  will-change: opacity, transform;
+}
+
+.announcementHistory {
+  /* Optimize scrolling performance */
+  will-change: scroll-position;
+  scroll-behavior: smooth;
+}
+
+/* ===========================
+   PRINT STYLES
+   ========================= */
+
+@media print {
+  .liveRegion {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: var(--spacing-2, 0.5rem) !important;
+    margin: var(--spacing-2, 0.5rem) 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: 1px solid black !important;
+    background: white !important;
+    color: black !important;
+  }
+  
+  .visualNotification {
+    display: none !important;
+  }
+  
+  .debugMetrics {
+    display: none !important;
+  }
+  
+  .announcementHistory {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+  
+  .modality {
+    background: transparent !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+}
+
+/* ===========================
+   CUSTOM PROPERTY SUPPORT
+   ========================= */
+
+.liveRegion[style*="--lr-voice-color"] {
+  /* Custom voice color support */
+}
+
+.liveRegion[style*="--lr-camera-color"] {
+  /* Custom camera color support */
+}
+
+.liveRegion[style*="--lr-text-color"] {
+  /* Custom text color support */
+}
+
+.liveRegion[style*="--lr-focus-color"] {
+  /* Custom focus color support */
+}
+
+/* ===========================
+   DATA ATTRIBUTE STYLING
+   ========================= */
+
+.liveRegion[data-priority="critical"] {
+  /* Critical priority styling */
+}
+
+.liveRegion[data-priority="high"] {
+  /* High priority styling */
+}
+
+.liveRegion[data-priority="medium"] {
+  /* Medium priority styling */
+}
+
+.liveRegion[data-priority="low"] {
+  /* Low priority styling */
+}
+
+.liveRegion[data-role="alert"] {
+  /* Alert role styling */
+}
+
+.liveRegion[data-role="status"] {
+  /* Status role styling */
+}
+
+.liveRegion[data-role="log"] {
+  /* Log role styling */
+}
+
+.liveRegion[data-politeness="assertive"] {
+  /* Assertive politeness styling */
+}
+
+.liveRegion[data-politeness="polite"] {
+  /* Polite politeness styling */
+}
+
+.liveRegion[data-politeness="off"] {
+  /* Off politeness styling */
+}
+
+/* ===========================
+   COORDINATION INDICATORS
+   ========================= */
+
+.liveRegion[data-coordinating="true"]::before {
+  content: '🔄';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: var(--font-size-sm, 0.875rem);
+  animation: coordinationFlow 2s ease-in-out infinite;
+}
+
+.liveRegion[data-conflict="true"]::before {
+  content: '⚠️';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: var(--font-size-sm, 0.875rem);
+  animation: urgentBlink 1s ease-in-out infinite;
+}
+
+.liveRegion[data-handoff="true"]::before {
+  content: '🔄';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: var(--font-size-sm, 0.875rem);
+  opacity: 0.7;
+}
+
+/* ===========================
+   QUEUE STATUS INDICATORS
+   ========================= */
+
+.liveRegion[data-queue-size="high"]::after {
+  content: '📢';
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-size: var(--font-size-xs, 0.75rem);
+  opacity: 0.6;
+}
+
+.liveRegion[data-queue-overflow="true"]::after {
+  content: '🚨';
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-size: var(--font-size-xs, 0.75rem);
+  animation: urgentBlink 0.5s ease-in-out infinite;
+}

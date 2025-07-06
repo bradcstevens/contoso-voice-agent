@@ -1,0 +1,446 @@
+/* UserDashboard Organism Styles */
+
+.userDashboard {
+  /* Container */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-primary, #ffffff);
+  color: var(--text-primary, #1a1a1a);
+  font-family: var(--font-family-base, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  
+  /* Performance optimization */
+  contain: layout style paint;
+  will-change: contents;
+  
+  /* Transitions */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dashboard Header */
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-subtle, #e5e5e5);
+  background: var(--background-secondary, #fafafa);
+  
+  /* Sticky header */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.dashboardTitle {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1.2;
+}
+
+.systemStatus {
+  flex-shrink: 0;
+}
+
+/* Main Dashboard Content */
+.dashboardContent {
+  flex: 1;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 2rem;
+  grid-template-areas:
+    "profile search"
+    "analytics analytics"
+    "coordination coordination";
+  
+  /* Responsive grid */
+  min-height: 0;
+}
+
+/* Profile Section */
+.profileSection {
+  grid-area: profile;
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Performance */
+  contain: layout style;
+}
+
+/* Search Section */
+.searchSection {
+  grid-area: search;
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Performance */
+  contain: layout style;
+}
+
+/* Analytics Section */
+.analyticsSection {
+  grid-area: analytics;
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Performance */
+  contain: layout style;
+}
+
+.sectionTitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/* Analytics Grid */
+.analyticsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.analyticsCard {
+  background: var(--background-secondary, #fafafa);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  /* Performance */
+  contain: layout style;
+}
+
+.analyticsCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analyticsCard h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analyticsValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1;
+}
+
+.analyticsValue.increasing {
+  color: var(--color-success, #10b981);
+}
+
+.analyticsValue.stable {
+  color: var(--color-warning, #f59e0b);
+}
+
+/* Coordination Section */
+.coordinationSection {
+  grid-area: coordination;
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Performance */
+  contain: layout style;
+}
+
+/* Professional Controls */
+.professionalControls {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border-subtle, #e5e5e5);
+  background: var(--background-secondary, #fafafa);
+}
+
+.professionalDisclosure {
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  padding: 0;
+  overflow: hidden;
+}
+
+.professionalDisclosure summary {
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+  cursor: pointer;
+  list-style: none;
+  background: var(--background-elevated, #ffffff);
+  border: none;
+  transition: background-color 0.2s ease;
+  
+  /* Hide default marker */
+  -webkit-appearance: none;
+}
+
+.professionalDisclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.professionalDisclosure summary::after {
+  content: '+';
+  float: right;
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.professionalDisclosure[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.professionalDisclosure summary:hover {
+  background: var(--background-hover, #f5f5f5);
+}
+
+.professionalContent {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-subtle, #e5e5e5);
+  background: var(--background-secondary, #fafafa);
+}
+
+/* Management Controls */
+.managementControls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.exportButton,
+.reportButton,
+.adminButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-interactive, #d1d5db);
+  background: var(--background-elevated, #ffffff);
+  color: var(--text-primary, #1a1a1a);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  /* Focus styles */
+  outline: none;
+  position: relative;
+}
+
+.exportButton:hover,
+.reportButton:hover,
+.adminButton:hover {
+  background: var(--background-hover, #f5f5f5);
+  border-color: var(--border-hover, #9ca3af);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.exportButton:focus,
+.reportButton:focus,
+.adminButton:focus {
+  box-shadow: 0 0 0 3px var(--color-focus, rgba(59, 130, 246, 0.1));
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.adminButton {
+  background: var(--color-primary, #3b82f6);
+  color: var(--color-white, #ffffff);
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.adminButton:hover {
+  background: var(--color-primary-hover, #2563eb);
+  border-color: var(--color-primary-hover, #2563eb);
+}
+
+/* Performance Metrics */
+.performanceMetrics {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  background: var(--background-elevated, #ffffff);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+.performanceMetrics span {
+  white-space: nowrap;
+}
+
+/* Professional Mode Styles */
+.userDashboard.professional {
+  background: var(--background-professional, #f8fafc);
+}
+
+.userDashboard.professional .dashboardHeader {
+  background: var(--background-professional-elevated, #ffffff);
+  border-bottom-color: var(--border-professional, #e2e8f0);
+}
+
+.userDashboard.professional .analyticsCard {
+  background: var(--background-professional-card, #ffffff);
+  border-color: var(--border-professional, #e2e8f0);
+}
+
+/* Admin Mode Styles */
+.userDashboard.adminMode .dashboardTitle {
+  color: var(--color-admin, #7c3aed);
+}
+
+.userDashboard.adminMode .analyticsCard {
+  border-left: 3px solid var(--color-admin, #7c3aed);
+}
+
+/* Custom Molecular Component Styles */
+.userProfileCustom {
+  /* User profile specific customizations */
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.statusCustom {
+  /* Status component specific customizations */
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.searchFieldCustom {
+  /* Search field specific customizations */
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.coordinationPanelCustom {
+  /* Coordination panel specific customizations */
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+/* Responsive Design */
+
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .dashboardContent {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "profile"
+      "search"
+      "analytics"
+      "coordination";
+  }
+  
+  .analyticsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .managementControls {
+    flex-direction: column;
+  }
+  
+  .performanceMetrics {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .dashboardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .dashboardTitle {
+    font-size: 1.5rem;
+  }
+  
+  .dashboardContent {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .profileSection,
+  .searchSection,
+  .analyticsSection,
+  .coordinationSection {
+    padding: 1rem;
+  }
+  
+  .analyticsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  
+  .analyticsValue {
+    font-size: 1.5rem;
+  }
+  
+  .professionalControls {
+    padding: 1rem;
+  }
+}
+
+/* Accessibility Enhancements */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .userDashboard {
+    border: 2px solid var(--border-high-contrast, #000000);
+  }
+  
+  .analyticsCard {
+    border-width: 2px;
+  }
+  
+  .exportButton,
+  .reportButton,
+  .adminButton {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .userDashboard * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Focus within for keyboard navigation */
+.userDashboard:focus-within {
+  outline: 2px solid var(--color-focus, #3b82f6);
+  outline-offset: 2px;
+} 

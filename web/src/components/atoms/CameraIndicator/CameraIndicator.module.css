@@ -1,0 +1,856 @@
+/**
+ * CAMERA INDICATOR ATOM STYLES - REAL-TIME CAMERA QUALITY VISUALIZATION
+ * 
+ * Comprehensive camera indicator styles with quality monitoring, multiple visualization modes,
+ * camera metrics display, and professional camera interface features.
+ */
+
+.cameraIndicator {
+  /* Base camera indicator styling */
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* Custom properties for dynamic styling */
+  --camera-excellent-color: #10b981;
+  --camera-good-color: #3b82f6;
+  --camera-fair-color: #f59e0b;
+  --camera-poor-color: #ef4444;
+  --camera-inactive-color: var(--color-neutral-300, #d4d4d8);
+  --camera-quality: 0%;
+  --frame-rate: 0;
+  --target-frame-rate: 30;
+  --resolution-quality: 100%;
+  --lighting-quality: 50%;
+  --focus-quality: 0%;
+  --exposure-level: 50%;
+  --stabilization-quality: 100%;
+  --segments: 5;
+  --animation-speed: 1;
+  --quality-color: var(--camera-poor-color);
+  
+  /* Layout */
+  gap: var(--spacing-2, 0.5rem);
+  
+  /* Transitions */
+  transition: all 200ms ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+/* Size Variants */
+.xs {
+  width: 80px;
+  min-height: 20px;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.sm {
+  width: 120px;
+  min-height: 30px;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.md {
+  width: 160px;
+  min-height: 40px;
+}
+
+.lg {
+  width: 200px;
+  min-height: 50px;
+  gap: var(--spacing-3, 0.75rem);
+}
+
+.xl {
+  width: 240px;
+  min-height: 60px;
+  gap: var(--spacing-3, 0.75rem);
+}
+
+/* Color Variants */
+.default {
+  /* Default styling already defined */
+}
+
+.primary {
+  --camera-excellent-color: var(--color-primary-600, #0284c7);
+  --camera-good-color: var(--color-primary-500, #0ea5e9);
+  --camera-fair-color: var(--color-primary-400, #38bdf8);
+  --camera-poor-color: var(--color-primary-300, #7dd3fc);
+}
+
+.success {
+  --camera-excellent-color: var(--color-green-600, #16a34a);
+  --camera-good-color: var(--color-green-500, #22c55e);
+  --camera-fair-color: var(--color-green-400, #4ade80);
+  --camera-poor-color: var(--color-green-300, #86efac);
+}
+
+.warning {
+  --camera-excellent-color: var(--color-orange-600, #ea580c);
+  --camera-good-color: var(--color-orange-500, #f59e0b);
+  --camera-fair-color: var(--color-orange-400, #fb923c);
+  --camera-poor-color: var(--color-orange-300, #fdba74);
+}
+
+.error {
+  --camera-excellent-color: var(--color-red-600, #dc2626);
+  --camera-good-color: var(--color-red-500, #ef4444);
+  --camera-fair-color: var(--color-red-400, #f87171);
+  --camera-poor-color: var(--color-red-300, #fca5a5);
+}
+
+/* Direction Variants */
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+  align-items: center;
+}
+
+.radial {
+  /* Applied to ring mode */
+}
+
+/* Active State */
+.active {
+  filter: drop-shadow(0 0 6px var(--quality-color));
+}
+
+/* Low Quality Warning */
+.lowQuality {
+  animation: qualityWarning 2s ease-in-out infinite;
+}
+
+@keyframes qualityWarning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Auto-focus Status */
+.searching {
+  animation: focusSearching 1s ease-in-out infinite;
+}
+
+.locked .mainIndicator {
+  border: 2px solid var(--camera-excellent-color);
+  border-radius: var(--border-radius-md, 0.375rem);
+}
+
+.failed {
+  filter: drop-shadow(0 0 4px var(--camera-poor-color));
+}
+
+@keyframes focusSearching {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Main Indicator Container */
+.mainIndicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transition: all var(--animation-duration, 200ms) ease-out;
+}
+
+/* ===========================
+   BARS MODE
+   ========================= */
+
+.bars .segmentsContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--spacing-1, 0.25rem);
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+}
+
+.vertical .bars .segmentsContainer {
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.horizontal .bars .segmentsContainer {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.bars .segment {
+  background-color: var(--camera-inactive-color);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  transition: all calc(100ms / var(--animation-speed, 1)) ease-out;
+  flex: 1;
+  min-width: 3px;
+  min-height: 3px;
+}
+
+.vertical .bars .segment {
+  height: calc(20% + (var(--segment-index) * 16%));
+  width: 100%;
+}
+
+.horizontal .bars .segment {
+  width: calc(20% + (var(--segment-index) * 16%));
+  height: 100%;
+}
+
+.bars .activeSegment {
+  background-color: var(--segment-color);
+  opacity: var(--segment-intensity, 1);
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* ===========================
+   DOTS MODE
+   ========================= */
+
+.dots .segmentsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2, 0.5rem);
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+.dots .segment {
+  width: var(--spacing-3, 0.75rem);
+  height: var(--spacing-3, 0.75rem);
+  background-color: var(--camera-inactive-color);
+  border-radius: var(--border-radius-full, 9999px);
+  transition: all calc(100ms / var(--animation-speed, 1)) ease-out;
+}
+
+.dots .activeSegment {
+  background-color: var(--segment-color);
+  opacity: var(--segment-intensity, 1);
+  transform: scale(calc(1 + var(--segment-intensity, 0) * 0.3));
+  box-shadow: 0 0 calc(var(--segment-intensity, 0) * 6px) var(--segment-color);
+}
+
+/* ===========================
+   RING MODE
+   ========================= */
+
+.ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.ringSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.ringTrack {
+  stroke: var(--camera-inactive-color);
+  stroke-linecap: round;
+}
+
+.ringProgress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset calc(200ms / var(--animation-speed, 1)) ease-out;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+.ringText {
+  fill: var(--color-neutral-700, #374151);
+  font-family: var(--font-family-mono, monospace);
+  font-weight: 600;
+}
+
+/* ===========================
+   METER MODE
+   ========================= */
+
+.meter {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: var(--color-neutral-200, #e5e7eb);
+  border-radius: var(--border-radius-full, 9999px);
+  overflow: hidden;
+}
+
+.meterFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--meter-width, 0%);
+  background: var(--meter-color);
+  border-radius: inherit;
+  transition: width calc(200ms / var(--animation-speed, 1)) ease-out;
+}
+
+.meterText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-neutral-700, #374151);
+  font-family: var(--font-family-mono, monospace);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* ===========================
+   GRID MODE
+   ========================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-1, 0.25rem);
+  width: 100%;
+  font-size: var(--font-size-xs, 0.75rem);
+}
+
+.gridItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.gridLabel {
+  min-width: 60px;
+  color: var(--color-neutral-600, #4b5563);
+  font-weight: var(--font-weight-medium, 500);
+  text-transform: capitalize;
+}
+
+.gridBar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-neutral-200, #e5e7eb);
+  border-radius: var(--border-radius-full, 9999px);
+  position: relative;
+  overflow: hidden;
+}
+
+.gridBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--bar-width, 0%);
+  background: var(--bar-color);
+  border-radius: inherit;
+  transition: width 200ms ease-out;
+}
+
+/* ===========================
+   ADDITIONAL METRICS
+   ========================= */
+
+.additionalMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+  width: 100%;
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-neutral-600, #4b5563);
+}
+
+.horizontal .additionalMetrics {
+  margin-left: var(--spacing-3, 0.75rem);
+  padding-left: var(--spacing-3, 0.75rem);
+  border-left: 1px solid var(--color-neutral-200, #e5e7eb);
+  height: fit-content;
+}
+
+/* Frame Rate Indicator */
+.frameRate {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.metricLabel {
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-neutral-500, #6b7280);
+  min-width: 30px;
+}
+
+.metricValue {
+  font-family: var(--font-family-mono, monospace);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-neutral-700, #374151);
+}
+
+.metricValue.warning {
+  color: var(--camera-poor-color);
+  animation: frameRateWarning 1s ease-in-out infinite;
+}
+
+@keyframes frameRateWarning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Metric Bars */
+.resolution,
+.lighting,
+.focus,
+.stabilization {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.metricBar {
+  width: 40px;
+  height: 4px;
+  background: var(--color-neutral-200, #e5e7eb);
+  border-radius: var(--border-radius-full, 9999px);
+  position: relative;
+  overflow: hidden;
+}
+
+.metricBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--metric-width, 0%);
+  background: var(--metric-color);
+  border-radius: inherit;
+  transition: width 200ms ease-out;
+}
+
+/* Focus Status */
+.focusStatus {
+  font-size: var(--font-size-xs, 0.75rem);
+  padding: var(--spacing-px, 1px) var(--spacing-1, 0.25rem);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  font-weight: var(--font-weight-medium, 500);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.focusStatus.searching {
+  background: var(--color-orange-100, #fed7aa);
+  color: var(--color-orange-700, #c2410c);
+  animation: statusBlink 1s ease-in-out infinite;
+}
+
+.focusStatus.locked {
+  background: var(--color-green-100, #dcfce7);
+  color: var(--color-green-700, #15803d);
+}
+
+.focusStatus.failed {
+  background: var(--color-red-100, #fee2e2);
+  color: var(--color-red-700, #b91c1c);
+}
+
+@keyframes statusBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Exposure Meter */
+.exposure {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.exposureMeter {
+  position: relative;
+  width: 50px;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--camera-poor-color) 0%,
+    var(--camera-fair-color) 25%,
+    var(--camera-excellent-color) 50%,
+    var(--camera-fair-color) 75%,
+    var(--camera-poor-color) 100%
+  );
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+.exposureOptimal {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 2px;
+  height: 8px;
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-neutral-400, #9ca3af);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  transform: translateX(-50%);
+}
+
+.exposureIndicator {
+  position: absolute;
+  top: 0;
+  left: var(--exposure-position, 50%);
+  width: 2px;
+  height: 6px;
+  background: var(--color-neutral-800, #27272a);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  transform: translateX(-50%);
+  transition: left 200ms ease-out;
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .cameraIndicator {
+    filter: contrast(1.3);
+  }
+  
+  .segment,
+  .meterFill,
+  .ringProgress {
+    filter: contrast(1.2);
+  }
+  
+  .metricBar,
+  .gridBar {
+    border: 1px solid var(--color-neutral-400, #9ca3af);
+  }
+  
+  .focusStatus {
+    border: 1px solid currentColor;
+  }
+  
+  .exposureMeter {
+    border: 1px solid var(--color-neutral-600, #52525b);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .cameraIndicator {
+    transition: none;
+  }
+  
+  .cameraIndicator *,
+  .cameraIndicator::before,
+  .cameraIndicator::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .segment {
+    transition: opacity 0.1s ease-out;
+  }
+  
+  /* Provide alternative feedback */
+  .lowQuality::after {
+    content: '⚠';
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--camera-poor-color);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .searching::after {
+    content: '🔍';
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+  
+  .locked::after {
+    content: '🔒';
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--camera-excellent-color);
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+  
+  .failed::after {
+    content: '❌';
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .cameraIndicator {
+    --camera-inactive-color: var(--color-neutral-600, #52525b);
+  }
+  
+  .meter {
+    background: var(--color-neutral-700, #404040);
+  }
+  
+  .meterText {
+    color: var(--color-neutral-200, #e4e4e7);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+  
+  .ringText {
+    fill: var(--color-neutral-200, #e4e4e7);
+  }
+  
+  .gridBar,
+  .metricBar {
+    background: var(--color-neutral-700, #404040);
+  }
+  
+  .gridLabel {
+    color: var(--color-neutral-300, #d1d5db);
+  }
+  
+  .metricLabel {
+    color: var(--color-neutral-400, #9ca3af);
+  }
+  
+  .metricValue {
+    color: var(--color-neutral-200, #e4e4e7);
+  }
+  
+  .additionalMetrics {
+    color: var(--color-neutral-300, #d1d5db);
+  }
+  
+  .horizontal .additionalMetrics {
+    border-color: var(--color-neutral-600, #52525b);
+  }
+  
+  .exposureOptimal {
+    background: var(--color-neutral-800, #27272a);
+    border-color: var(--color-neutral-500, #71717a);
+  }
+  
+  .exposureIndicator {
+    background: var(--color-neutral-100, #f3f4f6);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .cameraIndicator {
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .cameraIndicator * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .segment {
+    background: black !important;
+  }
+  
+  .meterFill,
+  .ringProgress {
+    stroke: black !important;
+    fill: black !important;
+  }
+  
+  .metricBar::before,
+  .gridBar::before {
+    background: black !important;
+  }
+  
+  .focusStatus {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .cameraIndicator {
+    /* Ensure adequate touch target if interactive */
+    min-height: var(--camera-touch-target, 44px);
+  }
+  
+  .additionalMetrics {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .metricBar,
+  .gridBar {
+    height: 6px;
+  }
+  
+  .focusStatus {
+    padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  }
+}
+
+/* Responsive Size Adjustments */
+@media (max-width: 640px) {
+  .xl {
+    width: 200px;
+    min-height: 50px;
+  }
+  
+  .lg {
+    width: 160px;
+    min-height: 40px;
+  }
+  
+  .horizontal .additionalMetrics {
+    flex-direction: column;
+    margin-left: var(--spacing-2, 0.5rem);
+    padding-left: var(--spacing-2, 0.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .xl,
+  .lg {
+    width: 120px;
+    min-height: 30px;
+  }
+  
+  .md {
+    width: 100px;
+    min-height: 25px;
+  }
+  
+  .ring {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .additionalMetrics {
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+}
+
+/* Performance Optimizations */
+.cameraIndicator {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.segment {
+  /* Optimize segment animations */
+  will-change: transform, opacity, background-color;
+  transform: translateZ(0);
+}
+
+.meterFill,
+.ringProgress {
+  /* Optimize fill animations */
+  will-change: width, stroke-dashoffset;
+}
+
+/* Enhanced accessibility for screen readers */
+.cameraIndicator[role="progressbar"] {
+  /* Progress bar semantics */
+}
+
+.cameraIndicator[aria-live="polite"] {
+  /* Quality change announcements */
+}
+
+/* Custom property support for dynamic styling */
+.cameraIndicator[style*="--camera-quality"] {
+  /* Custom quality level support */
+}
+
+.cameraIndicator[style*="--quality-color"] {
+  /* Custom quality color support */
+}
+
+/* Quality level styling */
+.cameraIndicator[data-quality="excellent"] {
+  border: 1px solid var(--camera-excellent-color);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.cameraIndicator[data-quality="good"] {
+  border: 1px solid var(--camera-good-color);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.cameraIndicator[data-quality="fair"] {
+  border: 1px solid var(--camera-fair-color);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.cameraIndicator[data-quality="poor"] {
+  border: 1px solid var(--camera-poor-color);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* Frame rate performance indicators */
+.cameraIndicator[data-fps="high"] .frameRate {
+  color: var(--camera-excellent-color);
+}
+
+.cameraIndicator[data-fps="normal"] .frameRate {
+  color: var(--camera-good-color);
+}
+
+.cameraIndicator[data-fps="low"] .frameRate {
+  color: var(--camera-poor-color);
+}
+
+/* Auto-focus confidence styling */
+.cameraIndicator[data-focus-confidence="high"] .focus {
+  color: var(--camera-excellent-color);
+}
+
+.cameraIndicator[data-focus-confidence="medium"] .focus {
+  color: var(--camera-fair-color);
+}
+
+.cameraIndicator[data-focus-confidence="low"] .focus {
+  color: var(--camera-poor-color);
+}

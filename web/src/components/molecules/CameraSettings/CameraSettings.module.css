@@ -1,0 +1,633 @@
+/* CameraSettings Molecule Styles */
+
+.cameraSettings {
+  /* Container */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
+}
+
+/* Layout Variants */
+.cameraSettings.horizontal .settingsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+
+.cameraSettings.compact .settingsContainer {
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+/* Size Variants */
+.cameraSettings.small {
+  max-width: 600px;
+  border-radius: var(--spacing-sm);
+}
+
+.cameraSettings.small .settingsContainer {
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+.cameraSettings.large {
+  max-width: 1000px;
+  border-radius: var(--spacing-lg);
+}
+
+.cameraSettings.large .settingsContainer {
+  gap: var(--spacing-2xl);
+  padding: var(--spacing-2xl);
+}
+
+/* Section Styles */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  border-bottom: 2px solid var(--color-border-subtle);
+  padding-bottom: var(--spacing-sm);
+}
+
+/* Device Selection */
+.deviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.deviceCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border: 2px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: left;
+  min-height: 100px;
+  position: relative;
+}
+
+.deviceCard:hover:not(:disabled) {
+  border-color: var(--color-primary-base);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.deviceCard:focus-visible {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: 2px;
+  border-color: var(--color-primary-base);
+}
+
+.deviceCard.selected {
+  border-color: var(--color-primary-base);
+  background: var(--color-primary-subtle);
+  box-shadow: var(--shadow-lg);
+}
+
+.deviceCard.selected::before {
+  content: '';
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary-base);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deviceCard.selected::after {
+  content: '✓';
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  width: 20px;
+  height: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.deviceCard.unavailable {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--color-border-disabled);
+  background: var(--color-surface-disabled);
+}
+
+.deviceCard:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.deviceInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.deviceIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.deviceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.deviceName {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.deviceType {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.unavailableIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-danger);
+  font-weight: var(--font-weight-medium);
+}
+
+.currentDeviceStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-subtle);
+  border-radius: var(--spacing-sm);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.statusLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.statusValue {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Quality Preview */
+.previewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+}
+
+.qualityDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.qualityIndicator {
+  width: 100%;
+  max-width: 400px;
+}
+
+.captureDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+.captureRing {
+  width: 120px;
+  height: 120px;
+}
+
+/* Settings Grid */
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+.cameraSettings.compact .settingsGrid {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+/* Toggle Controls */
+.toggleControls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.checkboxLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  transition: all var(--transition-base);
+}
+
+.checkboxLabel:hover {
+  border-color: var(--color-primary-base);
+  background: var(--color-primary-subtle);
+}
+
+.checkboxLabel:focus-within {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: 1px;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkboxText {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  position: relative;
+  padding-left: var(--spacing-xl);
+}
+
+.checkboxText::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--spacing-xs);
+  background: var(--color-surface-primary);
+  transition: all var(--transition-base);
+}
+
+.checkboxLabel input[type="checkbox"]:checked + .checkboxText::before {
+  background: var(--color-primary-base);
+  border-color: var(--color-primary-base);
+}
+
+.checkboxText::after {
+  content: '✓';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.checkboxLabel input[type="checkbox"]:checked + .checkboxText::after {
+  opacity: 1;
+}
+
+.checkboxDescription {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-left: var(--spacing-xl);
+}
+
+/* Advanced Settings */
+.advancedToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  border-radius: var(--spacing-xs);
+  transition: all var(--transition-base);
+  width: fit-content;
+}
+
+.advancedToggle:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  color: var(--color-primary-base);
+}
+
+.advancedToggle:focus-visible {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: 2px;
+}
+
+.advancedToggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.advancedContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  animation: expandIn var(--transition-base) ease-out;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+}
+
+/* Camera Test */
+.testContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+  padding: var(--spacing-lg);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  text-align: center;
+}
+
+.testDescription {
+  margin: 0;
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  max-width: 400px;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-subtle);
+  margin-top: var(--spacing-lg);
+}
+
+.cameraSettings.compact .actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cameraSettings.horizontal .settingsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .deviceGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .previewContainer {
+    padding: var(--spacing-md);
+  }
+  
+  .qualityDisplay,
+  .captureDisplay {
+    gap: var(--spacing-sm);
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .settingsContainer {
+    padding: var(--spacing-md);
+    gap: var(--spacing-lg);
+  }
+  
+  .sectionTitle {
+    font-size: var(--font-size-md);
+  }
+  
+  .deviceCard {
+    min-height: 80px;
+    padding: var(--spacing-sm);
+  }
+  
+  .deviceInfo {
+    gap: var(--spacing-xs);
+  }
+  
+  .checkboxLabel {
+    padding: var(--spacing-sm);
+  }
+  
+  .advancedContent {
+    padding: var(--spacing-md);
+  }
+  
+  .testContainer {
+    padding: var(--spacing-md);
+  }
+  
+  .captureRing {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .cameraSettings {
+    border-width: 2px;
+  }
+  
+  .deviceCard {
+    border-width: 2px;
+  }
+  
+  .deviceCard.selected {
+    border-width: 3px;
+  }
+  
+  .checkboxText::before {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .deviceCard,
+  .checkboxLabel,
+  .advancedToggle,
+  .advancedContent {
+    transition: none;
+  }
+  
+  .deviceCard:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  @keyframes expandIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Focus Management */
+.cameraSettings:focus-within {
+  outline: none;
+}
+
+/* Loading States */
+.cameraSettings[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.cameraSettings[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Error States */
+.cameraSettings[data-error="true"] {
+  border-color: var(--color-border-danger);
+}
+
+.cameraSettings[data-error="true"] .sectionTitle {
+  color: var(--color-text-danger);
+}
+
+/* Success States */
+.cameraSettings[data-success="true"] {
+  border-color: var(--color-border-success);
+}
+
+.cameraSettings[data-success="true"] .sectionTitle {
+  color: var(--color-text-success);
+}
+
+/* Device State Indicators */
+.deviceCard[data-facing="environment"] .deviceIcon {
+  color: var(--color-primary-base);
+}
+
+.deviceCard[data-facing="user"] .deviceIcon {
+  color: var(--color-secondary-base);
+}
+
+/* Quality Indicators */
+.previewContainer[data-quality="high"] {
+  border-color: var(--color-success-border);
+  background: var(--color-success-subtle);
+}
+
+.previewContainer[data-quality="medium"] {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-subtle);
+}
+
+.previewContainer[data-quality="low"] {
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-subtle);
+}
+
+/* Advanced Setting States */
+.advancedContent[data-auto-mode="true"] .settingsGrid {
+  opacity: 0.6;
+}
+
+.advancedContent[data-auto-mode="true"] .settingsGrid [disabled] {
+  opacity: 0.3;
+} 

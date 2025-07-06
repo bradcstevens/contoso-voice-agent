@@ -1,0 +1,107 @@
+---
+description: Azure Developer CLI (azd) Reference for managing Azure-based projects
+alwaysApply: false
+---
+# Azure Developer CLI (azd) Tool & Command Reference
+
+This document provides a detailed reference for using the Azure Developer CLI (azd) tool, which enables you to initialize, provision, deploy, configure, and manage Azure-based projects.
+
+**Note:** You must always use the `cwd` parameter (the absolute path to your project) when calling this tool. For environment-specific commands, provide the environment using the `environment` parameter.
+
+---
+
+## Command Categories & Popular Commands
+
+### 1. Project Initialization & Setup
+
+*   **Init:** `Scaffold a new project from a template.`
+    *   Example: `azd init --template <name>`
+*   **Templates:** `List or search available templates.`
+    *   Examples: `azd template list`, `azd template show <name>`
+
+### 2. Environment Management
+
+*   **Env:** `Create, list, and manage environments.`
+    *   Examples: `azd env list`, `azd env new`, `azd env select`, `azd env show`, `azd env get-values`
+*   **Config:** `Manage machine/user level settings.`
+    *   Examples: `azd config set`, `azd config unset`, `azd config show`
+
+### 3. Deployment & Resource Management
+
+*   **Up:** `Provision infrastructure and deploy application code.`
+    *   Example: `azd up`
+*   **Provision:** `Provision the Azure resources that will host the application.`
+    *   Example: `azd provision`
+*   **Deploy:** `Deploy application code or containers to already provisioned resources.`
+    *   Example: `azd deploy <service>`
+*   **Package:** `Build the application into a deployable artifact.`
+    *   Example: `azd package <service>`
+
+### 4. Authentication & Monitoring
+
+*   **Auth:** `Log in to Azure or check auth status.`
+    *   Examples: `azd auth login`, `azd auth status`
+*   **Monitor:** `Launch Azure monitoring dashboards.`
+    *   Example: `azd monitor`
+*   **Pipeline:** `Configure GitHub Actions CI/CD.`
+    *   Example: `azd pipeline config`
+
+### 5. Extensions & Help
+
+*   **Extensions:** `Manage installed azd extensions.`
+    *   Examples: `azd extension list`, `azd extension install`, `azd extension uninstall`, `azd extension show`
+*   **Extension Sources:** `Manage extension sources/registries.`
+    *   Examples: `azd extension source list`, `azd extension source add`, `azd extension source remove`
+*   **Help:** `Get detailed help on available commands and parameters.`
+    *   Examples: `azd help`, `azd <group> --help`
+*   **Version:** `Check the CLI version.`
+    *   Example: `azd version`
+
+---
+
+## Required Parameters
+
+*   **cwd**: `Required. Absolute path to the working directory for the command execution.`
+*   **command**: `Required. The azd CLI command to run without the 'azd' prefix, e.g., 'template list'.`
+*   **environment**: `Optional. Specifies the environment to use for the command. Required for environment-specific operations.`
+*   **learn**: `Optional. Set to true to receive this usage guide.`
+
+---
+
+## Execution Guidelines
+
+*   **Environment Names:**
+    *   `Never assume environment names; always prompt the user to supply an environment name for downstream commands such as 'init'.`
+*   **Resource Requirements:**
+    *   `If commands require a subscription or location, retrieve configuration defaults from the 'config show' command.`
+    *   `When configuration defaults do not exist, prompt the user to supply a value and leverage other tools to list subscriptions and locations for easy selection.`
+*   **Project Initialization:**
+    *   `Check for an 'azure.yaml' file in the workspace to determine if the project is already initialized.`
+*   **Command Execution Best Practices:**
+    *   `Never make assumptions on command names or arguments - call 'help' command or '<command> --help' to check proper commands.`
+    *   `When an error occurs, always run help commands to ensure the command exists and is run with the expected parameters, then retry.`
+    *   `Use 'azd help' or 'azd <command group> --help' to explore options and flags.`
+*   **Long-Running Operations:**
+    *   `Commands 'provision', 'deploy', 'up', and 'down' are considered long-running operations.`
+    *   `For long-running commands, do not use this tool - instead, always run them in a terminal so users can see incremental progress.`
+    *   `Other than long-running commands, all other azd commands should be executed using the 'azmcp-extension-azd' tool.`
+*   **User Experience:**
+    *   `Suggest next steps when provided by previous command output.`
+    *   `Always prompt the user to confirm before running commands that create, update, or delete Azure resources (e.g., 'provision', 'deploy', 'up', 'down').`
+
+---
+
+## Example Commands
+
+*   **List Templates:**
+    *   `command = "template list"`, `cwd = "/workspace"`
+*   **Initialize a Project:**
+    *   `command = "init --template todo-node"`, `cwd = "/workspace"`, `environmentName = "dev"`
+*   **Configure CI/CD Pipeline:**
+    *   `command = "pipeline config"`, `cwd = "/workspace"`, `environmentName = "test"`
+*   **Log in to Azure:**
+    *   `command = "auth login"`, `cwd = "/workspace"`
+
+---
+
+For detailed information on a specific command, use the `azd help <command>` or `azd <command> --help` commands.

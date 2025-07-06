@@ -1,0 +1,1091 @@
+/**
+ * FOCUS INDICATOR ATOM STYLES - ACCESSIBILITY FOCUS MANAGEMENT FOR MULTI-MODAL INTERACTIONS
+ * 
+ * Comprehensive focus indicator styles with multi-modal support, accessibility features,
+ * and advanced focus visualization for complex interactive applications.
+ */
+
+.focusIndicator {
+  /* Base focus indicator styling */
+  position: absolute;
+  pointer-events: none;
+  z-index: var(--focus-z-index, 1000);
+  
+  /* Custom properties for dynamic styling */
+  --focus-default-color: #3b82f6;
+  --focus-primary-color: var(--color-primary-500, #3b82f6);
+  --focus-secondary-color: var(--color-secondary-500, #6b7280);
+  --focus-success-color: var(--color-green-500, #22c55e);
+  --focus-warning-color: var(--color-orange-500, #f59e0b);
+  --focus-error-color: var(--color-red-500, #ef4444);
+  --focus-info-color: var(--color-blue-500, #3b82f6);
+  --focus-voice-color: #8b5cf6;
+  --focus-camera-color: #06b6d4;
+  --focus-text-color: #10b981;
+  --focus-multimodal-color: #f59e0b;
+  --focus-color: var(--focus-default-color);
+  --focus-width: 2px;
+  --focus-radius: 4px;
+  --focus-opacity: 1;
+  --animation-speed: 300ms;
+  --target-width: 0px;
+  --target-height: 0px;
+  --target-top: 0px;
+  --target-left: 0px;
+  --offset-top: 2px;
+  --offset-right: 2px;
+  --offset-bottom: 2px;
+  --offset-left: 2px;
+  --bounds-color: currentColor;
+  --path-color: #3b82f6;
+  --priority: 0;
+  
+  /* Layout */
+  box-sizing: border-box;
+  opacity: var(--focus-opacity);
+  border-radius: var(--focus-radius);
+  
+  /* Transitions */
+  transition: all var(--animation-speed) ease-out;
+  
+  /* Performance optimization */
+  will-change: transform, opacity, box-shadow;
+  transform: translateZ(0);
+}
+
+/* Size Variants */
+.xs {
+  --focus-width: 1px;
+  --focus-radius: 2px;
+  --offset-top: 1px;
+  --offset-right: 1px;
+  --offset-bottom: 1px;
+  --offset-left: 1px;
+}
+
+.sm {
+  --focus-width: 1.5px;
+  --focus-radius: 3px;
+  --offset-top: 1.5px;
+  --offset-right: 1.5px;
+  --offset-bottom: 1.5px;
+  --offset-left: 1.5px;
+}
+
+.md {
+  --focus-width: 2px;
+  --focus-radius: 4px;
+  --offset-top: 2px;
+  --offset-right: 2px;
+  --offset-bottom: 2px;
+  --offset-left: 2px;
+}
+
+.lg {
+  --focus-width: 3px;
+  --focus-radius: 6px;
+  --offset-top: 3px;
+  --offset-right: 3px;
+  --offset-bottom: 3px;
+  --offset-left: 3px;
+}
+
+.xl {
+  --focus-width: 4px;
+  --focus-radius: 8px;
+  --offset-top: 4px;
+  --offset-right: 4px;
+  --offset-bottom: 4px;
+  --offset-left: 4px;
+}
+
+/* Color Variants */
+.default {
+  --focus-color: var(--focus-default-color);
+}
+
+.primary {
+  --focus-color: var(--focus-primary-color);
+}
+
+.secondary {
+  --focus-color: var(--focus-secondary-color);
+}
+
+.success {
+  --focus-color: var(--focus-success-color);
+}
+
+.warning {
+  --focus-color: var(--focus-warning-color);
+}
+
+.error {
+  --focus-color: var(--focus-error-color);
+}
+
+.info {
+  --focus-color: var(--focus-info-color);
+}
+
+/* Modality Variants */
+.voice {
+  --focus-color: var(--focus-voice-color);
+}
+
+.camera {
+  --focus-color: var(--focus-camera-color);
+}
+
+.text {
+  --focus-color: var(--focus-text-color);
+}
+
+.multimodal {
+  --focus-color: var(--focus-multimodal-color);
+}
+
+.auto {
+  /* Dynamic color based on detected modality */
+}
+
+/* Focus States */
+.idle {
+  opacity: 0.7;
+}
+
+.focused {
+  opacity: 1;
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.disabled {
+  opacity: 0.4;
+  filter: grayscale(50%);
+}
+
+.error {
+  --focus-color: var(--focus-error-color);
+  animation: focusError 0.5s ease-out;
+}
+
+.success {
+  --focus-color: var(--focus-success-color);
+  animation: focusSuccess 0.6s ease-out;
+}
+
+/* Animation Speeds */
+.slow {
+  --animation-speed: 600ms;
+}
+
+.normal {
+  --animation-speed: 300ms;
+}
+
+.fast {
+  --animation-speed: 150ms;
+}
+
+/* Animation Origins */
+.center {
+  transform-origin: center center;
+}
+
+.top {
+  transform-origin: center top;
+}
+
+.bottom {
+  transform-origin: center bottom;
+}
+
+.left {
+  transform-origin: left center;
+}
+
+.right {
+  transform-origin: right center;
+}
+
+.topLeft {
+  transform-origin: left top;
+}
+
+.topRight {
+  transform-origin: right top;
+}
+
+.bottomLeft {
+  transform-origin: left bottom;
+}
+
+.bottomRight {
+  transform-origin: right bottom;
+}
+
+/* Special States */
+.persistent {
+  opacity: 1 !important;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+.highContrast {
+  --focus-width: calc(var(--focus-width) + 1px);
+  filter: contrast(1.5);
+}
+
+/* ===========================
+   FOCUS TYPE IMPLEMENTATIONS
+   ========================= */
+
+/* Ring Type */
+.ring .focusRing,
+.ring::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--offset-top));
+  left: calc(-1 * var(--offset-left));
+  right: calc(-1 * var(--offset-right));
+  bottom: calc(-1 * var(--offset-bottom));
+  border: var(--focus-width) solid var(--focus-color);
+  border-radius: var(--focus-radius);
+  pointer-events: none;
+}
+
+/* Outline Type */
+.outline .focusOutline,
+.outline::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--offset-top));
+  left: calc(-1 * var(--offset-left));
+  right: calc(-1 * var(--offset-right));
+  bottom: calc(-1 * var(--offset-bottom));
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: var(--focus-radius);
+  pointer-events: none;
+}
+
+/* Underline Type */
+.underline .focusUnderline,
+.underline::after {
+  content: '';
+  position: absolute;
+  bottom: calc(-1 * var(--offset-bottom));
+  left: calc(-1 * var(--offset-left));
+  right: calc(-1 * var(--offset-right));
+  height: var(--focus-width);
+  background: var(--focus-color);
+  border-radius: calc(var(--focus-width) / 2);
+  pointer-events: none;
+}
+
+/* Glow Type */
+.glow .focusGlow,
+.glow::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--offset-top));
+  left: calc(-1 * var(--offset-left));
+  right: calc(-1 * var(--offset-right));
+  bottom: calc(-1 * var(--offset-bottom));
+  border-radius: var(--focus-radius);
+  box-shadow: 
+    0 0 0 var(--focus-width) var(--focus-color),
+    0 0 calc(var(--focus-width) * 3) var(--focus-color),
+    0 0 calc(var(--focus-width) * 6) rgba(var(--focus-color), 0.3);
+  pointer-events: none;
+}
+
+/* Highlight Type */
+.highlight .focusHighlight,
+.highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--focus-color), 0.2);
+  border-radius: var(--focus-radius);
+  pointer-events: none;
+}
+
+/* Border Type */
+.border .focusBorder,
+.border {
+  border: var(--focus-width) solid var(--focus-color);
+  border-radius: var(--focus-radius);
+}
+
+/* Shadow Type */
+.shadow .focusShadow,
+.shadow::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--offset-top));
+  left: calc(-1 * var(--offset-left));
+  right: calc(-1 * var(--offset-right));
+  bottom: calc(-1 * var(--offset-bottom));
+  border-radius: var(--focus-radius);
+  box-shadow: 
+    0 0 0 var(--focus-width) var(--focus-color),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+}
+
+/* ===========================
+   ANIMATION IMPLEMENTATIONS
+   ========================= */
+
+/* No Animation */
+.none {
+  animation: none;
+}
+
+/* Pulse Animation */
+.pulse.active {
+  animation: focusPulse calc(var(--animation-speed) * 2) ease-in-out infinite;
+}
+
+/* Glow Animation */
+.glow.active {
+  animation: focusGlow calc(var(--animation-speed) * 2) ease-in-out infinite;
+}
+
+/* Fade Animation */
+.fade.active {
+  animation: focusFade var(--animation-speed) ease-out;
+}
+
+/* Scale Animation */
+.scale.active {
+  animation: focusScale var(--animation-speed) ease-out;
+}
+
+/* Slide Animation */
+.slide.active {
+  animation: focusSlide var(--animation-speed) ease-out;
+}
+
+/* Bounce Animation */
+.bounce.active {
+  animation: focusBounce calc(var(--animation-speed) * 1.5) ease-out;
+}
+
+/* ===========================
+   FOCUS BOUNDS & DEBUGGING
+   ========================= */
+
+.showBounds .focusBounds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.showBounds .solid {
+  border: 1px solid var(--bounds-color);
+  opacity: 0.6;
+}
+
+.showBounds .dashed {
+  border: 1px dashed var(--bounds-color);
+  opacity: 0.6;
+}
+
+.showBounds .dotted {
+  border: 1px dotted var(--bounds-color);
+  opacity: 0.6;
+}
+
+.showBounds .glow {
+  box-shadow: 0 0 4px var(--bounds-color);
+  opacity: 0.8;
+}
+
+.showFocusPath .focusPath {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--path-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.showFocusPath .focusPath::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border: 1px solid var(--path-color);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pathPulse 2s ease-in-out infinite;
+}
+
+/* Debug Mode */
+.debug {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px dashed red;
+}
+
+.debugInfo {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: var(--spacing-1, 0.25rem);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-family: var(--font-family-mono, monospace);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.debugInfo > div {
+  margin: 2px 0;
+}
+
+/* ===========================
+   MODALITY-SPECIFIC ENHANCEMENTS
+   ========================= */
+
+/* Voice Modality */
+.voice.active {
+  animation: voiceFocus 1s ease-in-out infinite;
+}
+
+.voice::before {
+  box-shadow: 
+    0 0 0 var(--focus-width) var(--focus-voice-color),
+    0 0 calc(var(--focus-width) * 2) rgba(139, 92, 246, 0.4);
+}
+
+/* Camera Modality */
+.camera.active {
+  animation: cameraFocus 0.8s ease-in-out infinite;
+}
+
+.camera::before {
+  box-shadow: 
+    0 0 0 var(--focus-width) var(--focus-camera-color),
+    0 0 calc(var(--focus-width) * 2) rgba(6, 182, 212, 0.4);
+}
+
+/* Text Modality */
+.text.active {
+  animation: textFocus 1.2s ease-in-out infinite;
+}
+
+.text::before {
+  box-shadow: 
+    0 0 0 var(--focus-width) var(--focus-text-color),
+    0 0 calc(var(--focus-width) * 2) rgba(16, 185, 129, 0.4);
+}
+
+/* Multi-Modal */
+.multimodal.active {
+  animation: multiModalFocus 2s ease-in-out infinite;
+}
+
+.multimodal::before {
+  background: linear-gradient(
+    45deg,
+    var(--focus-voice-color) 0%,
+    var(--focus-camera-color) 33%,
+    var(--focus-text-color) 66%,
+    var(--focus-multimodal-color) 100%
+  );
+  background-size: 200% 200%;
+  animation: multiModalGradient 3s ease-in-out infinite;
+}
+
+/* ===========================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================= */
+
+/* Reduced Motion Support */
+.reduceMotion,
+.reduceMotion * {
+  animation: none !important;
+  transition: opacity 0.1s ease-out !important;
+}
+
+.reduceMotion.active {
+  opacity: 1;
+  transform: none;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .focusIndicator {
+    --focus-width: calc(var(--focus-width) + 1px);
+    filter: contrast(1.5);
+  }
+  
+  .focusRing,
+  .focusOutline,
+  .focusBorder {
+    border-width: calc(var(--focus-width) + 1px);
+  }
+  
+  .focusGlow {
+    box-shadow: 
+      0 0 0 calc(var(--focus-width) + 1px) var(--focus-color),
+      0 0 calc(var(--focus-width) * 4) var(--focus-color);
+  }
+  
+  .debugInfo {
+    background: black !important;
+    color: white !important;
+    border: 2px solid white !important;
+  }
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes focusPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes focusGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-color),
+      0 0 calc(var(--focus-width) * 3) var(--focus-color);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-color),
+      0 0 calc(var(--focus-width) * 6) var(--focus-color),
+      0 0 calc(var(--focus-width) * 9) rgba(var(--focus-color), 0.3);
+  }
+}
+
+@keyframes focusFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes focusScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes focusSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes focusBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes focusError {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes focusSuccess {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes voiceFocus {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-voice-color),
+      0 0 calc(var(--focus-width) * 2) rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-voice-color),
+      0 0 calc(var(--focus-width) * 4) rgba(139, 92, 246, 0.6);
+  }
+}
+
+@keyframes cameraFocus {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-camera-color),
+      0 0 calc(var(--focus-width) * 2) rgba(6, 182, 212, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-camera-color),
+      0 0 calc(var(--focus-width) * 4) rgba(6, 182, 212, 0.6);
+  }
+}
+
+@keyframes textFocus {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-text-color),
+      0 0 calc(var(--focus-width) * 2) rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 var(--focus-width) var(--focus-text-color),
+      0 0 calc(var(--focus-width) * 4) rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes multiModalFocus {
+  0%, 100% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.1);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(0.9);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.1);
+  }
+}
+
+@keyframes multiModalGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pathPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* ===========================
+   DARK MODE SUPPORT
+   ========================= */
+
+@media (prefers-color-scheme: dark) {
+  .focusIndicator {
+    --focus-default-color: #60a5fa;
+    --focus-primary-color: var(--color-primary-400, #60a5fa);
+    --focus-secondary-color: var(--color-secondary-400, #9ca3af);
+    --focus-success-color: var(--color-green-400, #4ade80);
+    --focus-warning-color: var(--color-orange-400, #fb923c);
+    --focus-error-color: var(--color-red-400, #f87171);
+    --focus-info-color: var(--color-blue-400, #60a5fa);
+    --focus-voice-color: #a78bfa;
+    --focus-camera-color: #22d3ee;
+    --focus-text-color: #34d399;
+    --focus-multimodal-color: #fbbf24;
+  }
+  
+  .debugInfo {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .focusBounds {
+    --bounds-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ===========================
+   PRINT STYLES
+   ========================= */
+
+@media print {
+  .focusIndicator {
+    display: none !important;
+  }
+  
+  .debugInfo {
+    display: none !important;
+  }
+  
+  .focusPath {
+    display: none !important;
+  }
+  
+  .focusBounds {
+    display: none !important;
+  }
+}
+
+/* ===========================
+   MOBILE OPTIMIZATIONS
+   ========================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .focusIndicator {
+    /* Larger focus indicators on touch devices */
+    --focus-width: calc(var(--focus-width) + 1px);
+  }
+  
+  .xs {
+    --focus-width: 2px;
+  }
+  
+  .sm {
+    --focus-width: 2.5px;
+  }
+  
+  .md {
+    --focus-width: 3px;
+  }
+  
+  .lg {
+    --focus-width: 4px;
+  }
+  
+  .xl {
+    --focus-width: 5px;
+  }
+  
+  .debugInfo {
+    font-size: var(--font-size-sm, 0.875rem);
+    top: -70px;
+    padding: var(--spacing-2, 0.5rem);
+  }
+}
+
+/* ===========================
+   RESPONSIVE SIZE ADJUSTMENTS
+   ========================= */
+
+@media (max-width: 640px) {
+  .focusIndicator {
+    --animation-speed: 200ms;
+  }
+  
+  .debugInfo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+  }
+  
+  .focusPath::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .xl {
+    --focus-width: 4px;
+    --focus-radius: 6px;
+  }
+  
+  .lg {
+    --focus-width: 3px;
+    --focus-radius: 5px;
+  }
+  
+  .debugInfo {
+    font-size: var(--font-size-xs, 0.75rem);
+  }
+}
+
+/* ===========================
+   PERFORMANCE OPTIMIZATIONS
+   ========================= */
+
+.focusIndicator {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform, opacity, box-shadow;
+  transform: translateZ(0);
+}
+
+.focusRing,
+.focusOutline,
+.focusGlow,
+.focusHighlight,
+.focusBorder,
+.focusShadow {
+  /* Optimize animation performance */
+  will-change: opacity, transform, box-shadow;
+  transform: translateZ(0);
+}
+
+.debugInfo {
+  /* Optimize text rendering */
+  will-change: opacity;
+}
+
+/* ===========================
+   ACCESSIBILITY COMPLIANCE
+   ========================= */
+
+.focusIndicator[role="presentation"] {
+  /* Presentation role semantics */
+}
+
+.focusIndicator[aria-hidden="true"] {
+  /* Hidden from screen readers when inactive */
+}
+
+.focusIndicator:focus {
+  outline: none; /* Remove default focus as this IS the focus indicator */
+}
+
+/* ===========================
+   CUSTOM PROPERTY SUPPORT
+   ========================= */
+
+.focusIndicator[style*="--focus-color"] {
+  /* Custom focus color support */
+}
+
+.focusIndicator[style*="--animation-speed"] {
+  /* Custom animation speed support */
+}
+
+.focusIndicator[style*="--focus-width"] {
+  /* Custom focus width support */
+}
+
+/* ===========================
+   FOCUS STATE INDICATORS
+   ========================= */
+
+.focusIndicator[data-focus-state="idle"]::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background: rgba(107, 114, 128, 0.6);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.focusIndicator[data-focus-state="focused"]::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background: var(--focus-color);
+  border-radius: 50%;
+  animation: focusedPulse 2s ease-in-out infinite;
+}
+
+.focusIndicator[data-focus-state="active"]::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background: var(--focus-color);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--focus-color);
+  animation: activePulse 1s ease-in-out infinite;
+}
+
+@keyframes focusedPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes activePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.3);
+  }
+}
+
+/* ===========================
+   MODALITY INDICATORS
+   ========================= */
+
+.focusIndicator[data-modality="voice"]::before {
+  content: '🎤';
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  font-size: var(--font-size-xs, 0.75rem);
+  opacity: 0.8;
+}
+
+.focusIndicator[data-modality="camera"]::before {
+  content: '📷';
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  font-size: var(--font-size-xs, 0.75rem);
+  opacity: 0.8;
+}
+
+.focusIndicator[data-modality="text"]::before {
+  content: '⌨️';
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  font-size: var(--font-size-xs, 0.75rem);
+  opacity: 0.8;
+}
+
+.focusIndicator[data-modality="multimodal"]::before {
+  content: '🔄';
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  font-size: var(--font-size-xs, 0.75rem);
+  opacity: 0.8;
+  animation: multiModalSpin 3s linear infinite;
+}
+
+@keyframes multiModalSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================
+   FOCUS GROUP COORDINATION
+   ========================= */
+
+.focusIndicator[data-focus-group] {
+  /* Focus group styling */
+}
+
+.focusIndicator[data-primary-focus="true"] {
+  --focus-width: calc(var(--focus-width) + 1px);
+  z-index: calc(var(--focus-z-index) + 10);
+}
+
+.focusIndicator[data-primary-focus="true"]::after {
+  content: '★';
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  color: var(--focus-color);
+  font-size: var(--font-size-sm, 0.875rem);
+  animation: primaryFocusTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes primaryFocusTwinkle {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}

@@ -1,0 +1,728 @@
+/**
+ * CAMERA ICON ATOM STYLES - ENHANCED CAMERA INTERACTION SYSTEM
+ * 
+ * Comprehensive camera icon styles with state visualization, capture effects,
+ * focus rings, and accessibility features for camera interfaces.
+ */
+
+.cameraIcon {
+  /* Base camera icon styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Custom properties for dynamic styling */
+  --camera-active-color: var(--multimodal-camera-active, #0ea5e9);
+  --camera-inactive-color: var(--color-neutral-500, #71717a);
+  --animation-duration: 300ms;
+  --focus-confidence: 0%;
+  --recording-duration: 0;
+  --focus-strength: 0;
+  
+  /* Color */
+  color: var(--camera-inactive-color);
+  
+  /* Interactions */
+  user-select: none;
+  
+  /* Transitions */
+  transition: all var(--animation-duration) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+/* Size Variants */
+.xs {
+  width: var(--spacing-6, 1.5rem);
+  height: var(--spacing-6, 1.5rem);
+}
+
+.sm {
+  width: var(--spacing-8, 2rem);
+  height: var(--spacing-8, 2rem);
+}
+
+.md {
+  width: var(--spacing-10, 2.5rem);
+  height: var(--spacing-10, 2.5rem);
+}
+
+.lg {
+  width: var(--spacing-12, 3rem);
+  height: var(--spacing-12, 3rem);
+}
+
+.xl {
+  width: var(--spacing-16, 4rem);
+  height: var(--spacing-16, 4rem);
+}
+
+.2xl {
+  width: var(--spacing-20, 5rem);
+  height: var(--spacing-20, 5rem);
+}
+
+/* Main Icon Styling */
+.icon {
+  position: relative;
+  z-index: 2;
+  transition: all var(--animation-duration) ease-out;
+}
+
+/* Camera State Variants */
+.idle {
+  color: var(--camera-inactive-color);
+}
+
+.recording {
+  color: var(--color-red-500, #ef4444);
+  animation: recordingPulse 1s ease-in-out infinite;
+}
+
+.capturing {
+  color: var(--camera-active-color);
+  animation: captureFlash 0.2s ease-out;
+}
+
+.processing {
+  color: var(--color-orange-500, #f59e0b);
+  animation: processingRotate 2s linear infinite;
+}
+
+.permission {
+  color: var(--color-orange-600, #ea580c);
+  opacity: 0.8;
+  animation: permissionBlink 1.5s ease-in-out infinite;
+}
+
+.error {
+  color: var(--color-red-500, #ef4444);
+  animation: errorShake 0.5s ease-in-out;
+}
+
+.disabled {
+  color: var(--color-neutral-300, #d4d4d8);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Interactive States */
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover:not(.disabled) {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.interactive:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.interactive:focus-visible {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+/* Active State */
+.active {
+  color: var(--camera-active-color);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px var(--camera-active-color));
+}
+
+/* Capture Mode Styling */
+.captureMode {
+  border: 3px solid transparent;
+  border-radius: var(--border-radius-full, 9999px);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+  padding: var(--spacing-3, 0.75rem);
+  position: relative;
+}
+
+.captureMode:not(.disabled):hover {
+  border-color: var(--camera-active-color);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%);
+}
+
+.captureMode.recording {
+  border-color: var(--color-red-500, #ef4444);
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, transparent 70%);
+  animation: recordingRing 1s ease-in-out infinite;
+}
+
+/* Focus Ring Animation */
+.withFocusRing .focusRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  border: 2px solid var(--camera-active-color);
+  border-radius: var(--border-radius-full, 9999px);
+  transform: translate(-50%, -50%) scale(var(--focus-strength, 0));
+  opacity: 0;
+  pointer-events: none;
+  animation: focusRingExpand 1.5s ease-out infinite;
+}
+
+.focused .focusRing {
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(1);
+  animation: focusLock 0.3s ease-out;
+}
+
+@keyframes focusRingExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes focusLock {
+  0% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Flash Effect */
+.flashOverlay {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, transparent 70%);
+  border-radius: var(--border-radius-full, 9999px);
+  pointer-events: none;
+  z-index: 1;
+  animation: flashEffect 0.2s ease-out;
+}
+
+@keyframes flashEffect {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Flash Mode Indicator */
+.flashIndicator {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 20%;
+  height: 20%;
+  min-width: var(--spacing-2, 0.5rem);
+  min-height: var(--spacing-2, 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-black, #000000);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  z-index: 3;
+}
+
+.flashIndicator.on {
+  color: var(--color-yellow-400, #facc15);
+}
+
+.flashIndicator.off {
+  color: var(--color-red-400, #f87171);
+}
+
+/* Recording Timer */
+.timer {
+  position: absolute;
+  bottom: -var(--spacing-6, 1.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-red-600, #dc2626);
+  color: var(--color-white, #ffffff);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  font-family: monospace;
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-sm, 0.125rem);
+  white-space: nowrap;
+  z-index: 3;
+  animation: timerBlink 1s ease-in-out infinite;
+}
+
+@keyframes timerBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.7;
+  }
+}
+
+/* Status Indicator */
+.status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 30%;
+  min-width: var(--spacing-2, 0.5rem);
+  min-height: var(--spacing-2, 0.5rem);
+  border-radius: var(--border-radius-full, 9999px);
+  border: 2px solid var(--color-white, #ffffff);
+  z-index: 3;
+  transform: translate(25%, 25%);
+}
+
+.status.idle {
+  background-color: var(--color-neutral-400, #a1a1aa);
+}
+
+.status.recording {
+  background-color: var(--color-red-500, #ef4444);
+  animation: recordingDot 1s ease-in-out infinite;
+}
+
+.status.capturing {
+  background-color: var(--camera-active-color);
+  animation: captureFlash 0.2s ease-out;
+}
+
+.status.processing {
+  background-color: var(--color-orange-500, #f59e0b);
+  animation: processingDot 1s ease-in-out infinite;
+}
+
+.status.permission {
+  background-color: var(--color-orange-600, #ea580c);
+  animation: permissionPulse 1.5s ease-in-out infinite;
+}
+
+.status.error {
+  background-color: var(--color-red-600, #dc2626);
+  animation: errorBlink 0.3s ease-in-out 3;
+}
+
+.status.disabled {
+  background-color: var(--color-neutral-300, #d4d4d8);
+  opacity: 0.5;
+}
+
+/* Permission Overlay */
+.permissionOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 40%;
+  background: var(--color-orange-600, #ea580c);
+  border: 2px solid var(--color-white, #ffffff);
+  border-radius: var(--border-radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white, #ffffff);
+  z-index: 4;
+  transform: translate(25%, -25%);
+  animation: permissionAlert 1s ease-in-out infinite;
+}
+
+@keyframes permissionAlert {
+  0%, 100% {
+    transform: translate(25%, -25%) scale(1);
+  }
+  50% {
+    transform: translate(25%, -25%) scale(1.1);
+  }
+}
+
+/* Pulse Animation */
+.pulse {
+  animation: cameraPulse 2s ease-in-out infinite;
+}
+
+@keyframes cameraPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* State-Specific Animations */
+@keyframes recordingPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px var(--color-red-500));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px var(--color-red-500));
+  }
+}
+
+@keyframes recordingRing {
+  0%, 100% {
+    border-color: var(--color-red-500);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    border-color: var(--color-red-600);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes captureFlash {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(2) drop-shadow(0 0 20px var(--camera-active-color));
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes processingRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes permissionBlink {
+  0%, 70%, 100% {
+    opacity: 0.8;
+  }
+  35% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes recordingDot {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(25%, 25%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(25%, 25%) scale(1.1);
+  }
+}
+
+@keyframes processingDot {
+  0%, 100% {
+    transform: translate(25%, 25%) scale(1);
+  }
+  50% {
+    transform: translate(25%, 25%) scale(1.2);
+  }
+}
+
+@keyframes permissionPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(25%, 25%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(25%, 25%) scale(1.1);
+  }
+}
+
+@keyframes errorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Animation Control */
+.animate {
+  /* Enhanced animation support */
+}
+
+.cameraIcon:not(.animate) {
+  transition: none;
+}
+
+.cameraIcon:not(.animate) * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .cameraIcon {
+    filter: contrast(1.2);
+  }
+  
+  .status {
+    border-width: 3px;
+  }
+  
+  .interactive:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+  
+  .focusRing {
+    border-width: 3px;
+  }
+  
+  .timer {
+    border: 1px solid var(--color-white, #ffffff);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .cameraIcon {
+    transition: none;
+  }
+  
+  .cameraIcon *,
+  .cameraIcon::before,
+  .cameraIcon::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .interactive:hover {
+    transform: none;
+  }
+  
+  .interactive:active {
+    transform: none;
+  }
+  
+  .active {
+    transform: none;
+  }
+  
+  /* Provide alternative feedback */
+  .recording::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--color-red-500, #ef4444);
+    border-radius: inherit;
+    opacity: 0.8;
+  }
+  
+  .focused::after {
+    border-color: var(--camera-active-color);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .idle {
+    color: var(--color-neutral-400, #a1a1aa);
+  }
+  
+  .disabled {
+    color: var(--color-neutral-600, #52525b);
+  }
+  
+  .status {
+    border-color: var(--color-neutral-800, #27272a);
+  }
+  
+  .captureMode {
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%);
+  }
+  
+  .captureMode:not(.disabled):hover {
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+  }
+  
+  .captureMode.recording {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 70%);
+  }
+  
+  .flashIndicator {
+    background: var(--color-neutral-900, #171717);
+  }
+  
+  .timer {
+    background: var(--color-red-700, #b91c1c);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .cameraIcon {
+    color: black !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .cameraIcon::before,
+  .cameraIcon::after,
+  .focusRing,
+  .flashOverlay {
+    display: none !important;
+  }
+  
+  .status {
+    background: black !important;
+    border: 1px solid black !important;
+  }
+  
+  .timer {
+    background: black !important;
+    color: white !important;
+    border: 1px solid black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .interactive {
+    /* Ensure adequate touch target */
+    min-width: var(--camera-touch-target, 44px);
+    min-height: var(--camera-touch-target, 44px);
+  }
+  
+  .interactive:hover {
+    /* Remove hover effects on touch devices */
+    transform: none;
+    filter: none;
+  }
+  
+  .interactive:active {
+    /* Provide tactile feedback on touch */
+    transform: scale(0.95);
+    filter: brightness(0.9);
+  }
+  
+  .captureMode {
+    /* Enhanced touch target for capture mode */
+    padding: var(--spacing-4, 1rem);
+  }
+}
+
+/* Responsive Size Adjustments */
+@media (max-width: 640px) {
+  .2xl {
+    width: var(--spacing-16, 4rem);
+    height: var(--spacing-16, 4rem);
+  }
+  
+  .xl {
+    width: var(--spacing-12, 3rem);
+    height: var(--spacing-12, 3rem);
+  }
+  
+  .timer {
+    font-size: var(--font-size-sm, 0.875rem);
+    bottom: -var(--spacing-8, 2rem);
+  }
+}
+
+/* Performance Optimizations */
+.cameraIcon {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.focusRing {
+  /* Optimize focus ring animations */
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Enhanced accessibility for screen readers */
+.cameraIcon[aria-pressed="true"] {
+  /* Active state announcement */
+}
+
+.cameraIcon[aria-live="polite"] {
+  /* Recording state announcements */
+}
+
+/* Custom color support */
+.cameraIcon[style*="--camera-active-color"] {
+  /* Custom active color support */
+}
+
+.cameraIcon[style*="--camera-inactive-color"] {
+  /* Custom inactive color support */
+}
+
+/* Focus confidence visualization */
+.cameraIcon[data-focus-confidence="high"] .focusRing {
+  border-color: var(--color-green-500, #10b981);
+  opacity: 0.9;
+}
+
+.cameraIcon[data-focus-confidence="medium"] .focusRing {
+  border-color: var(--color-orange-500, #f59e0b);
+  opacity: 0.7;
+}
+
+.cameraIcon[data-focus-confidence="low"] .focusRing {
+  border-color: var(--color-red-500, #ef4444);
+  opacity: 0.5;
+}

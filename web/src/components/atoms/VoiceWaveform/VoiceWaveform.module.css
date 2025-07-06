@@ -1,0 +1,622 @@
+/**
+ * VOICE WAVEFORM ATOM STYLES - PROFESSIONAL AUDIO VISUALIZATION
+ * 
+ * Comprehensive voice waveform styles with multiple visualization modes,
+ * real-time rendering, recording states, and accessibility features.
+ */
+
+.voiceWaveform {
+  /* Base waveform styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Custom properties for dynamic styling */
+  --voice-default-color: var(--multimodal-voice-active, #10b981);
+  --voice-primary-color: var(--color-primary-500, #0ea5e9);
+  --voice-success-color: var(--color-semantic-success, #10b981);
+  --voice-warning-color: var(--color-semantic-warning, #f59e0b);
+  --voice-error-color: var(--color-semantic-error, #ef4444);
+  --voice-gradient-start: var(--multimodal-voice-active, #10b981);
+  --voice-gradient-end: var(--color-primary-500, #0ea5e9);
+  
+  /* Layout */
+  overflow: hidden;
+  border-radius: var(--border-radius-md, 0.375rem);
+  background: var(--color-neutral-50, #f9fafb);
+  border: 1px solid var(--color-neutral-200, #e5e7eb);
+  
+  /* Transitions */
+  transition: all 200ms ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+/* Size Variants */
+.xs {
+  width: 120px;
+  height: 40px;
+  border-radius: var(--border-radius-sm, 0.125rem);
+}
+
+.sm {
+  width: 200px;
+  height: 60px;
+  border-radius: var(--border-radius-sm, 0.125rem);
+}
+
+.md {
+  width: 320px;
+  height: 80px;
+}
+
+.lg {
+  width: 480px;
+  height: 120px;
+  border-radius: var(--border-radius-lg, 0.5rem);
+}
+
+.xl {
+  width: 640px;
+  height: 160px;
+  border-radius: var(--border-radius-lg, 0.5rem);
+}
+
+/* Canvas Styling */
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+}
+
+/* Visualization Mode Variants */
+.oscilloscope {
+  /* Standard oscilloscope display */
+}
+
+.frequency,
+.spectrum,
+.bars {
+  /* Frequency spectrum analysis */
+  background: linear-gradient(to top, 
+    rgba(16, 185, 129, 0.05) 0%, 
+    rgba(16, 185, 129, 0.02) 50%, 
+    transparent 100%);
+}
+
+.circular {
+  /* Circular waveform display */
+  background: radial-gradient(circle, 
+    rgba(16, 185, 129, 0.05) 0%, 
+    transparent 70%);
+}
+
+/* Color Variants */
+.default {
+  border-color: var(--voice-default-color);
+}
+
+.primary {
+  border-color: var(--voice-primary-color);
+  background: linear-gradient(135deg, 
+    rgba(14, 165, 233, 0.05) 0%, 
+    rgba(14, 165, 233, 0.02) 100%);
+}
+
+.success {
+  border-color: var(--voice-success-color);
+  background: linear-gradient(135deg, 
+    rgba(16, 185, 129, 0.05) 0%, 
+    rgba(16, 185, 129, 0.02) 100%);
+}
+
+.warning {
+  border-color: var(--voice-warning-color);
+  background: linear-gradient(135deg, 
+    rgba(245, 158, 11, 0.05) 0%, 
+    rgba(245, 158, 11, 0.02) 100%);
+}
+
+.error {
+  border-color: var(--voice-error-color);
+  background: linear-gradient(135deg, 
+    rgba(239, 68, 68, 0.05) 0%, 
+    rgba(239, 68, 68, 0.02) 100%);
+}
+
+.gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--color-white, #ffffff), var(--color-white, #ffffff)) padding-box,
+              linear-gradient(135deg, var(--voice-gradient-start), var(--voice-gradient-end)) border-box;
+}
+
+/* Active State */
+.active {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+  border-color: var(--voice-default-color);
+}
+
+.active.primary {
+  filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.3));
+}
+
+.active.success {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+}
+
+.active.warning {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.3));
+}
+
+.active.error {
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.3));
+}
+
+.active.gradient {
+  filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.2))
+          drop-shadow(0 0 8px rgba(14, 165, 233, 0.2));
+}
+
+/* Recording State Variants */
+.recording {
+  border-color: var(--color-red-500, #ef4444);
+  background: linear-gradient(135deg, 
+    rgba(239, 68, 68, 0.08) 0%, 
+    rgba(239, 68, 68, 0.03) 100%);
+  animation: recordingPulse 1.5s ease-in-out infinite;
+}
+
+.playing {
+  border-color: var(--color-blue-500, #3b82f6);
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.08) 0%, 
+    rgba(59, 130, 246, 0.03) 100%);
+  animation: playingGlow 2s ease-in-out infinite;
+}
+
+.paused {
+  border-color: var(--color-orange-500, #f59e0b);
+  background: linear-gradient(135deg, 
+    rgba(245, 158, 11, 0.08) 0%, 
+    rgba(245, 158, 11, 0.03) 100%);
+  opacity: 0.8;
+}
+
+@keyframes recordingPulse {
+  0%, 100% {
+    border-color: var(--color-red-500, #ef4444);
+    filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.3));
+  }
+  50% {
+    border-color: var(--color-red-600, #dc2626);
+    filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.5));
+  }
+}
+
+@keyframes playingGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+  }
+}
+
+/* Mode-Specific Styling */
+.oscilloscope .canvas {
+  /* Optimized for time-domain visualization */
+  image-rendering: optimizeSpeed;
+}
+
+.frequency .canvas,
+.spectrum .canvas,
+.bars .canvas {
+  /* Optimized for frequency-domain visualization */
+  image-rendering: auto;
+}
+
+.circular .canvas {
+  /* Optimized for circular visualization */
+  image-rendering: optimizeQuality;
+}
+
+/* Interactive Features */
+.voiceWaveform:hover {
+  border-color: var(--voice-default-color);
+  filter: brightness(1.02);
+}
+
+.voiceWaveform:focus-within {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+}
+
+/* Enhanced Visual Effects */
+.voiceWaveform::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.active::before {
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .voiceWaveform {
+    border-width: 2px;
+    filter: contrast(1.3);
+  }
+  
+  .active {
+    border-width: 3px;
+  }
+  
+  .voiceWaveform:focus-within {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+  
+  .recording,
+  .playing,
+  .paused {
+    border-width: 3px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .voiceWaveform {
+    transition: none;
+  }
+  
+  .voiceWaveform *,
+  .voiceWaveform::before,
+  .voiceWaveform::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .canvas {
+    /* Reduce canvas refresh rate for reduced motion */
+    image-rendering: optimizeSpeed;
+  }
+  
+  /* Provide alternative visual feedback */
+  .recording::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background: var(--color-red-500, #ef4444);
+    border-radius: var(--border-radius-full, 9999px);
+  }
+  
+  .playing::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid var(--color-blue-500, #3b82f6);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+  
+  .paused::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 6px;
+    height: 8px;
+    background: linear-gradient(90deg, 
+      var(--color-orange-500, #f59e0b) 0%, 
+      var(--color-orange-500, #f59e0b) 40%, 
+      transparent 40%, 
+      transparent 60%, 
+      var(--color-orange-500, #f59e0b) 60%);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .voiceWaveform {
+    background: var(--color-neutral-900, #171717);
+    border-color: var(--color-neutral-700, #404040);
+  }
+  
+  .voiceWaveform::before {
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.01) 50%,
+      transparent 100%
+    );
+  }
+  
+  .active::before {
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      transparent 100%
+    );
+  }
+  
+  .frequency,
+  .spectrum,
+  .bars {
+    background: linear-gradient(to top, 
+      rgba(16, 185, 129, 0.02) 0%, 
+      rgba(16, 185, 129, 0.01) 50%, 
+      transparent 100%);
+  }
+  
+  .circular {
+    background: radial-gradient(circle, 
+      rgba(16, 185, 129, 0.02) 0%, 
+      transparent 70%);
+  }
+  
+  .primary {
+    background: linear-gradient(135deg, 
+      rgba(14, 165, 233, 0.02) 0%, 
+      rgba(14, 165, 233, 0.01) 100%);
+  }
+  
+  .success {
+    background: linear-gradient(135deg, 
+      rgba(16, 185, 129, 0.02) 0%, 
+      rgba(16, 185, 129, 0.01) 100%);
+  }
+  
+  .warning {
+    background: linear-gradient(135deg, 
+      rgba(245, 158, 11, 0.02) 0%, 
+      rgba(245, 158, 11, 0.01) 100%);
+  }
+  
+  .error {
+    background: linear-gradient(135deg, 
+      rgba(239, 68, 68, 0.02) 0%, 
+      rgba(239, 68, 68, 0.01) 100%);
+  }
+  
+  .recording {
+    background: linear-gradient(135deg, 
+      rgba(239, 68, 68, 0.04) 0%, 
+      rgba(239, 68, 68, 0.02) 100%);
+  }
+  
+  .playing {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.04) 0%, 
+      rgba(59, 130, 246, 0.02) 100%);
+  }
+  
+  .paused {
+    background: linear-gradient(135deg, 
+      rgba(245, 158, 11, 0.04) 0%, 
+      rgba(245, 158, 11, 0.02) 100%);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .voiceWaveform {
+    border: 1px solid black !important;
+    background: white !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .voiceWaveform::before,
+  .voiceWaveform::after {
+    display: none !important;
+  }
+  
+  .canvas {
+    filter: contrast(1.5);
+  }
+  
+  .recording::after,
+  .playing::after,
+  .paused::after {
+    background: black !important;
+    border-color: black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .voiceWaveform {
+    /* Ensure adequate touch target for interaction */
+    min-height: var(--camera-touch-target, 44px);
+  }
+  
+  .xs {
+    height: 44px;
+  }
+  
+  .sm {
+    height: 60px;
+  }
+  
+  .voiceWaveform:hover {
+    /* Remove hover effects on touch devices */
+    filter: none;
+    border-color: inherit;
+  }
+}
+
+/* Responsive Size Adjustments */
+@media (max-width: 640px) {
+  .xl {
+    width: 100%;
+    max-width: 480px;
+    height: 120px;
+  }
+  
+  .lg {
+    width: 100%;
+    max-width: 320px;
+    height: 80px;
+  }
+  
+  .md {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xl,
+  .lg {
+    width: 100%;
+    height: 60px;
+  }
+  
+  .md {
+    width: 100%;
+    height: 50px;
+  }
+  
+  .sm {
+    width: 100%;
+    height: 40px;
+  }
+}
+
+/* Performance Optimizations */
+.voiceWaveform {
+  /* Promote to GPU layer for smooth rendering */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.canvas {
+  /* Optimize canvas rendering */
+  will-change: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.active .canvas {
+  /* Enhanced performance for active waveforms */
+  will-change: contents;
+  image-rendering: optimizeSpeed;
+}
+
+/* Canvas rendering optimizations for different modes */
+.oscilloscope .canvas {
+  image-rendering: optimizeSpeed; /* Fast line rendering */
+}
+
+.frequency .canvas,
+.spectrum .canvas,
+.bars .canvas {
+  image-rendering: auto; /* Balanced quality for bars */
+}
+
+.circular .canvas {
+  image-rendering: optimizeQuality; /* High quality for circular */
+}
+
+/* Enhanced accessibility for screen readers */
+.voiceWaveform[aria-live="polite"] {
+  /* Voice activity announcements */
+}
+
+.voiceWaveform[role="img"] {
+  /* Image semantics for waveform visualization */
+}
+
+/* Custom property support for dynamic theming */
+.voiceWaveform[style*="--voice-custom-color"] {
+  /* Support for custom color properties */
+}
+
+/* Activity level visualization */
+.voiceWaveform[data-activity="low"] {
+  opacity: 0.7;
+}
+
+.voiceWaveform[data-activity="medium"] {
+  opacity: 0.85;
+}
+
+.voiceWaveform[data-activity="high"] {
+  opacity: 1;
+  filter: brightness(1.05);
+}
+
+/* Peak detection visualization */
+.voiceWaveform[data-peak="true"] {
+  filter: brightness(1.1) drop-shadow(0 0 6px var(--voice-default-color));
+}
+
+/* Recording quality indicators */
+.voiceWaveform[data-quality="low"] {
+  border-color: var(--color-red-400, #f87171);
+}
+
+.voiceWaveform[data-quality="medium"] {
+  border-color: var(--color-orange-400, #fb923c);
+}
+
+.voiceWaveform[data-quality="high"] {
+  border-color: var(--color-green-400, #4ade80);
+}
+
+/* Zoom level styling */
+.voiceWaveform[data-zoom="1"] {
+  /* Normal zoom */
+}
+
+.voiceWaveform[data-zoom="2"] {
+  /* 2x zoom - enhanced detail */
+  filter: contrast(1.1);
+}
+
+.voiceWaveform[data-zoom="4"] {
+  /* 4x zoom - maximum detail */
+  filter: contrast(1.2) brightness(1.05);
+}

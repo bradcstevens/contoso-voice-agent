@@ -1,0 +1,647 @@
+/* Camera Permission Onboarding Page Styles */
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--background-color, #ffffff);
+  color: var(--text-color, #000000);
+  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+
+/* High contrast mode support */
+.pageContainer.highContrast {
+  --background-color: #000000;
+  --text-color: #ffffff;
+  --primary-color: #ffff00;
+  --border-color: #ffffff;
+  --card-background: #1a1a1a;
+  --accent-color: #00ffff;
+}
+
+/* Page Header */
+.pageHeader {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+  background: linear-gradient(135deg, var(--primary-color, #0066cc) 0%, var(--accent-color, #4da6ff) 100%);
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.pageHeader h1 {
+  margin: 0 0 1rem 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pageDescription {
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.95;
+}
+
+/* Skip Navigation */
+.skipNav {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.skipButton {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color, #0066cc);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.3s ease;
+}
+
+.skipButton:focus {
+  top: 1rem;
+}
+
+/* Onboarding Section */
+.onboardingSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+}
+
+.onboardingSection h2 {
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 3rem 0;
+  color: var(--text-color, #333333);
+}
+
+/* Step Indicator */
+.stepIndicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stepTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: var(--card-background, #f8f9fa);
+  border: 2px solid var(--border-color, #e9ecef);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+.stepTab:hover {
+  border-color: var(--primary-color, #0066cc);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+.stepTab:focus {
+  outline: 3px solid var(--focus-color, #4da6ff);
+  outline-offset: 2px;
+}
+
+.stepTab.activeTab {
+  background: var(--primary-color, #0066cc);
+  border-color: var(--primary-color, #0066cc);
+  color: white;
+}
+
+.stepTab.completedTab {
+  background: var(--success-color, #28a745);
+  border-color: var(--success-color, #28a745);
+  color: white;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.stepTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+/* Step Content */
+.stepContent {
+  margin-bottom: 3rem;
+}
+
+.stepCard {
+  background: var(--card-background, #ffffff);
+  border: 1px solid var(--border-color, #e9ecef);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stepCard.activeStep {
+  border-color: var(--primary-color, #0066cc);
+  box-shadow: 0 8px 32px rgba(0, 102, 204, 0.15);
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.stepIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--primary-color, #0066cc), var(--accent-color, #4da6ff));
+  border-radius: 12px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.stepCard h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color, #333333);
+}
+
+.stepDescription {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #666666);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.benefitsList h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #333333);
+}
+
+.benefitsList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.benefitsList li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  color: var(--text-secondary, #666666);
+}
+
+.checkIcon {
+  color: var(--success-color, #28a745);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Step Navigation */
+.stepNavigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--primary-color, #0066cc);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-height: 44px; /* Touch target size */
+}
+
+.navButton:hover:not(:disabled) {
+  background: var(--primary-dark, #0052a3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+.navButton:focus {
+  outline: 3px solid var(--focus-color, #4da6ff);
+  outline-offset: 2px;
+}
+
+.navButton:disabled {
+  background: var(--disabled-color, #6c757d);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.stepCounter {
+  font-weight: 600;
+  color: var(--text-secondary, #666666);
+  text-align: center;
+  min-width: 120px;
+}
+
+/* Permission Section */
+.permissionSection {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 2rem 3rem;
+}
+
+.permissionSection:focus {
+  outline: none;
+}
+
+.permissionSection h2 {
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  color: var(--text-color, #333333);
+}
+
+.permissionIntro {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.permissionIntro p {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #666666);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.privacyNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--info-background, #e3f2fd);
+  border: 1px solid var(--info-border, #bbdefb);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--info-text, #1565c0);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.permissionFlow {
+  margin: 2rem 0;
+}
+
+.flowComponent {
+  /* Inherits styles from CameraPermissionFlow component */
+}
+
+/* Fallback Options */
+.fallbackOptions {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.fallbackOptions h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--text-color, #333333);
+}
+
+.optionsGrid {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fallbackButton,
+.retryButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border: 2px solid var(--border-color, #e9ecef);
+  border-radius: 8px;
+  background: var(--card-background, #ffffff);
+  color: var(--text-color, #333333);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.fallbackButton:hover,
+.retryButton:hover {
+  border-color: var(--primary-color, #0066cc);
+  background: var(--primary-color, #0066cc);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+}
+
+.fallbackButton:focus,
+.retryButton:focus {
+  outline: 3px solid var(--focus-color, #4da6ff);
+  outline-offset: 2px;
+}
+
+/* Success Section */
+.successSection {
+  text-align: center;
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: var(--success-background, #d4edda);
+  border: 1px solid var(--success-border, #c3e6cb);
+  border-radius: 16px;
+  color: var(--success-text, #155724);
+}
+
+.successSection h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--success-color, #28a745);
+}
+
+.loadingIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-weight: 600;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--success-color, #28a745);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Accessibility Footer */
+.accessibilityFooter {
+  margin-top: auto;
+  padding: 2rem;
+  border-top: 1px solid var(--border-color, #e9ecef);
+  background: var(--footer-background, #f8f9fa);
+}
+
+.accessibilityDetails {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.accessibilityDetails summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--primary-color, #0066cc);
+  padding: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.accessibilityDetails summary:hover {
+  color: var(--primary-dark, #0052a3);
+}
+
+.accessibilityDetails summary:focus {
+  outline: 3px solid var(--focus-color, #4da6ff);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.accessibilityContent {
+  padding: 1.5rem 0 0.5rem;
+  color: var(--text-secondary, #666666);
+  line-height: 1.6;
+}
+
+.accessibilityContent h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-color, #333333);
+}
+
+.accessibilityContent ul {
+  margin: 0 0 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.accessibilityContent li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pageHeader {
+    padding: 2rem 1rem 1.5rem;
+  }
+  
+  .onboardingSection,
+  .permissionSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .stepIndicator {
+    gap: 0.5rem;
+  }
+  
+  .stepTab {
+    min-width: 100px;
+    padding: 0.75rem;
+  }
+  
+  .stepCard {
+    padding: 1.5rem;
+  }
+  
+  .stepHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .stepNavigation {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .navButton {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
+  
+  .optionsGrid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fallbackButton,
+  .retryButton {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stepIndicator {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stepTab {
+    width: 100%;
+    max-width: 280px;
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .stepNumber {
+    margin-bottom: 0;
+    margin-right: 0.75rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .pageContainer {
+    background: white;
+    color: black;
+  }
+  
+  .navButton,
+  .fallbackButton,
+  .retryButton {
+    border: 2px solid black;
+    background: white;
+    color: black;
+  }
+  
+  .loadingIndicator {
+    display: none;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .stepTab,
+  .navButton,
+  .fallbackButton,
+  .retryButton,
+  .stepCard {
+    transition: none;
+  }
+  
+  .stepTab:hover,
+  .navButton:hover,
+  .fallbackButton:hover,
+  .retryButton:hover {
+    transform: none;
+  }
+  
+  .spinner {
+    animation: none;
+    border: 3px solid var(--success-color, #28a745);
+    border-top-color: var(--success-color, #28a745);
+  }
+}
+
+/* High Contrast Mode Enhancements */
+@media (prefers-contrast: high) {
+  .pageContainer {
+    --border-color: currentColor;
+  }
+  
+  .stepTab,
+  .stepCard,
+  .navButton,
+  .fallbackButton,
+  .retryButton {
+    border-width: 2px;
+    border-style: solid;
+  }
+  
+  .stepTab:focus,
+  .navButton:focus,
+  .fallbackButton:focus,
+  .retryButton:focus {
+    outline-width: 4px;
+  }
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+} 

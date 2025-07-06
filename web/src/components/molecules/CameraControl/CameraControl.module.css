@@ -1,0 +1,597 @@
+/* CameraControl Molecule Styles */
+
+.cameraControl {
+  /* Container */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+}
+
+.controlContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+/* Layout Variants */
+.cameraControl.horizontal .controlContainer {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.cameraControl.compact .controlContainer {
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.cameraControl.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 300px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Size Variants */
+.cameraControl.small {
+  max-width: 400px;
+  border-radius: var(--spacing-sm);
+}
+
+.cameraControl.small .controlContainer {
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.cameraControl.large {
+  max-width: 800px;
+  border-radius: var(--spacing-lg);
+}
+
+.cameraControl.large .controlContainer {
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
+}
+
+/* Primary Control */
+.primaryControl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+
+.cameraIconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--color-surface-secondary);
+  border: 2px solid var(--color-border-subtle);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.cameraControl.small .cameraIconContainer {
+  width: 80px;
+  height: 80px;
+}
+
+.cameraControl.large .cameraIconContainer {
+  width: 160px;
+  height: 160px;
+}
+
+.cameraIconContainer:hover {
+  border-color: var(--color-primary-base);
+  background: var(--color-primary-subtle);
+  transform: scale(1.02);
+}
+
+.cameraIconContainer:focus-within {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: 2px;
+}
+
+.cameraIcon {
+  z-index: 2;
+}
+
+/* Overlay Systems */
+.focusOverlay,
+.captureOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.focusRing {
+  width: 100%;
+  height: 100%;
+}
+
+.captureRing {
+  width: 110%;
+  height: 110%;
+}
+
+/* Status Display */
+.statusDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-align: center;
+}
+
+.statusText {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.qualityBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-success-subtle);
+  color: var(--color-success-base);
+  border-radius: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--color-success-border);
+}
+
+/* Metrics Panel */
+.metricsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border-radius: var(--spacing-sm);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.metricsTitle {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.qualityIndicator {
+  width: 100%;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  background: var(--color-surface-primary);
+  border-radius: var(--spacing-xs);
+  border: 1px solid var(--color-border-subtle);
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-medium);
+}
+
+.metricValue {
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Settings Panel */
+.settingsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border-radius: var(--spacing-sm);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.settingsTitle {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.settingGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.settingLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.settingSelect {
+  padding: var(--spacing-sm);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.settingSelect:hover:not(:disabled) {
+  border-color: var(--color-primary-base);
+  background: var(--color-primary-subtle);
+}
+
+.settingSelect:focus {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: 1px;
+  border-color: var(--color-primary-base);
+}
+
+.settingSelect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-surface-disabled);
+}
+
+/* Control Actions */
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-subtle);
+  flex-wrap: wrap;
+}
+
+.cameraControl.horizontal .actions {
+  flex-direction: column;
+  align-items: stretch;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.cameraControl.compact .actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Camera States */
+.cameraControl[data-state="recording"] .cameraIconContainer {
+  border-color: var(--color-danger-base);
+  background: var(--color-danger-subtle);
+  animation: recordingPulse 2s infinite;
+}
+
+.cameraControl[data-state="capturing"] .cameraIconContainer {
+  border-color: var(--color-warning-base);
+  background: var(--color-warning-subtle);
+  animation: capturingFlash 0.5s ease-out;
+}
+
+.cameraControl[data-state="processing"] .cameraIconContainer {
+  border-color: var(--color-info-base);
+  background: var(--color-info-subtle);
+  animation: processingSpin 1s linear infinite;
+}
+
+.cameraControl[data-state="error"] .cameraIconContainer {
+  border-color: var(--color-danger-base);
+  background: var(--color-danger-subtle);
+}
+
+.cameraControl[data-state="permission"] .cameraIconContainer {
+  border-color: var(--color-warning-base);
+  background: var(--color-warning-subtle);
+  opacity: 0.7;
+}
+
+.cameraControl[data-state="disabled"] .cameraIconContainer {
+  border-color: var(--color-border-disabled);
+  background: var(--color-surface-disabled);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes recordingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes capturingFlash {
+  0% {
+    background: var(--color-warning-subtle);
+  }
+  50% {
+    background: var(--color-warning-base);
+    box-shadow: 0 0 20px var(--color-warning-base);
+  }
+  100% {
+    background: var(--color-warning-subtle);
+  }
+}
+
+@keyframes processingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Focus Target Indicator */
+.cameraControl[data-focus-active="true"] .cameraIconContainer::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--color-primary-base);
+  border-radius: var(--spacing-xs);
+  animation: focusTarget 2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes focusTarget {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cameraControl.horizontal .controlContainer {
+    flex-direction: column;
+  }
+  
+  .cameraControl.horizontal .actions {
+    flex-direction: row;
+    width: auto;
+  }
+  
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .controlContainer {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+  
+  .cameraIconContainer {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metric {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .metricLabel,
+  .metricValue {
+    text-align: left;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .cameraControl {
+    border-width: 2px;
+  }
+  
+  .cameraIconContainer {
+    border-width: 3px;
+  }
+  
+  .metric,
+  .settingSelect {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .cameraIconContainer,
+  .settingSelect {
+    transition: none;
+  }
+  
+  .cameraIconContainer:hover {
+    transform: none;
+  }
+  
+  @keyframes recordingPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes capturingFlash,
+  @keyframes processingSpin,
+  @keyframes focusTarget {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Touch Interactions */
+@media (hover: none) and (pointer: coarse) {
+  .cameraIconContainer {
+    padding: var(--spacing-sm);
+  }
+  
+  .actions {
+    gap: var(--spacing-lg);
+  }
+  
+  .settingSelect {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-md);
+  }
+}
+
+/* Focus Management */
+.cameraControl:focus-within {
+  outline: none;
+}
+
+/* Loading States */
+.cameraControl[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.cameraControl[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Error States */
+.cameraControl[data-error="true"] {
+  border-color: var(--color-border-danger);
+}
+
+.cameraControl[data-error="true"] .statusText {
+  color: var(--color-text-danger);
+}
+
+/* Permission States */
+.cameraControl[data-permission="denied"] {
+  border-color: var(--color-border-warning);
+}
+
+.cameraControl[data-permission="denied"] .statusText {
+  color: var(--color-text-warning);
+}
+
+/* Overlay Mode Specific Styles */
+.cameraControl.overlay .statusText,
+.cameraControl.overlay .metricsTitle,
+.cameraControl.overlay .settingsTitle,
+.cameraControl.overlay .metricLabel,
+.cameraControl.overlay .metricValue,
+.cameraControl.overlay .settingLabel {
+  color: white;
+}
+
+.cameraControl.overlay .metricsPanel,
+.cameraControl.overlay .settingsPanel,
+.cameraControl.overlay .metric {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cameraControl.overlay .settingSelect {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.cameraControl.overlay .settingSelect:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}

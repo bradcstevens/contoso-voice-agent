@@ -1,0 +1,771 @@
+/* MultiModalStatus Molecule Styles */
+
+.multiModalStatus {
+  /* Container */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1000px;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.statusContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+/* Layout Variants */
+.multiModalStatus.horizontal .statusContainer {
+  gap: var(--spacing-md);
+}
+
+.multiModalStatus.vertical .statusContainer {
+  gap: var(--spacing-xl);
+}
+
+.multiModalStatus.compact .statusContainer {
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.multiModalStatus.dashboard .statusContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+}
+
+/* Size Variants */
+.multiModalStatus.small {
+  max-width: 600px;
+  border-radius: var(--spacing-sm);
+}
+
+.multiModalStatus.small .statusContainer {
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.multiModalStatus.large {
+  max-width: 1200px;
+  border-radius: var(--spacing-lg);
+}
+
+.multiModalStatus.large .statusContainer {
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
+}
+
+/* Variant Styles */
+.multiModalStatus.minimal .statusContainer {
+  padding: var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.multiModalStatus.detailed .statusContainer {
+  gap: var(--spacing-xl);
+}
+
+.multiModalStatus.professional {
+  background: var(--color-surface-secondary);
+  border-width: 2px;
+  box-shadow: var(--shadow-xl);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.statusBadge {
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.actionButton {
+  transition: all var(--transition-base);
+}
+
+.actionButton.active {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary-base);
+  border-color: var(--color-primary-border);
+}
+
+/* Main Status Display */
+.mainStatus {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.multiModalStatus.horizontal .mainStatus {
+  flex-direction: row;
+  gap: var(--spacing-xl);
+}
+
+.multiModalStatus.dashboard .mainStatus {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* Modality Sections */
+.modalitySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  flex: 1;
+}
+
+.modalityHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.modalityIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.modalityTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  flex: 1;
+}
+
+.availabilityBadge {
+  flex-shrink: 0;
+}
+
+.modalityContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.voiceStatus {
+  flex: 1;
+}
+
+.cameraStatusContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.cameraIndicator {
+  width: 100%;
+}
+
+.cameraMetrics {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.metric {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--spacing-xs);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.toggleButton {
+  align-self: flex-start;
+  margin-top: var(--spacing-sm);
+}
+
+/* Connection Section */
+.connectionSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+}
+
+.connectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.connectionIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.connectionTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.connectionContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.connectionMetrics {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.connectionMetric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metricValue {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+/* Session Section */
+.sessionSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+}
+
+.sessionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.sessionIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.sessionTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.sessionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sessionMetrics {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.sessionMetric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  text-align: center;
+  min-width: 80px;
+}
+
+/* Health Section */
+.healthSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.healthHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background-color var(--transition-base);
+}
+
+.healthHeader:hover {
+  background: var(--color-surface-hover);
+}
+
+.healthHeader:focus-visible {
+  outline: 2px solid var(--color-primary-base);
+  outline-offset: -2px;
+}
+
+.healthIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.healthTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+  flex: 1;
+}
+
+.healthContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: 0 var(--spacing-md) var(--spacing-md);
+  animation: expandIn var(--transition-base) ease-out;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+}
+
+.healthMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.healthMetric {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.healthMetric .metricLabel {
+  min-width: 80px;
+  text-align: left;
+  text-transform: none;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.metricBar {
+  flex: 1;
+  height: 8px;
+  background: var(--color-surface-primary);
+  border-radius: var(--spacing-xs);
+  border: 1px solid var(--color-border-subtle);
+  overflow: hidden;
+  position: relative;
+}
+
+.metricProgress {
+  height: 100%;
+  background: var(--color-success-base);
+  transition: width var(--transition-base);
+  border-radius: var(--spacing-xs);
+}
+
+.metricProgress[data-level="low"] {
+  background: var(--color-success-base);
+}
+
+.metricProgress[data-level="medium"] {
+  background: var(--color-warning-base);
+}
+
+.metricProgress[data-level="high"] {
+  background: var(--color-danger-base);
+}
+
+.healthMetric .metricValue {
+  min-width: 50px;
+  text-align: right;
+  font-size: var(--font-size-sm);
+}
+
+.healthCheckButton {
+  align-self: flex-start;
+}
+
+/* Alerts Section */
+.alertsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--spacing-sm);
+  border: 1px solid;
+}
+
+.alert[data-type="error"] {
+  background: var(--color-danger-subtle);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger-text);
+}
+
+.alert[data-type="warning"] {
+  background: var(--color-warning-subtle);
+  border-color: var(--color-warning-border);
+  color: var(--color-warning-text);
+}
+
+.alertIcon {
+  flex-shrink: 0;
+}
+
+.alertMessage {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  flex: 1;
+}
+
+/* Debug Section */
+.debugSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--spacing-sm);
+  font-family: 'Courier New', monospace;
+}
+
+.debugHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.debugIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.debugTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.debugContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.debugItem {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.debugLabel {
+  color: var(--color-text-secondary);
+  min-width: 120px;
+  font-weight: var(--font-weight-medium);
+}
+
+.debugValue {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-mono);
+}
+
+/* Status States */
+.multiModalStatus[data-status="error"] {
+  border-color: var(--color-border-danger);
+  box-shadow: 0 0 0 1px var(--color-danger-subtle);
+}
+
+.multiModalStatus[data-status="warning"] {
+  border-color: var(--color-border-warning);
+  box-shadow: 0 0 0 1px var(--color-warning-subtle);
+}
+
+.multiModalStatus[data-status="active"] {
+  border-color: var(--color-border-success);
+  box-shadow: 0 0 0 1px var(--color-success-subtle);
+}
+
+.multiModalStatus[data-status="processing"] {
+  border-color: var(--color-border-info);
+  box-shadow: 0 0 0 1px var(--color-info-subtle);
+}
+
+/* Mode States */
+.multiModalStatus[data-mode="multimodal"] .modalitySection {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-subtle);
+}
+
+.multiModalStatus[data-mode="voice"] .modalitySection:first-child {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-subtle);
+}
+
+.multiModalStatus[data-mode="camera"] .modalitySection:last-child {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-subtle);
+}
+
+/* Responsive Design */
+.multiModalStatus.dashboard .statusContainer {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .multiModalStatus.dashboard .statusContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .multiModalStatus.horizontal .mainStatus {
+    flex-direction: column;
+  }
+  
+  .multiModalStatus.dashboard .mainStatus {
+    grid-template-columns: 1fr;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  
+  .connectionContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .sessionMetrics {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .sessionMetric {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .statusContainer {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+  
+  .title {
+    font-size: var(--font-size-md);
+  }
+  
+  .modalitySection,
+  .connectionSection,
+  .sessionSection,
+  .healthSection {
+    padding: var(--spacing-sm);
+  }
+  
+  .cameraMetrics {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .connectionMetrics {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+  }
+  
+  .healthMetric {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .healthMetric .metricLabel {
+    min-width: auto;
+  }
+  
+  .metricBar {
+    width: 100%;
+  }
+  
+  .healthMetric .metricValue {
+    min-width: auto;
+    text-align: left;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .multiModalStatus {
+    border-width: 2px;
+  }
+  
+  .modalitySection,
+  .connectionSection,
+  .sessionSection,
+  .healthSection {
+    border-width: 2px;
+  }
+  
+  .metricBar {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .actionButton,
+  .healthHeader,
+  .healthContent,
+  .metricProgress {
+    transition: none;
+  }
+  
+  @keyframes expandIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Focus Management */
+.multiModalStatus:focus-within {
+  outline: none;
+}
+
+/* Loading States */
+.multiModalStatus[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.multiModalStatus[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Professional Variant Enhancements */
+.multiModalStatus.professional .modalitySection,
+.multiModalStatus.professional .connectionSection,
+.multiModalStatus.professional .sessionSection,
+.multiModalStatus.professional .healthSection {
+  box-shadow: var(--shadow-sm);
+  border-width: 1px;
+}
+
+.multiModalStatus.professional .title {
+  font-size: var(--font-size-xl);
+}
+
+.multiModalStatus.professional .metricBar {
+  height: 10px;
+}
+
+/* Minimal Variant Adjustments */
+.multiModalStatus.minimal .header {
+  padding-bottom: var(--spacing-sm);
+}
+
+.multiModalStatus.minimal .modalitySection,
+.multiModalStatus.minimal .connectionSection,
+.multiModalStatus.minimal .sessionSection {
+  padding: var(--spacing-sm);
+}
+
+.multiModalStatus.minimal .title {
+  font-size: var(--font-size-md);
+} 

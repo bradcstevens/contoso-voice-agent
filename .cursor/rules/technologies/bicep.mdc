@@ -1,0 +1,104 @@
+---
+id: bicep
+description: Azure Bicep Reference
+enabled: true
+globs:
+  - "*.bicep"
+alwaysApply: false
+---
+
+## Key principles
+- **Parameterize** values that change between deployments (locations, admin usernames, URIs, passwords).
+- **Protect secrets**: decorate secret parameters with `@secure()` and never output secret values.
+- **Avoid hard-coding** environment URLs or locations; use the `environment()` or `location` functions instead.
+- **Keep template tidy**: remove unused parameters, variables, and existing resources.
+- **Use recent API & module versions**: prefer the newest stable API version available.
+- **Follow naming & style**: prefer interpolation (`${}`) and unquoted property names where possible.
+- **Respect limits**: stay within default thresholds for parameters, variables, resources, outputs, and asserts.
+- **Leverage helpers**: use `resourceId()`, symbolic names, parent relationships, and safe-access (`?.`) for resilience.
+- **Stabilize identifiers**: pin VM images and plan for long-term resource identifiers.
+
+---
+
+## Rule-by-rule cheat-sheet
+
+### Security
+- `outputs-should-not-contain-secrets`
+- `secure-parameter-default`
+- `secure-params-in-nested-deploy`
+- `protect-commandtoexecute-secrets`
+- `use-secure-value-for-secure-inputs`
+- `secure-secrets-in-params`
+
+### Hard-coding / Parametrize
+- `adminusername-should-not-be-literal`
+- `artifacts-parameters`
+- `no-hardcoded-env-urls`
+- `no-hardcoded-location`
+- `explicit-values-for-loc-params`
+
+### Cleanliness & dead code
+- `no-unused-params`
+- `no-unused-vars`
+- `no-unused-existing-resources`
+- `decompiler-cleanup`
+
+### Limits
+- `max-params`
+- `max-variables`
+- `max-resources`
+- `max-outputs`
+- `max-asserts`
+
+### Dependencies & scoping
+- `no-unnecessary-dependson`
+- `nested-deployment-template-scoping`
+- `no-deployments-resources`
+- `use-parent-property`
+
+### Modern Bicep
+- `use-recent-api-versions`
+- `use-recent-module-versions`
+- `use-resource-id-functions`
+- `use-resource-symbol-reference`
+- `use-stable-resource-identifiers`
+- `use-stable-vm-image`
+- `use-safe-access`
+- `simplify-interpolation`
+- `simplify-json-null`
+- `prefer-interpolation`
+- `prefer-unquoted-property-names`
+- `what-if-short-circuiting`
+- `no-conflicting-metadata`
+- `no-loc-expr-outside-params`
+
+---
+
+## Quick-reference snippets
+
+### Disable a single warning for one line
+
+```bicep
+#disable-next-line no-hardcoded-env-urls // Direct blob link required
+param scriptDownloadUrl string = 'https://mytools.blob.core.windows.net/...'
+```
+
+### Suppress a rule in `bicepconfig.json`
+
+```jsonc
+{
+  "analyzers": {
+    "core": {
+      "rules": {
+        "no-deployments-resources": {
+          "level": "off"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+Stay consistent: use this sheet when authoring or reviewing any Bicep file.

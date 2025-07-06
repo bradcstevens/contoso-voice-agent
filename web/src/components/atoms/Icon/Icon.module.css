@@ -1,0 +1,363 @@
+/**
+ * ICON ATOM STYLES - ENHANCED DESIGN SYSTEM
+ * 
+ * Comprehensive icon styles with design tokens,
+ * multi-modal variants, accessibility, and performance optimization.
+ */
+
+.icon {
+  /* Base icon styling */
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  
+  /* Default color */
+  color: currentColor;
+  
+  /* Ensure crisp rendering */
+  shape-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
+  
+  /* Transitions for smooth interactions */
+  transition: all var(--camera-transition-fast, 150ms) ease-out;
+  
+  /* Prevent text selection */
+  user-select: none;
+  
+  /* Accessibility */
+  outline: none;
+}
+
+/* Size Variants */
+.xs {
+  width: var(--spacing-3, 0.75rem);    /* 12px */
+  height: var(--spacing-3, 0.75rem);
+}
+
+.sm {
+  width: var(--spacing-4, 1rem);       /* 16px */
+  height: var(--spacing-4, 1rem);
+}
+
+.md {
+  width: var(--spacing-5, 1.25rem);    /* 20px */
+  height: var(--spacing-5, 1.25rem);
+}
+
+.lg {
+  width: var(--spacing-6, 1.5rem);     /* 24px */
+  height: var(--spacing-6, 1.5rem);
+}
+
+.xl {
+  width: var(--spacing-8, 2rem);       /* 32px */
+  height: var(--spacing-8, 2rem);
+}
+
+.2xl {
+  width: var(--spacing-10, 2.5rem);    /* 40px */
+  height: var(--spacing-10, 2.5rem);
+}
+
+/* Color Variants */
+.default {
+  color: var(--color-neutral-700, #3f3f46);
+}
+
+.primary {
+  color: var(--color-primary-600, #0284c7);
+}
+
+.secondary {
+  color: var(--color-neutral-500, #71717a);
+}
+
+.success {
+  color: var(--color-semantic-success, #10b981);
+}
+
+.warning {
+  color: var(--color-semantic-warning, #f59e0b);
+}
+
+.error {
+  color: var(--color-semantic-error, #ef4444);
+}
+
+.muted {
+  color: var(--color-neutral-400, #a1a1aa);
+}
+
+/* Interactive State */
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.interactive:active {
+  transform: scale(0.95);
+}
+
+.interactive:focus-visible {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+  border-radius: var(--border-radius-sm, 0.125rem);
+}
+
+/* Multi-Modal Context Variants */
+.voice {
+  color: var(--multimodal-voice-active, #10b981);
+}
+
+.voice.interactive:hover {
+  color: var(--color-emerald-600, #059669);
+  filter: drop-shadow(0 0 4px var(--multimodal-voice-active, #10b981));
+}
+
+.camera {
+  color: var(--multimodal-camera-active, #0ea5e9);
+}
+
+.camera.interactive:hover {
+  color: var(--color-sky-600, #0284c7);
+  filter: drop-shadow(0 0 4px var(--multimodal-camera-active, #0ea5e9));
+}
+
+.text {
+  color: var(--multimodal-text-active, #71717a);
+}
+
+.text.interactive:hover {
+  color: var(--color-neutral-600, #52525b);
+}
+
+.multimodal {
+  background: linear-gradient(
+    135deg,
+    var(--multimodal-voice-active, #10b981) 0%,
+    var(--multimodal-camera-active, #0ea5e9) 50%,
+    var(--multimodal-coordination, #ec4899) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: multimodalGradient 3s ease infinite;
+}
+
+@keyframes multimodalGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.multimodal.interactive:hover {
+  animation-duration: 1s;
+  filter: drop-shadow(0 0 6px var(--multimodal-coordination, #ec4899));
+}
+
+/* Status-Specific Colors */
+.icon[data-status="idle"] {
+  color: var(--color-neutral-400, #a1a1aa);
+}
+
+.icon[data-status="active"] {
+  color: var(--color-emerald-500, #10b981);
+}
+
+.icon[data-status="processing"] {
+  color: var(--color-orange-500, #f59e0b);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.icon[data-status="error"] {
+  color: var(--color-red-500, #ef4444);
+}
+
+.icon[data-status="warning"] {
+  color: var(--color-orange-500, #f59e0b);
+}
+
+.icon[data-status="success"] {
+  color: var(--color-emerald-500, #10b981);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Accessibility Enhancements */
+.icon[role="img"] {
+  /* Ensure screen readers can access the icon */
+}
+
+.icon[aria-hidden="true"] {
+  /* Hide decorative icons from screen readers */
+  pointer-events: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .icon {
+    filter: contrast(1.2);
+  }
+  
+  .interactive:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .icon {
+    transition: none;
+  }
+  
+  .interactive:hover {
+    transform: none;
+  }
+  
+  .interactive:active {
+    transform: none;
+  }
+  
+  .multimodal {
+    animation: none;
+    background: var(--multimodal-coordination, #ec4899);
+    background-clip: initial;
+    -webkit-background-clip: initial;
+    color: var(--multimodal-coordination, #ec4899);
+  }
+  
+  .icon[data-status="processing"] {
+    animation: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .default {
+    color: var(--color-neutral-300, #d4d4d8);
+  }
+  
+  .secondary {
+    color: var(--color-neutral-400, #a1a1aa);
+  }
+  
+  .muted {
+    color: var(--color-neutral-500, #71717a);
+  }
+  
+  .text {
+    color: var(--color-neutral-300, #d4d4d8);
+  }
+  
+  .text.interactive:hover {
+    color: var(--color-neutral-200, #e4e4e7);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .icon {
+    color: black !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .multimodal {
+    background: none !important;
+    color: black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .interactive {
+    /* Increase touch target for mobile */
+    min-width: var(--camera-touch-target, 44px);
+    min-height: var(--camera-touch-target, 44px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .interactive:hover {
+    /* Remove hover effects on touch devices */
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  
+  .interactive:active {
+    /* Provide tactile feedback on touch */
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+/* Loading State for Dynamic Icons */
+.icon.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State for Missing Icons */
+.icon.missing {
+  color: var(--color-red-400, #f87171);
+  opacity: 0.5;
+}
+
+.icon.missing::before {
+  content: '?';
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+/* Performance Optimizations */
+.icon {
+  /* Promote to GPU layer for smooth animations */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Ensure consistent baseline alignment */
+.icon {
+  vertical-align: -0.125em;
+}
+
+/* Special handling for inline text contexts */
+.icon.inline {
+  vertical-align: -0.2em;
+  margin: 0 0.1em;
+}
+
+/* Icon button specific styles */
+.icon.button-icon {
+  pointer-events: none; /* Let parent button handle events */
+}

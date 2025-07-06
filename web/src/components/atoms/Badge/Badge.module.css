@@ -1,0 +1,460 @@
+/**
+ * BADGE ATOM STYLES - ENHANCED DESIGN SYSTEM
+ * 
+ * Comprehensive badge styles with design tokens, variants, accessibility,
+ * and multi-modal support for status and count indicators.
+ */
+
+.badge {
+  /* Base badge styling */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1, 0.25rem);
+  
+  /* Typography */
+  font-family: var(--font-family-sans, ui-sans-serif, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  white-space: nowrap;
+  
+  /* Positioning */
+  position: relative;
+  vertical-align: middle;
+  
+  /* Interactions */
+  user-select: none;
+  
+  /* Transitions */
+  transition: all var(--camera-transition-fast, 150ms) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* Size Variants */
+.sm {
+  font-size: var(--font-size-xs, 0.75rem);
+  min-height: var(--spacing-4, 1rem);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+}
+
+.md {
+  font-size: var(--font-size-sm, 0.875rem);
+  min-height: var(--spacing-5, 1.25rem);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+}
+
+.lg {
+  font-size: var(--font-size-base, 1rem);
+  min-height: var(--spacing-6, 1.5rem);
+  padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+}
+
+/* Shape Variants */
+.rounded {
+  border-radius: var(--border-radius-md, 0.375rem);
+}
+
+.pill {
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+.square {
+  border-radius: var(--border-radius-sm, 0.125rem);
+}
+
+/* Color Variants */
+.default {
+  background-color: var(--color-neutral-100, #f4f4f5);
+  color: var(--color-neutral-800, #27272a);
+  border: 1px solid var(--color-neutral-200, #e4e4e7);
+}
+
+.primary {
+  background-color: var(--color-primary-500, #0ea5e9);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-primary-500, #0ea5e9);
+}
+
+.secondary {
+  background-color: var(--color-neutral-500, #71717a);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-neutral-500, #71717a);
+}
+
+.success {
+  background-color: var(--color-semantic-success, #10b981);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-semantic-success, #10b981);
+}
+
+.warning {
+  background-color: var(--color-semantic-warning, #f59e0b);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-semantic-warning, #f59e0b);
+}
+
+.error {
+  background-color: var(--color-semantic-error, #ef4444);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-semantic-error, #ef4444);
+}
+
+.info {
+  background-color: var(--color-blue-500, #3b82f6);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--color-blue-500, #3b82f6);
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--color-neutral-700, #3f3f46);
+  border: 1px solid var(--color-neutral-300, #d4d4d8);
+}
+
+/* Multi-Modal Context Variants */
+.voice {
+  background-color: var(--multimodal-voice-active, #10b981);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--multimodal-voice-active, #10b981);
+}
+
+.camera {
+  background-color: var(--multimodal-camera-active, #0ea5e9);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--multimodal-camera-active, #0ea5e9);
+}
+
+.text {
+  background-color: var(--multimodal-text-active, #71717a);
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--multimodal-text-active, #71717a);
+}
+
+.multimodal {
+  background: linear-gradient(
+    135deg,
+    var(--multimodal-voice-active, #10b981) 0%,
+    var(--multimodal-camera-active, #0ea5e9) 50%,
+    var(--multimodal-coordination, #ec4899) 100%
+  );
+  color: var(--color-white, #ffffff);
+  border: 1px solid var(--multimodal-coordination, #ec4899);
+  background-size: 200% 200%;
+  animation: multimodalGradient 3s ease infinite;
+}
+
+@keyframes multimodalGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Interactive States */
+.interactive {
+  cursor: pointer;
+  user-select: none;
+}
+
+.interactive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.interactive:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.interactive:focus-visible {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+}
+
+/* Disabled State */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Pulse Animation */
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Dot Badge Styling */
+.dot {
+  min-width: var(--spacing-2, 0.5rem);
+  width: var(--spacing-2, 0.5rem);
+  height: var(--spacing-2, 0.5rem);
+  padding: 0;
+  border-radius: var(--border-radius-full, 9999px);
+}
+
+.dot.sm {
+  min-width: var(--spacing-1, 0.25rem);
+  width: var(--spacing-1, 0.25rem);
+  height: var(--spacing-1, 0.25rem);
+}
+
+.dot.md {
+  min-width: var(--spacing-2, 0.5rem);
+  width: var(--spacing-2, 0.5rem);
+  height: var(--spacing-2, 0.5rem);
+}
+
+.dot.lg {
+  min-width: var(--spacing-3, 0.75rem);
+  width: var(--spacing-3, 0.75rem);
+  height: var(--spacing-3, 0.75rem);
+}
+
+.dotIndicator {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-color: currentColor;
+}
+
+/* Positioning for Floating Badges */
+.topRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.topLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
+}
+
+.bottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(-50%, 50%);
+}
+
+/* Icon Styling */
+.withIcons.sm {
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.withIcons.md {
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.withIcons.lg {
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.endIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Count-specific styling */
+.badge[role="status"] {
+  /* Status badges for live updates */
+}
+
+.badge[aria-live="polite"] {
+  /* Ensure count changes are announced */
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .badge {
+    border-width: 2px;
+    filter: contrast(1.2);
+  }
+  
+  .outline {
+    border-width: 2px;
+    background-color: var(--color-white, #ffffff);
+  }
+  
+  .interactive:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+  
+  .interactive:hover {
+    transform: none;
+  }
+  
+  .interactive:active {
+    transform: none;
+  }
+  
+  .pulse {
+    animation: none;
+  }
+  
+  .multimodal {
+    animation: none;
+    background: var(--multimodal-coordination, #ec4899);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .default {
+    background-color: var(--color-neutral-800, #27272a);
+    color: var(--color-neutral-100, #f4f4f5);
+    border-color: var(--color-neutral-700, #3f3f46);
+  }
+  
+  .outline {
+    background-color: transparent;
+    color: var(--color-neutral-200, #e4e4e7);
+    border-color: var(--color-neutral-600, #52525b);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .badge {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .multimodal {
+    background: white !important;
+  }
+  
+  .pulse {
+    animation: none !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .interactive {
+    /* Increase touch target for mobile */
+    min-height: var(--camera-touch-target, 44px);
+  }
+  
+  .interactive:hover {
+    /* Remove hover effects on touch devices */
+    opacity: 1;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .interactive:active {
+    /* Provide tactile feedback on touch */
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+}
+
+/* Responsive Size Adjustments */
+@media (max-width: 640px) {
+  .lg {
+    font-size: var(--font-size-sm, 0.875rem);
+    min-height: var(--spacing-5, 1.25rem);
+    padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+  }
+  
+  .md {
+    font-size: var(--font-size-xs, 0.75rem);
+    min-height: var(--spacing-4, 1rem);
+    padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  }
+}
+
+/* Enhanced floating badge positioning */
+.badge[data-floating="true"] {
+  position: absolute;
+  z-index: 10;
+}
+
+/* Screen reader optimizations */
+.badge[aria-live="polite"] {
+  /* Ensure count changes are announced appropriately */
+}
+
+.badge[aria-hidden="true"] {
+  /* Hide decorative badges from screen readers */
+}
+
+/* Loading state for dynamic badges */
+.badge.loading {
+  opacity: 0.6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Enhanced visual hierarchy */
+.badge:not(.dot) {
+  min-width: var(--spacing-5, 1.25rem);
+}
+
+.badge.sm:not(.dot) {
+  min-width: var(--spacing-4, 1rem);
+}
+
+.badge.lg:not(.dot) {
+  min-width: var(--spacing-6, 1.5rem);
+}
+
+/* Ensure badges don't break layout */
+.badge {
+  flex-shrink: 0;
+  box-sizing: border-box;
+}

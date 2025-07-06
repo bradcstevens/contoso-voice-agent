@@ -1,0 +1,793 @@
+/* MultiModalControlCenter Organism Styles */
+/* Implementation of Layered Professional Interface with Progressive Disclosure */
+
+.multiModalControlCenter {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-background-primary, #ffffff);
+  color: var(--color-text-primary, #1a1a1a);
+  font-family: var(--font-family-system, system-ui, -apple-system, sans-serif);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Theme variants */
+.multiModalControlCenter.light {
+  --color-emergency: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #10b981;
+  --color-primary-control: #3b82f6;
+  --color-secondary-control: #6b7280;
+  --color-panel-bg: #ffffff;
+  --color-layer-bg: #f8f9fa;
+  --color-border: #e5e7eb;
+}
+
+.multiModalControlCenter.dark {
+  --color-emergency: #f87171;
+  --color-warning: #fbbf24;
+  --color-success: #34d399;
+  --color-primary-control: #60a5fa;
+  --color-secondary-control: #9ca3af;
+  --color-panel-bg: #1f2937;
+  --color-layer-bg: #111827;
+  --color-border: #374151;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.multiModalControlCenter.high-contrast {
+  --color-emergency: #ff0000;
+  --color-warning: #ff8c00;
+  --color-success: #008000;
+  --color-primary-control: #0000ff;
+  --color-secondary-control: #000000;
+  --color-panel-bg: #ffffff;
+  --color-layer-bg: #f0f0f0;
+  --color-border: #000000;
+}
+
+/* Layout variants */
+.multiModalControlCenter.compact {
+  --panel-spacing: 0.5rem;
+  --section-padding: 0.75rem;
+  --control-gap: 0.5rem;
+}
+
+.multiModalControlCenter.standard {
+  --panel-spacing: 1rem;
+  --section-padding: 1rem;
+  --control-gap: 1rem;
+}
+
+.multiModalControlCenter.expanded {
+  --panel-spacing: 1.5rem;
+  --section-padding: 1.5rem;
+  --control-gap: 1.5rem;
+}
+
+/* Emergency Controls - Always Visible */
+.emergencyControls {
+  position: sticky;
+  top: 0;
+  background: var(--color-emergency, #dc2626);
+  color: white;
+  padding: var(--section-padding, 1rem);
+  border-bottom: 2px solid var(--color-emergency, #dc2626);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+  z-index: 100;
+}
+
+.emergencyHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.emergencyTitle {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.emergencyBadge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.emergencyActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.emergencyButton {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--color-emergency, #dc2626) !important;
+  border: 2px solid white !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.emergencyButton:hover {
+  background: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.emergencyButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.overrideIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Layer Navigation */
+.layerNavigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-panel-bg, #ffffff);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding: 0 var(--panel-spacing, 1rem);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
+
+.layerTabs {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.layerTab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  font-weight: 500;
+  position: relative;
+}
+
+.layerTab:hover {
+  color: var(--color-text-primary, #1a1a1a);
+  background: var(--color-background-hover, #f3f4f6);
+}
+
+.layerTab:focus {
+  outline: 2px solid var(--color-focus-ring, #3b82f6);
+  outline-offset: -2px;
+}
+
+.layerTab.active {
+  color: var(--color-primary-control, #3b82f6);
+  border-bottom-color: var(--color-primary-control, #3b82f6);
+  background: var(--color-background-subtle, #f8fafc);
+}
+
+.layerTab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--color-text-disabled, #9ca3af);
+}
+
+.lockIcon {
+  color: var(--color-warning, #f59e0b);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--color-text-primary, #1a1a1a);
+}
+
+/* Alert Banner */
+.alertBanner {
+  background: var(--color-warning, #f59e0b);
+  color: white;
+  padding: 0.75rem var(--panel-spacing, 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.alertContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dismissButton {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Control Layers */
+.primaryLayer,
+.secondaryLayer,
+.tertiaryLayer {
+  padding: var(--panel-spacing, 1rem);
+  overflow-y: auto;
+}
+
+.primaryLayer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--control-gap, 1rem);
+  align-items: start;
+}
+
+.secondaryLayer,
+.tertiaryLayer {
+  animation: layerSlideIn 0.3s ease;
+}
+
+@keyframes layerSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Primary Layer - Essential Controls */
+.modalityControls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--control-gap, 1rem);
+}
+
+.voiceSection,
+.cameraSection,
+.statusSection {
+  background: var(--color-panel-bg, #ffffff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.voiceSection {
+  border-top: 4px solid var(--color-primary-control, #3b82f6);
+}
+
+.cameraSection {
+  border-top: 4px solid var(--color-success, #10b981);
+}
+
+.statusSection {
+  border-top: 4px solid var(--color-warning, #f59e0b);
+  grid-column: 1 / -1;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0;
+  padding: var(--section-padding, 1rem);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-layer-bg, #f8f9fa);
+}
+
+.voiceSection > div,
+.cameraSection > div,
+.statusSection > div {
+  padding: var(--section-padding, 1rem);
+}
+
+/* Secondary Layer - Advanced Controls */
+.secondaryLayer {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--control-gap, 1rem);
+}
+
+.advancedControls,
+.coordinationSection {
+  background: var(--color-panel-bg, #ffffff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.advancedControls {
+  border-top: 4px solid var(--color-secondary-control, #6b7280);
+}
+
+.coordinationSection {
+  border-top: 4px solid var(--color-primary-control, #3b82f6);
+}
+
+.configurationGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--control-gap, 1rem);
+  padding: var(--section-padding, 1rem);
+}
+
+.configSection h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0 0 0.75rem 0;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding-bottom: 0.5rem;
+}
+
+.settingGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+.settingGroup:last-child {
+  border-bottom: none;
+}
+
+.settingGroup label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+  font-weight: 500;
+}
+
+.settingGroup input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary-control, #3b82f6);
+}
+
+.settingGroup input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.coordinationSection > div {
+  padding: var(--section-padding, 1rem);
+}
+
+/* Tertiary Layer - Administration */
+.tertiaryLayer {
+  padding: var(--panel-spacing, 1rem);
+}
+
+.administrationControls {
+  background: var(--color-panel-bg, #ffffff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-top: 4px solid var(--color-warning, #f59e0b);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.adminGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--control-gap, 1rem);
+  padding: var(--section-padding, 1rem);
+}
+
+.metricsPanel,
+.auditPanel {
+  background: var(--color-layer-bg, #f8f9fa);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.metricsPanel h4,
+.auditPanel h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a1a);
+  margin: 0 0 0.75rem 0;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding-bottom: 0.5rem;
+}
+
+.metricsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--color-panel-bg, #ffffff);
+  border-radius: 4px;
+  border: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+.metric span:first-child {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+  font-weight: 500;
+}
+
+.metric span:last-child {
+  font-size: 0.875rem;
+  color: var(--color-text-primary, #1a1a1a);
+  font-weight: 600;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.auditEntries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.auditEntry {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  background: var(--color-panel-bg, #ffffff);
+  border-radius: 4px;
+  border: 1px solid var(--color-border-light, #f0f0f0);
+  font-size: 0.75rem;
+}
+
+.auditTime {
+  color: var(--color-text-tertiary, #9ca3af);
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.auditAction {
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.auditUser {
+  color: var(--color-text-primary, #1a1a1a);
+  font-weight: 500;
+}
+
+/* Emergency Confirmation Dialog */
+.confirmDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: dialogFadeIn 0.3s ease;
+}
+
+@keyframes dialogFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dialogContent {
+  background: var(--color-panel-bg, #ffffff);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+  animation: dialogSlideIn 0.3s ease;
+}
+
+@keyframes dialogSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialogContent h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-emergency, #dc2626);
+  margin: 0 0 1rem 0;
+}
+
+.dialogContent p {
+  color: var(--color-text-secondary, #6b7280);
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.dialogDescription {
+  background: var(--color-layer-bg, #f8f9fa);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-emergency, #dc2626);
+  font-style: italic;
+}
+
+.dialogActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* Custom styling for molecular components */
+.voiceControlCustom,
+.cameraControlCustom,
+.statusCustom,
+.coordinationPanelCustom {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1279px) {
+  .primaryLayer {
+    grid-template-columns: 1fr;
+  }
+  
+  .modalityControls {
+    grid-template-columns: 1fr;
+  }
+  
+  .secondaryLayer {
+    grid-template-columns: 1fr;
+  }
+  
+  .adminGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1023px) {
+  .layerNavigation {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .layerTabs {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .layerTab {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .multiModalControlCenter {
+    --panel-spacing: 0.75rem;
+    --section-padding: 0.75rem;
+    --control-gap: 0.75rem;
+  }
+  
+  .emergencyControls {
+    padding: 0.75rem;
+  }
+  
+  .emergencyActions {
+    flex-direction: column;
+  }
+  
+  .emergencyButton {
+    width: 100%;
+  }
+  
+  .layerTabs {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .layerTab {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .userInfo {
+    justify-content: center;
+  }
+  
+  .modalityControls {
+    gap: 0.75rem;
+  }
+  
+  .configurationGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dialogContent {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .dialogActions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .emergencyTitle {
+    font-size: 1rem;
+  }
+  
+  .layerTab {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .metric,
+  .auditEntry {
+    font-size: 0.75rem;
+  }
+  
+  .settingGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .multiModalControlCenter {
+    --color-border: #000000;
+    --color-panel-bg: #ffffff;
+    --color-layer-bg: #f0f0f0;
+  }
+  
+  .layerTab,
+  .emergencyButton,
+  .metric,
+  .auditEntry {
+    border: 2px solid #000000;
+  }
+  
+  .layerTab.active {
+    background: #e0e0e0;
+    border-color: #000000;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .layerTab,
+  .emergencyButton,
+  .confirmDialog,
+  .dialogContent,
+  .secondaryLayer,
+  .tertiaryLayer,
+  .alertBanner {
+    transition: none;
+    animation: none;
+  }
+  
+  .emergencyBadge {
+    animation: none;
+  }
+}
+
+/* Focus Management */
+.multiModalControlCenter:focus-within {
+  --color-focus-accent: var(--color-focus-ring, #3b82f6);
+}
+
+/* Performance Optimization */
+.primaryLayer,
+.secondaryLayer,
+.tertiaryLayer {
+  contain: layout style;
+}
+
+.modalityControls,
+.configurationGrid,
+.adminGrid {
+  contain: layout style paint;
+}
+
+.layerTab,
+.emergencyButton {
+  will-change: transform, box-shadow;
+}
+
+/* Print Styles */
+@media print {
+  .emergencyControls,
+  .layerNavigation,
+  .alertBanner,
+  .confirmDialog {
+    display: none;
+  }
+  
+  .primaryLayer {
+    grid-template-columns: 1fr;
+  }
+  
+  .modalityControls {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Layer-specific styles */
+.multiModalControlCenter.primary .secondaryLayer,
+.multiModalControlCenter.primary .tertiaryLayer {
+  display: none;
+}
+
+.multiModalControlCenter.secondary .tertiaryLayer {
+  display: none;
+}
+
+/* Emergency state overrides */
+.multiModalControlCenter[data-emergency-active="true"] .voiceSection,
+.multiModalControlCenter[data-emergency-active="true"] .cameraSection {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.multiModalControlCenter[data-emergency-active="true"] .emergencyControls {
+  background: var(--color-emergency, #dc2626);
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+}
+
+/* Role-based styling */
+.multiModalControlCenter[data-user-role="administrator"] .layerTab:not(:disabled) {
+  background: linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.1));
+}
+
+.multiModalControlCenter[data-user-role="emergency"] {
+  border: 2px solid var(--color-emergency, #dc2626);
+} 

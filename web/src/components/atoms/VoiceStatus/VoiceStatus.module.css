@@ -1,0 +1,692 @@
+/**
+ * VOICE STATUS ATOM STYLES - COMPREHENSIVE VOICE STATE STATUS
+ * 
+ * Professional voice status styles with multi-language support, detailed information display,
+ * connection quality indicators, and comprehensive accessibility features.
+ */
+
+.voiceStatus {
+  /* Base voice status styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  
+  /* Custom properties for dynamic styling */
+  --voice-status-bg: var(--color-white, #ffffff);
+  --voice-status-border: var(--color-neutral-200, #e5e7eb);
+  --voice-status-text: var(--color-neutral-700, #374151);
+  --voice-status-icon: var(--color-neutral-500, #6b7280);
+  --animation-duration: 300ms;
+  --connection-quality: 100%;
+  --input-level: 0%;
+  --output-level: 0%;
+  
+  /* Styling */
+  background: var(--voice-status-bg);
+  border: 1px solid var(--voice-status-border);
+  border-radius: var(--border-radius-md, 0.375rem);
+  color: var(--voice-status-text);
+  font-family: var(--font-family-sans);
+  
+  /* Spacing */
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  gap: var(--spacing-2, 0.5rem);
+  
+  /* Interactions */
+  user-select: none;
+  
+  /* Transitions */
+  transition: all var(--animation-duration) ease-out;
+  
+  /* Ensure proper layering */
+  z-index: 1;
+}
+
+/* Size Variants */
+.xs {
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  gap: var(--spacing-1, 0.25rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  line-height: var(--line-height-4, 1rem);
+}
+
+.sm {
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  gap: var(--spacing-1, 0.25rem);
+  font-size: var(--font-size-sm, 0.875rem);
+  line-height: var(--line-height-5, 1.25rem);
+}
+
+.md {
+  font-size: var(--font-size-sm, 0.875rem);
+  line-height: var(--line-height-5, 1.25rem);
+}
+
+.lg {
+  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  gap: var(--spacing-3, 0.75rem);
+  font-size: var(--font-size-base, 1rem);
+  line-height: var(--line-height-6, 1.5rem);
+}
+
+.xl {
+  padding: var(--spacing-4, 1rem) var(--spacing-5, 1.25rem);
+  gap: var(--spacing-3, 0.75rem);
+  font-size: var(--font-size-lg, 1.125rem);
+  line-height: var(--line-height-7, 1.75rem);
+}
+
+/* Layout Variants */
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.compact {
+  flex-direction: row;
+  align-items: center;
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  gap: var(--spacing-1, 0.25rem);
+  min-width: auto;
+}
+
+/* Content Layout */
+.content {
+  display: flex;
+  align-items: center;
+  gap: inherit;
+  min-width: 0;
+  flex: 1;
+}
+
+.vertical .content {
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  transition: all var(--animation-duration) ease-out;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.horizontal .textContainer {
+  align-items: flex-start;
+}
+
+.vertical .textContainer {
+  align-items: flex-start;
+  width: 100%;
+}
+
+.compact .textContainer {
+  min-width: auto;
+}
+
+.statusText {
+  font-weight: var(--font-weight-medium, 500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.details {
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-neutral-500, #6b7280);
+  margin-top: var(--spacing-1, 0.25rem);
+  line-height: var(--line-height-4, 1rem);
+}
+
+.errorMessage {
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-red-600, #dc2626);
+  margin-top: var(--spacing-1, 0.25rem);
+  line-height: var(--line-height-4, 1rem);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.timestamp {
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-neutral-400, #9ca3af);
+  font-family: monospace;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.vertical .timestamp {
+  margin-left: 0;
+  margin-top: var(--spacing-1, 0.25rem);
+}
+
+/* Additional Information */
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+  padding-top: var(--spacing-2, 0.5rem);
+  border-top: 1px solid var(--color-neutral-100, #f3f4f6);
+  margin-top: var(--spacing-2, 0.5rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  width: 100%;
+}
+
+.horizontal .additionalInfo {
+  margin-left: var(--spacing-2, 0.5rem);
+  padding-left: var(--spacing-2, 0.5rem);
+  border-left: 1px solid var(--color-neutral-100, #f3f4f6);
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Connection Quality */
+.connectionQuality {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  color: var(--color-neutral-600, #4b5563);
+}
+
+.qualityBar {
+  width: 24px;
+  height: 4px;
+  background: var(--color-neutral-200, #e5e7eb);
+  border-radius: var(--border-radius-full, 9999px);
+  position: relative;
+  overflow: hidden;
+}
+
+.qualityBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--quality, 0%);
+  background: linear-gradient(90deg, 
+    var(--color-red-500, #ef4444) 0%,
+    var(--color-orange-500, #f59e0b) 40%,
+    var(--color-green-500, #10b981) 80%);
+  border-radius: inherit;
+  transition: width var(--animation-duration) ease-out;
+}
+
+/* Audio Levels */
+.audioLevels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.inputLevel,
+.outputLevel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  color: var(--color-neutral-600, #4b5563);
+}
+
+.levelBar {
+  width: 32px;
+  height: 3px;
+  background: var(--color-neutral-200, #e5e7eb);
+  border-radius: var(--border-radius-full, 9999px);
+  position: relative;
+  overflow: hidden;
+}
+
+.levelBar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--level, 0%);
+  border-radius: inherit;
+  transition: width 100ms ease-out;
+}
+
+.inputLevel .levelBar::before {
+  background: var(--multimodal-voice-active, #10b981);
+}
+
+.outputLevel .levelBar::before {
+  background: var(--color-blue-500, #3b82f6);
+}
+
+/* Latency */
+.latency {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 0.25rem);
+  color: var(--color-neutral-600, #4b5563);
+}
+
+/* Provider */
+.provider {
+  display: flex;
+  align-items: center;
+  color: var(--color-neutral-500, #6b7280);
+  font-size: var(--font-size-xs, 0.75rem);
+}
+
+/* Color Variants */
+.default {
+  /* Default styling already defined */
+}
+
+.primary {
+  --voice-status-border: var(--color-primary-200, #bae6fd);
+  --voice-status-text: var(--color-primary-700, #0369a1);
+  --voice-status-icon: var(--color-primary-500, #0ea5e9);
+  background: var(--color-primary-50, #eff6ff);
+}
+
+.success {
+  --voice-status-border: var(--color-green-200, #bbf7d0);
+  --voice-status-text: var(--color-green-700, #15803d);
+  --voice-status-icon: var(--color-green-500, #10b981);
+  background: var(--color-green-50, #f0fdf4);
+}
+
+.warning {
+  --voice-status-border: var(--color-orange-200, #fed7aa);
+  --voice-status-text: var(--color-orange-700, #c2410c);
+  --voice-status-icon: var(--color-orange-500, #f59e0b);
+  background: var(--color-orange-50, #fffbeb);
+}
+
+.error {
+  --voice-status-border: var(--color-red-200, #fecaca);
+  --voice-status-text: var(--color-red-700, #b91c1c);
+  --voice-status-icon: var(--color-red-500, #ef4444);
+  background: var(--color-red-50, #fef2f2);
+}
+
+.minimal {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-1, 0.25rem);
+}
+
+/* Voice State Variants */
+.idle {
+  /* Default state styling */
+}
+
+.listening {
+  --voice-status-icon: var(--multimodal-voice-active, #10b981);
+  animation: listeningPulse 2s ease-in-out infinite;
+}
+
+.speaking {
+  --voice-status-icon: var(--color-blue-500, #3b82f6);
+  animation: speakingGlow 1s ease-in-out infinite;
+}
+
+.processing {
+  --voice-status-icon: var(--color-orange-500, #f59e0b);
+}
+
+.processing .icon {
+  animation: processingRotate 2s linear infinite;
+}
+
+.muted {
+  --voice-status-icon: var(--color-red-500, #ef4444);
+  opacity: 0.7;
+}
+
+.error {
+  animation: errorShake 0.5s ease-in-out;
+}
+
+.disabled {
+  opacity: 0.5;
+  --voice-status-text: var(--color-neutral-400, #9ca3af);
+  --voice-status-icon: var(--color-neutral-300, #d1d5db);
+}
+
+.connecting {
+  --voice-status-icon: var(--color-blue-500, #3b82f6);
+}
+
+.connecting .icon {
+  animation: connectingBlink 1.5s ease-in-out infinite;
+}
+
+.disconnected {
+  --voice-status-icon: var(--color-red-500, #ef4444);
+  --voice-status-border: var(--color-red-200, #fecaca);
+  background: var(--color-red-50, #fef2f2);
+}
+
+/* Interactive States */
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover:not(.disabled) {
+  background: var(--color-neutral-100, #f3f4f6);
+  border-color: var(--color-neutral-300, #d1d5db);
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.interactive:active:not(.disabled) {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+
+.interactive:focus-visible {
+  outline: var(--accessibility-focus-width, 2px) solid var(--accessibility-focus-color, #0ea5e9);
+  outline-offset: var(--accessibility-focus-offset, 2px);
+}
+
+/* Animations */
+@keyframes listeningPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px var(--multimodal-voice-active));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px var(--multimodal-voice-active));
+  }
+}
+
+@keyframes speakingGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px var(--color-blue-500));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px var(--color-blue-500));
+  }
+}
+
+@keyframes processingRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes connectingBlink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+/* Animation Control */
+.animate {
+  /* Enhanced animation support */
+}
+
+.voiceStatus:not(.animate) {
+  transition: none;
+}
+
+.voiceStatus:not(.animate) * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Hidden State */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .voiceStatus {
+    filter: contrast(1.2);
+    border-width: 2px;
+  }
+  
+  .interactive:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+  
+  .qualityBar,
+  .levelBar {
+    border: 1px solid var(--color-neutral-400, #9ca3af);
+  }
+  
+  .additionalInfo {
+    border-color: var(--color-neutral-400, #9ca3af);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .voiceStatus {
+    transition: none;
+  }
+  
+  .voiceStatus *,
+  .voiceStatus::before,
+  .voiceStatus::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .interactive:hover {
+    transform: none;
+  }
+  
+  .interactive:active {
+    transform: none;
+  }
+  
+  .hidden {
+    transform: none;
+  }
+  
+  /* Provide alternative feedback */
+  .listening::after {
+    content: '●';
+    color: var(--multimodal-voice-active, #10b981);
+    margin-left: var(--spacing-1, 0.25rem);
+  }
+  
+  .speaking::after {
+    content: '♪';
+    color: var(--color-blue-500, #3b82f6);
+    margin-left: var(--spacing-1, 0.25rem);
+  }
+  
+  .processing::after {
+    content: '...';
+    color: var(--color-orange-500, #f59e0b);
+    margin-left: var(--spacing-1, 0.25rem);
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .voiceStatus {
+    --voice-status-bg: var(--color-neutral-800, #27272a);
+    --voice-status-border: var(--color-neutral-600, #52525b);
+    --voice-status-text: var(--color-neutral-200, #e4e4e7);
+    --voice-status-icon: var(--color-neutral-400, #a1a1aa);
+  }
+  
+  .primary {
+    background: var(--color-primary-900, #0c4a6e);
+    --voice-status-border: var(--color-primary-700, #0369a1);
+    --voice-status-text: var(--color-primary-200, #bae6fd);
+  }
+  
+  .success {
+    background: var(--color-green-900, #14532d);
+    --voice-status-border: var(--color-green-700, #15803d);
+    --voice-status-text: var(--color-green-200, #bbf7d0);
+  }
+  
+  .warning {
+    background: var(--color-orange-900, #7c2d12);
+    --voice-status-border: var(--color-orange-700, #c2410c);
+    --voice-status-text: var(--color-orange-200, #fed7aa);
+  }
+  
+  .error {
+    background: var(--color-red-900, #7f1d1d);
+    --voice-status-border: var(--color-red-700, #b91c1c);
+    --voice-status-text: var(--color-red-200, #fecaca);
+  }
+  
+  .disconnected {
+    background: var(--color-red-900, #7f1d1d);
+    --voice-status-border: var(--color-red-700, #b91c1c);
+  }
+  
+  .interactive:hover:not(.disabled) {
+    background: var(--color-neutral-700, #404040);
+    border-color: var(--color-neutral-500, #71717a);
+  }
+  
+  .additionalInfo {
+    border-color: var(--color-neutral-700, #404040);
+  }
+  
+  .qualityBar,
+  .levelBar {
+    background: var(--color-neutral-700, #404040);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .voiceStatus {
+    background: white !important;
+    border: 1px solid black !important;
+    color: black !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .voiceStatus::before,
+  .voiceStatus::after {
+    display: none !important;
+  }
+  
+  .icon {
+    color: black !important;
+  }
+  
+  .qualityBar,
+  .levelBar {
+    background: white !important;
+    border: 1px solid black !important;
+  }
+  
+  .qualityBar::before,
+  .levelBar::before {
+    background: black !important;
+  }
+}
+
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .interactive {
+    /* Ensure adequate touch target */
+    min-height: var(--camera-touch-target, 44px);
+    padding: var(--spacing-3, 0.75rem);
+  }
+  
+  .interactive:hover {
+    /* Remove hover effects on touch devices */
+    background: inherit;
+    border-color: inherit;
+    transform: none;
+    filter: none;
+  }
+  
+  .interactive:active {
+    /* Provide tactile feedback on touch */
+    background: var(--color-neutral-100, #f3f4f6);
+    filter: brightness(0.95);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .xl {
+    padding: var(--spacing-3, 0.75rem);
+    font-size: var(--font-size-base, 1rem);
+  }
+  
+  .lg {
+    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .horizontal .additionalInfo {
+    flex-direction: column;
+  }
+  
+  .statusText {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* Enhanced accessibility for screen readers */
+.voiceStatus[role="status"] {
+  /* Status announcements */
+}
+
+.voiceStatus[role="button"] {
+  /* Interactive button semantics */
+}
+
+.voiceStatus[aria-live="polite"] {
+  /* Voice state change announcements */
+}
+
+/* Custom property support for dynamic styling */
+.voiceStatus[style*="--animation-duration"] {
+  /* Custom animation duration support */
+}
+
+.voiceStatus[style*="--connection-quality"] {
+  /* Custom connection quality support */
+}
