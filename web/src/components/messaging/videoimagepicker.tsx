@@ -55,14 +55,28 @@ const VideoImagePicker = ({ setCurrentImage }: Props) => {
     }
   };
 
+  const stopVideo = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    setShowCamera(false);
+  };
+
+  const closeVideoSelector = () => {
+    stopVideo();
+    setShow(false);
+  };
+
   const startVideo = async (deviceId: string) => {
     if (videoRef.current) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { deviceId: { exact: deviceId } },
         });
-        videoRef.current.disablePictureInPicture = true;
         videoRef.current.srcObject = stream;
+        videoRef.current.disablePictureInPicture = true;
         setShowCamera(true);
       } catch {
         alert("Error accessing camera.");
@@ -110,6 +124,13 @@ const VideoImagePicker = ({ setCurrentImage }: Props) => {
     }
   }, [selectedDevice]);
 
+  // Cleanup video stream on unmount
+  useEffect(() => {
+    return () => {
+      stopVideo();
+    };
+  }, []);
+
   return (
     <>
       {show && (
@@ -129,20 +150,18 @@ const VideoImagePicker = ({ setCurrentImage }: Props) => {
                     )
                   }
                 >
-                  {devices.map((device) => {
-                    return (
-                      <option key={device.deviceId} value={device.deviceId}>
-                        {device.label}
-                      </option>
-                    );
-                  })}
+                  {devices.map((device) => (
+                    <option key={device.deviceId} value={device.deviceId}>
+                      {device.label}
+                    </option>
+                  ))}
                 </select>
                 {showCamera && (
                   <div className="button" onClick={() => handleVideoClick()}>
                     <HiOutlineVideoCamera size={24} className="buttonIcon" />
                   </div>
                 )}
-                <button className="button" onClick={() => setShow(false)}>
+                <button className="button" onClick={closeVideoSelector}>
                   <GrClose size={24} className="buttonIcon" />
                 </button>
               </div>
