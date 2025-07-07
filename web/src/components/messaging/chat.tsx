@@ -60,6 +60,12 @@ const Chat = ({ options }: Props) => {
   /** Auto-resize textarea */
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  /** Drag functionality */
+  const [position, setPosition] = useState({ x: 32, y: 32 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const chatRef = useRef<HTMLDivElement>(null);
+
   const autoResizeTextarea = useCallback(() => {
     if (textareaRef.current) {
       const textarea = textareaRef.current;
@@ -397,6 +403,118 @@ const Chat = ({ options }: Props) => {
     }
   }, [state?.open, connected]);
 
+  // Drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!chatRef.current) return;
+    
+    // Only start dragging if clicking on the header area
+    const target = e.target as HTMLElement;
+    if (!target.closest(`.${styles.chatHeader}`)) return;
+    
+    const rect = chatRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !chatRef.current) return;
+    
+    const newX = e.clientX - dragOffset.x;
+    const newY = e.clientY - dragOffset.y;
+    
+    // Get chat dimensions
+    const chatRect = chatRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Constraints to keep within viewport
+    const minX = 16;
+    const maxX = viewportWidth - chatRect.width - 16;
+    const minY = 16;
+    const maxY = viewportHeight - chatRect.height - 16;
+    
+    const constrainedX = Math.max(minX, Math.min(maxX, newX));
+    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    
+    setPosition({ x: constrainedX, y: constrainedY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add global event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!chatRef.current) return;
+    
+    // Only start dragging if touching the header area
+    const target = e.target as HTMLElement;
+    if (!target.closest(`.${styles.chatHeader}`)) return;
+    
+    const touch = e.touches[0];
+    const rect = chatRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!isDragging || !chatRef.current) return;
+    
+    const touch = e.touches[0];
+    const newX = touch.clientX - dragOffset.x;
+    const newY = touch.clientY - dragOffset.y;
+    
+    // Get chat dimensions
+    const chatRect = chatRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Constraints to keep within viewport
+    const minX = 16;
+    const maxX = viewportWidth - chatRect.width - 16;
+    const minY = 16;
+    const maxY = viewportHeight - chatRect.height - 16;
+    
+    const constrainedX = Math.max(minX, Math.min(maxX, newX));
+    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    
+    setPosition({ x: constrainedX, y: constrainedY });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Add global touch event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleTouchEnd);
+      return () => {
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
   return (
     <>
       <div className={state?.open ? styles.overlay : styles.hidden}></div>
@@ -409,7 +527,17 @@ const Chat = ({ options }: Props) => {
           />
         </>
       )}
-      <div className={styles.chat}>
+      <div 
+        ref={chatRef}
+        className={styles.chat}
+        style={{
+          right: `${position.x}px`,
+          bottom: `${position.y}px`,
+          cursor: isDragging ? 'grabbing' : 'default'
+        }}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+      >
         {state && state?.open && (
           <div className={styles.chatWindow}>
             <div className={styles.chatHeader}>

@@ -11,14 +11,11 @@
 .chat {
   display: flex;
   position: fixed;
-  right: 0;
-  bottom: 0;
   z-index: 10;
-  margin-right: 2rem;
-  margin-bottom: 2rem;
   flex-direction: column;
   align-items: flex-end;
-  z-index: 10;
+  touch-action: none;
+  user-select: none;
 }
 
 .chatWindow {
@@ -39,6 +36,11 @@
   flex-direction: row;
   text-align: right;
   gap: 8px;
+  cursor: grab;
+}
+
+.chatHeader:active {
+  cursor: grabbing;
 }
 
 .chatIcon {
