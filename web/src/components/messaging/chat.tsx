@@ -403,6 +403,12 @@ const Chat = ({ options }: Props) => {
     }
   }, [state?.open, connected]);
 
+  // Set initial position to right side on mount
+  useEffect(() => {
+    const initialX = Math.max(32, window.innerWidth - 600); // Position on right side
+    setPosition(prev => ({ ...prev, x: initialX }));
+  }, []);
+
   // Drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!chatRef.current) return;
@@ -524,14 +530,15 @@ const Chat = ({ options }: Props) => {
           <Content
             suggestions={contentRef.current}
             onClose={onCloseSuggestions}
+            chatPosition={position}
           />
         </>
       )}
       <div 
         ref={chatRef}
-        className={styles.chat}
+        className={`${styles.chat} ${isDragging ? styles.dragging : ''}`}
         style={{
-          right: `${position.x}px`,
+          left: `${position.x}px`,
           bottom: `${position.y}px`,
           cursor: isDragging ? 'grabbing' : 'default'
         }}

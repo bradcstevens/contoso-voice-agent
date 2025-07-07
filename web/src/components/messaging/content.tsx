@@ -38,12 +38,42 @@ type Props = {
   suggestions?: string[];
   debug?: boolean;
   onClose: () => void;
+  chatPosition?: { x: number; y: number };
 };
 
-const Content = ({ suggestions, debug, onClose }: Props) => {
+const Content = ({ suggestions, debug, onClose, chatPosition }: Props) => {
   const [content, setContent] = useState<string[]>(
     suggestions ? suggestions : []
   );
+  const [windowPosition, setWindowPosition] = useState({ left: 20, top: 60 });
+
+  // Calculate position relative to chat
+  useEffect(() => {
+    if (chatPosition) {
+      const chatWidth = 500; // Approximate chat width
+      const contentWidth = 500; // Content window width
+      const margin = 20;
+      
+      // Calculate chat's top position to match chat window
+      // Adjusted calculation to match actual chat positioning
+      const chatTop = Math.max(16, 42 - chatPosition.y);
+      
+      // If chat is too far left (less than content width + margin), snap to right
+      if (chatPosition.x < contentWidth + margin) {
+        // Position to the right of chat
+        setWindowPosition({
+          left: chatPosition.x + chatWidth + margin,
+          top: chatTop
+        });
+      } else {
+        // Position to the left of chat
+        setWindowPosition({
+          left: chatPosition.x - contentWidth - margin,
+          top: chatTop
+        });
+      }
+    }
+  }, [chatPosition]);
 
   // Update content when suggestions prop changes
   useEffect(() => {
@@ -81,7 +111,14 @@ const Content = ({ suggestions, debug, onClose }: Props) => {
   };
 
   return (
-    <div className={styles.contentWindow}>
+    <div 
+      className={styles.contentWindow}
+      style={{
+        left: `${windowPosition.left}px`,
+        top: `${windowPosition.top}px`,
+        transition: 'left 0.2s ease-out, top 0.2s ease-out'
+      }}
+    >
       <div className={styles.contentTitle}>
         <div className={"grow"} />
         {debug && (

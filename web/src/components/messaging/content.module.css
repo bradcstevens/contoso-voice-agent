@@ -1,7 +1,5 @@
 .contentWindow {
   position: fixed;
-  top: 60px;
-  left: 20px;
   z-index: 1000;
   display: flex;
   margin-bottom: 0.75rem;
@@ -12,7 +10,7 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
   height: calc(100vh - 120px);
-  width: min(calc(100vw - 612px), 600px);
+  width: min(calc(100vw - 612px), 500px);
   max-width: 90vw;
 }
 
