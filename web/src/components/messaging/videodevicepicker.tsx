@@ -12,6 +12,10 @@ const VideoDevicePicker = ({ setCurrentImage }: Props) => {
   const [show, setShow] = useState(false);
   const [showCamera, setShowCamera] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [position, setPosition] = useState({ x: 16, y: 16 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const pickerRef = useRef<HTMLDivElement>(null);
 
   const stopVideo = () => {
     if (videoRef.current && videoRef.current.srcObject) {
@@ -109,11 +113,126 @@ const VideoDevicePicker = ({ setCurrentImage }: Props) => {
     };
   }, []);
 
+  // Drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!pickerRef.current) return;
+    
+    const rect = pickerRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !pickerRef.current) return;
+    
+    const newX = e.clientX - dragOffset.x;
+    const newY = e.clientY - dragOffset.y;
+    
+    // Get picker dimensions
+    const pickerRect = pickerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Constraints to keep within viewport and avoid overlap
+    const minX = 16;
+    const maxX = viewportWidth - pickerRect.width - 16;
+    const minY = 16;
+    const maxY = viewportHeight - pickerRect.height - 16;
+    
+    // Additional constraints to avoid chat/content areas (keep to edges)
+    const constrainedX = Math.max(minX, Math.min(maxX, newX));
+    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    
+    setPosition({ x: constrainedX, y: constrainedY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add global event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!pickerRef.current) return;
+    
+    const touch = e.touches[0];
+    const rect = pickerRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!isDragging || !pickerRef.current) return;
+    
+    const touch = e.touches[0];
+    const newX = touch.clientX - dragOffset.x;
+    const newY = touch.clientY - dragOffset.y;
+    
+    // Get picker dimensions
+    const pickerRect = pickerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Constraints to keep within viewport
+    const minX = 16;
+    const maxX = viewportWidth - pickerRect.width - 16;
+    const minY = 16;
+    const maxY = viewportHeight - pickerRect.height - 16;
+    
+    const constrainedX = Math.max(minX, Math.min(maxX, newX));
+    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    
+    setPosition({ x: constrainedX, y: constrainedY });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Add global touch event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleTouchEnd);
+      return () => {
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
   return (
     <>
       {show && (
         <div className={styles.videooverlay}>
-          <div className={styles.videoimagepicker}>
+          <div 
+            ref={pickerRef}
+            className={styles.videoimagepicker}
+            style={{
+              left: `${position.x}px`,
+              top: `${position.y}px`,
+              cursor: isDragging ? 'grabbing' : 'grab'
+            }}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
+          >
             <div className={styles.videobox}>
               <div className={styles.header}>
                 {showCamera && (
