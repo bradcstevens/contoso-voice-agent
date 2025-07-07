@@ -1,10 +1,11 @@
 import { useLocalStorage } from "@/store/uselocalstorage";
 import { useMediaDevices } from "@/store/usemediadevice";
 import { GrPowerReset } from "react-icons/gr";
-import styles from "./voicesettings.module.css";
+import styles from "./settings.module.css";
 import { defaultConfiguration, type VoiceConfiguration } from "@/store/voice";
+import { useEffect, useState } from "react";
 
-const VoiceSettings = () => {
+const Settings = () => {
   const {
     storedValue: settings,
     setValue: setSettings,
@@ -14,17 +15,75 @@ const VoiceSettings = () => {
     defaultConfiguration
   );
   const { devices, error, isLoading } = useMediaDevices(true);
+  
+  // Video device state
+  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedVideoDevice, setSelectedVideoDevice] = useState<MediaDeviceInfo>();
+
+  const getVideoDevices = async (): Promise<MediaDeviceInfo[] | null> => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      return devices.filter((device) => device.kind === "videoinput");
+    } catch (err) {
+      console.error("Error accessing video devices:", err);
+      return null;
+    }
+  };
+
+  const getSelectedVideoDevice = async (): Promise<MediaDeviceInfo | null> => {
+    const devices = await getVideoDevices();
+    if (!devices) return null;
+
+    const device = localStorage.getItem("selected-video-device");
+
+    if (device) {
+      const parsedDevice = JSON.parse(device);
+      const dvc = devices?.find((d) => d.deviceId === parsedDevice.deviceId);
+      if (dvc) {
+        return dvc;
+      } else {
+        // remove selected device if not found (bad entry)
+        localStorage.removeItem("selected-video-device");
+        return devices?.[0];
+      }
+    } else {
+      return devices?.[0];
+    }
+  };
+
+  useEffect(() => {
+    const loadVideoDevices = async () => {
+      const devices = await getVideoDevices();
+      if (devices) {
+        setVideoDevices(devices);
+        const selectedDevice = await getSelectedVideoDevice();
+        if (selectedDevice) {
+          setSelectedVideoDevice(selectedDevice);
+        }
+      }
+    };
+    loadVideoDevices();
+  }, []);
+
+  useEffect(() => {
+    if (selectedVideoDevice) {
+      localStorage.setItem(
+        "selected-video-device",
+        JSON.stringify({ deviceId: selectedVideoDevice.deviceId })
+      );
+    }
+  }, [selectedVideoDevice]);
 
   return (
     <div className={styles.container}>
       <div className={styles.control}>
         <div className={styles.label}>Voice Input:</div>
         <select
-          id="device"
-          name="device"
+          id="voice-device"
+          name="voice-device"
           className={styles.mediaselect}
           value={settings.inputDeviceId}
-          title="Select a device"
+          title="Select a voice input device"
           onChange={(e) =>
             setSettings({ ...settings, inputDeviceId: e.target.value })
           }
@@ -40,6 +99,29 @@ const VoiceSettings = () => {
                 </option>
               );
             })}
+        </select>
+      </div>
+
+      <div className={styles.control}>
+        <div className={styles.label}>Video Input:</div>
+        <select
+          id="video-device"
+          name="video-device"
+          className={styles.mediaselect}
+          value={selectedVideoDevice?.deviceId}
+          title="Select a video input device"
+          onChange={(e) =>
+            setSelectedVideoDevice(
+              videoDevices.find((d) => d.deviceId === e.target.value)
+            )
+          }
+        >
+          {videoDevices.length === 0 && <option>No video devices found</option>}
+          {videoDevices.map((device) => (
+            <option key={device.deviceId} value={device.deviceId}>
+              {device.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -110,4 +192,4 @@ const VoiceSettings = () => {
   );
 };
 
-export default VoiceSettings;
+export default Settings;

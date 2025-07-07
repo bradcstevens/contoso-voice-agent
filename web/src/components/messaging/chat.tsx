@@ -10,7 +10,7 @@ import { ChatState, Turn, useChatStore } from "@/store/chat";
 import usePersistStore from "@/store/usePersistStore";
 import FileImagePicker from "./fileimagepicker";
 import { fetchCachedImage, removeCachedBlob } from "@/store/images";
-import VideoImagePicker from "./videoimagepicker";
+import VideoDevicePicker from "./videodevicepicker";
 import { WS_ENDPOINT } from "@/store/endpoint";
 import { SocketMessage, SocketServer } from "@/store/socket";
 import clsx from "clsx";
@@ -21,7 +21,7 @@ import { useSound } from "@/audio/useSound";
 import { useRealtime } from "@/audio/userealtime";
 import { Message as VoiceMessage } from "@/socket/types";
 import Content from "./content";
-import VoiceSettings from "./voicesettings";
+import Settings from "./settings";
 import voiceStyles from "./voice.module.css";
 
 interface ChatOptions {
@@ -55,7 +55,7 @@ const Chat = ({ options }: Props) => {
   const suggestionsRef = useRef<boolean>(false);
   const { playSound, stopSound } = useSound("/phone-ring.mp3");
   const buttonRef = useRef<HTMLDivElement>(null);
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const settingsRef = useRef<HTMLButtonElement>(null);
 
   /** Auto-resize textarea */
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -515,27 +515,27 @@ const Chat = ({ options }: Props) => {
                 <FileImagePicker setCurrentImage={state.setCurrentImage} />
               )}
               {options && options.video && (
-                <VideoImagePicker setCurrentImage={state.setCurrentImage} />
+                <VideoDevicePicker setCurrentImage={state.setCurrentImage} />
               )}
               
               {/* Voice buttons */}
               {callState === "idle" && (
-                <div className={voiceStyles.voiceButton} onClick={startCall}>
-                  <FiPhone size={24} />
-                </div>
+                <button className="button" onClick={startCall}>
+                  <FiPhone size={24} className="buttonIcon" />
+                </button>
               )}
               {callState === "call" && (
-                <div className={voiceStyles.callHangupSmall} onClick={hangupCall}>
-                  <FiPhoneOff size={20} />
-                </div>
+                <button className="button" onClick={hangupCall}>
+                  <FiPhoneOff size={20} className="buttonIcon" />
+                </button>
               )}
-              <div
-                className={voiceStyles.settingsButton}
+              <button
+                className="button"
                 ref={settingsRef}
                 onClick={toggleSettings}
               >
-                {settings ? <GrClose size={20} /> : <FiSettings size={24} />}
-              </div>
+                {settings ? <GrClose size={20} className="buttonIcon" /> : <FiSettings size={24} className="buttonIcon" />}
+              </button>
 
               <button
                 type="button"
@@ -576,7 +576,7 @@ const Chat = ({ options }: Props) => {
           )}
         </div>
       </div>
-      {settings && <VoiceSettings />}
+      {settings && <Settings />}
     </>
   );
 };
