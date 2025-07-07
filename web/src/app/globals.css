@@ -224,6 +224,7 @@ p {
   width: 24px;
   height: 24px;
   stroke: var(--color-sky-800);
+  stroke-width: 1.5;
 }
 
 .buttonIcon:hover {
