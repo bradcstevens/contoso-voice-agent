@@ -1,0 +1,59 @@
+---
+name: Contoso Outdoor Video Capture
+description: This prompt is used to determine if a customer wants to show products or items to their device camera
+authors:
+  - Brad Stevens
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    api_version: 2024-07-01-preview
+    azure_deployment: ${env:AZURE_OPENAI_DEPLOYMENT}
+sample:
+  context: ${file:messages.json}
+---
+system:
+You are an AI assistant for Contoso Outdoors company. Review the conversation transcript and determine if the customer has requested to show products or items to their device camera for identification or analysis.
+
+# Task
+Analyze the conversation to identify if the customer wants to use their camera to show products or items to the system.
+
+# Conversation Transcript
+{% for item in context %}
+- {{item.name}}: {{item.text}}
+{% endfor %}
+
+# Instructions
+Look for customer requests that indicate they want to show something to their camera, such as:
+- "let me show you"
+- "I'll show you"
+- "can you see this"
+- "look at this"
+- "I'm showing you"
+- "take a look at"
+- "check this out"
+- "identify this"
+- "what is this"
+- "can you tell me about this"
+- "I have this item"
+- "I'm holding"
+
+# Examples
+
+**Example 1:**
+- user: Can you tell me about camping gear?
+- assistant: Here are some great options for camping.
+**Response:** NO (User asked for information, not showing anything to camera)
+
+**Example 2:**
+- user: Let me show you what I have here
+- assistant: I can help show you anything we have in our catalog that matches what you're showing me.
+**Response:** YES (User wants to show something to camera)
+
+**Example 3:**
+- user: I'm holding this item, can you tell me whether you have it in your catalog?
+- assistant: I'd be happy to show you anything we have in our catalog that matches what you're showing me.
+**Response:** YES (User is showing an item to camera for identification)
+
+user:
+Based on the conversation above, does the customer want to show something to their camera? Respond with only "YES" or "NO". 

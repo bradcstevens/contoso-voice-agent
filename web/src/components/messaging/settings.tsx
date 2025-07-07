@@ -1,11 +1,16 @@
 import { useLocalStorage } from "@/store/uselocalstorage";
 import { useMediaDevices } from "@/store/usemediadevice";
 import { GrPowerReset } from "react-icons/gr";
+import { GrClose } from "react-icons/gr";
 import styles from "./settings.module.css";
 import { defaultConfiguration, type VoiceConfiguration } from "@/store/voice";
 import { useEffect, useState } from "react";
 
-const Settings = () => {
+interface SettingsProps {
+  onClose?: () => void;
+}
+
+const Settings = ({ onClose }: SettingsProps) => {
   const {
     storedValue: settings,
     setValue: setSettings,
@@ -76,6 +81,20 @@ const Settings = () => {
 
   return (
     <div className={styles.container}>
+      {/* Close button header */}
+      {onClose && (
+        <div className={styles.header}>
+          <h3 className={styles.title}>Settings</h3>
+          <button 
+            className={styles.closeButton}
+            onClick={onClose}
+            title="Close settings"
+          >
+            <GrClose size={20} />
+          </button>
+        </div>
+      )}
+      
       <div className={styles.control}>
         <div className={styles.label}>Voice Input:</div>
         <select

@@ -314,3 +314,124 @@ graph TD
 - **Status**: Ready for Implementation
 - **Priority**: Critical (Core Phase 1)
 - **Dependencies**: AdvancedChatInterface patterns established 
+
+## TASK 4: CREATE VOICE-TRIGGERED CAMERA CAPTURE SYSTEM
+
+### Task Overview
+- **Status**: ✅ **CREATIVE PHASES COMPLETE** - Ready for Implementation
+- **Complexity**: Level 3 (Intermediate Feature)
+- **Dependencies**: Task 1 (Camera Infrastructure) ✅ COMPLETE, Task 2 (Voice Processing) ✅ COMPLETE
+- **Creative Document**: `memory-bank/creative/creative-task4-voice-camera-coordination.md`
+
+### Technology Stack
+- **Voice Processing**: Azure OpenAI Realtime API (existing VoiceService)
+- **Camera System**: Web Camera API (existing camera infrastructure)
+- **Coordination**: Custom state machine with Zustand state management
+- **NLP Processing**: Hybrid local regex + Azure OpenAI classification
+- **Performance**: <100ms voice-to-camera latency target
+
+### Creative Phase Decisions Made
+
+#### 1. Voice Pattern Recognition Architecture ✅ COMPLETE
+- **Decision**: Hybrid Local + Cloud NLP approach
+- **Rationale**: Optimal balance of accuracy (local regex for common patterns) and performance (cloud classification for complex cases)
+- **Implementation**: VoicePatternRecognizer service with two-tier processing and confidence scoring
+
+#### 2. Voice-Camera Coordination Architecture ✅ COMPLETE
+- **Decision**: Centralized State Machine coordination
+- **Rationale**: Best maintainability and debugging capabilities while meeting <100ms latency requirements
+- **Implementation**: VoiceCameraCoordinator with finite state machine (idle → listening → processing → capturing → confirming)
+
+#### 3. Frame Selection Algorithm Design ✅ COMPLETE
+- **Decision**: Quality-Based Selection with timing optimization
+- **Rationale**: Best balance of image quality and processing speed for optimal user experience
+- **Implementation**: FrameSelector service with histogram analysis, edge detection, and motion detection
+
+### System Architecture
+```
+Voice Input → VoicePatternRecognizer → VoiceCameraCoordinator → Camera Service → FrameSelector → Captured Frame
+                  ↓                          ↓                      ↓
+            Confidence Score          Status Updates         Quality Assessment
+```
+
+### Performance Targets
+- **Voice Recognition**: <100ms for local patterns, <300ms for cloud classification
+- **Coordination Latency**: <100ms voice-to-camera trigger
+- **Frame Selection**: <500ms quality assessment and selection
+- **Overall System**: <1s from voice command to captured frame
+
+### Implementation Roadmap
+- **Phase 1**: Voice Pattern Recognition (Week 1)
+- **Phase 2**: Coordination Architecture (Week 2)
+- **Phase 3**: Frame Selection Algorithm (Week 3)
+- **Phase 4**: Integration & Testing (Week 4)
+
+### Integration Points
+- Extend existing VoiceService with VoicePatternRecognizer
+- Integrate with existing Camera system components
+- Connect to MultiModalStatus molecule for status feedback
+- Coordinate with TouchCaptureButton for manual fallback
+
+### Quality Assurance Criteria
+- Voice Pattern Accuracy: >85
+## TASK 4: CREATE VOICE-TRIGGERED CAMERA CAPTURE SYSTEM
+
+### Task Overview
+- **Status**: ✅ **CREATIVE PHASES COMPLETE** - Ready for Implementation
+- **Complexity**: Level 3 (Intermediate Feature)
+- **Dependencies**: Task 1 (Camera Infrastructure) ✅ COMPLETE, Task 2 (Voice Processing) ✅ COMPLETE
+- **Creative Document**: `memory-bank/creative/creative-task4-voice-camera-coordination.md`
+
+### Technology Stack
+- **Voice Processing**: Azure OpenAI Realtime API (existing VoiceService)
+- **Camera System**: Web Camera API (existing camera infrastructure)
+- **Coordination**: Custom state machine with Zustand state management
+- **NLP Processing**: Hybrid local regex + Azure OpenAI classification
+- **Performance**: <100ms voice-to-camera latency target
+
+### Creative Phase Decisions Made
+
+#### 1. Voice Pattern Recognition Architecture ✅ COMPLETE
+- **Decision**: Hybrid Local + Cloud NLP approach
+- **Rationale**: Optimal balance of accuracy (local regex for common patterns) and performance (cloud classification for complex cases)
+- **Implementation**: VoicePatternRecognizer service with two-tier processing and confidence scoring
+
+#### 2. Voice-Camera Coordination Architecture ✅ COMPLETE
+- **Decision**: Centralized State Machine coordination
+- **Rationale**: Best maintainability and debugging capabilities while meeting <100ms latency requirements
+- **Implementation**: VoiceCameraCoordinator with finite state machine (idle → listening → processing → capturing → confirming)
+
+#### 3. Frame Selection Algorithm Design ✅ COMPLETE
+- **Decision**: Quality-Based Selection with timing optimization
+- **Rationale**: Best balance of image quality and processing speed for optimal user experience
+- **Implementation**: FrameSelector service with histogram analysis, edge detection, and motion detection
+
+### System Architecture
+Voice Input → VoicePatternRecognizer → VoiceCameraCoordinator → Camera Service → FrameSelector → Captured Frame
+
+### Performance Targets
+- **Voice Recognition**: <100ms for local patterns, <300ms for cloud classification
+- **Coordination Latency**: <100ms voice-to-camera trigger
+- **Frame Selection**: <500ms quality assessment and selection
+- **Overall System**: <1s from voice command to captured frame
+
+### Implementation Roadmap
+- **Phase 1**: Voice Pattern Recognition (Week 1)
+- **Phase 2**: Coordination Architecture (Week 2)
+- **Phase 3**: Frame Selection Algorithm (Week 3)
+- **Phase 4**: Integration & Testing (Week 4)
+
+### Integration Points
+- Extend existing VoiceService with VoicePatternRecognizer
+- Integrate with existing Camera system components
+- Connect to MultiModalStatus molecule for status feedback
+- Coordinate with TouchCaptureButton for manual fallback
+
+### Quality Assurance Criteria
+- Voice Pattern Accuracy: >85% with confidence scoring
+- Coordination Reliability: >99% successful voice-to-camera coordination
+- Frame Quality: Consistent improvement over random capture
+- User Experience: Clear feedback and fallback options
+
+---
+

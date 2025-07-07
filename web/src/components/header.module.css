@@ -3,6 +3,8 @@
   flex-direction: row;
   align-items: center;
   height: 3rem;
+  position: relative;
+  z-index: 15;
 }
 
 .baricon {
@@ -62,4 +64,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chatButton {
+  background-color: var(--color-zinc-100);
+  color: var(--color-zinc-800);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-left: 0.5rem;
+}
+
+.chatButton:hover {
+  background-color: var(--color-zinc-200);
 }

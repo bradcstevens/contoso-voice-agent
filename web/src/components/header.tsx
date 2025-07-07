@@ -8,11 +8,14 @@ import Link from "next/link";
 import usePersistStore from "@/store/usePersistStore";
 import { useEffect } from "react";
 import { fetchUser } from "@/data/user";
+import { useChatStore } from "@/store/chat";
+import { ChatRegular, DismissRegular } from "@fluentui/react-icons";
 
 const Header = () => {
 
   const userState = usePersistStore(useUserStore, (state) => state);
   const user = usePersistStore(useUserStore, (state) => state.user);
+  const chatState = usePersistStore(useChatStore, (state) => state);
   /** Current User */
   useEffect(() => {
     if (!userState?.user) {
@@ -51,10 +54,24 @@ const Header = () => {
       <div className={styles.grow} />
       <div className={styles.user}>
         <div>
-          <div className={styles.username}>{user?.name}</div>
+          <div className={styles.username}>{user?.name}</div> 
           <div className={styles.email}>{user?.email}</div>
         </div>
         <div className="">{getUserIcon()}</div>
+        <div
+          className={styles.chatButton}
+          onClick={() => {
+            if (chatState) {
+              chatState.setOpen(!chatState.open);
+            }
+          }}
+        >
+          {chatState?.open ? (
+            <DismissRegular fontSize={20} />
+          ) : (
+            <ChatRegular fontSize={22} />
+          )}
+        </div>
       </div>
     </Block>
   );

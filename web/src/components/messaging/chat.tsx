@@ -2,10 +2,17 @@
 import Message from "./message";
 import styles from "./chat.module.css";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { GrPowerReset, GrClose, GrBeacon } from "react-icons/gr";
-import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
-import { HiOutlinePaperAirplane } from "react-icons/hi2";
-import { FiPhone, FiPhoneCall, FiPhoneOff, FiSettings } from "react-icons/fi";
+import { 
+  ArrowClockwiseRegular,
+  DismissRegular, 
+  CircleRegular,
+  ChatRegular,
+  SendRegular,
+  CallRegular,
+  CallInboundRegular,
+  CallEndRegular,
+  SettingsRegular
+} from "@fluentui/react-icons";
 import { ChatState, Turn, useChatStore } from "@/store/chat";
 import usePersistStore from "@/store/usePersistStore";
 import FileImagePicker from "./fileimagepicker";
@@ -403,10 +410,9 @@ const Chat = ({ options }: Props) => {
     }
   }, [state?.open, connected]);
 
-  // Set initial position to right side on mount
+  // Set initial position to top right on mount
   useEffect(() => {
-    const initialX = Math.max(32, window.innerWidth - 600); // Position on right side
-    setPosition(prev => ({ ...prev, x: initialX }));
+    setPosition({ x: 16, y: 60 }); // Position 32px from right and 56px from top edges
   }, []);
 
   // Drag handlers
@@ -428,24 +434,23 @@ const Chat = ({ options }: Props) => {
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging || !chatRef.current) return;
     
-    const newX = e.clientX - dragOffset.x;
-    const newY = e.clientY - dragOffset.y;
+    const leftPos = e.clientX - dragOffset.x;
     
     // Get chat dimensions
     const chatRect = chatRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
     
-    // Constraints to keep within viewport
-    const minX = 16;
-    const maxX = viewportWidth - chatRect.width - 16;
-    const minY = 16;
-    const maxY = viewportHeight - chatRect.height - 16;
+    // Convert to right coordinate (only horizontal movement)
+    const rightPos = viewportWidth - leftPos - chatRect.width;
     
-    const constrainedX = Math.max(minX, Math.min(maxX, newX));
-    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    // Constraints to keep within viewport (minimum 16px from edges)
+    const minRight = 16;
+    const maxRight = viewportWidth - chatRect.width - 16;
     
-    setPosition({ x: constrainedX, y: constrainedY });
+    const constrainedRight = Math.max(minRight, Math.min(maxRight, rightPos));
+    
+    // Keep the current Y position, only update X
+    setPosition({ x: constrainedRight, y: position.y });
   };
 
   const handleMouseUp = () => {
@@ -485,24 +490,23 @@ const Chat = ({ options }: Props) => {
     if (!isDragging || !chatRef.current) return;
     
     const touch = e.touches[0];
-    const newX = touch.clientX - dragOffset.x;
-    const newY = touch.clientY - dragOffset.y;
+    const leftPos = touch.clientX - dragOffset.x;
     
     // Get chat dimensions
     const chatRect = chatRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
     
-    // Constraints to keep within viewport
-    const minX = 16;
-    const maxX = viewportWidth - chatRect.width - 16;
-    const minY = 16;
-    const maxY = viewportHeight - chatRect.height - 16;
+    // Convert to right coordinate (only horizontal movement)
+    const rightPos = viewportWidth - leftPos - chatRect.width;
     
-    const constrainedX = Math.max(minX, Math.min(maxX, newX));
-    const constrainedY = Math.max(minY, Math.min(maxY, newY));
+    // Constraints to keep within viewport (minimum 16px from edges)
+    const minRight = 16;
+    const maxRight = viewportWidth - chatRect.width - 16;
     
-    setPosition({ x: constrainedX, y: constrainedY });
+    const constrainedRight = Math.max(minRight, Math.min(maxRight, rightPos));
+    
+    // Keep the current Y position, only update X
+    setPosition({ x: constrainedRight, y: position.y });
   };
 
   const handleTouchEnd = () => {
@@ -538,8 +542,8 @@ const Chat = ({ options }: Props) => {
         ref={chatRef}
         className={`${styles.chat} ${isDragging ? styles.dragging : ''}`}
         style={{
-          left: `${position.x}px`,
-          bottom: `${position.y}px`,
+          right: `${position.x}px`,
+          top: `${position.y}px`,
           cursor: isDragging ? 'grabbing' : 'default'
         }}
         onMouseDown={handleMouseDown}
@@ -548,8 +552,8 @@ const Chat = ({ options }: Props) => {
         {state && state?.open && (
           <div className={styles.chatWindow}>
             <div className={styles.chatHeader}>
-              <GrPowerReset
-                size={18}
+              <ArrowClockwiseRegular
+                fontSize={18}
                 className={styles.chatIcon}
                 onClick={() => {
                   // Stop audio immediately when clearing
@@ -561,8 +565,8 @@ const Chat = ({ options }: Props) => {
               />
               <div className={"grow"} />
               <div>
-                <GrBeacon
-                  size={18}
+                <CircleRegular
+                  fontSize={18}
                   className={clsx(
                     styles.chatIcon,
                     connected ? styles.connected : styles.disconnected
@@ -570,8 +574,8 @@ const Chat = ({ options }: Props) => {
                 />
               </div>
               <div>
-                <GrClose
-                  size={18}
+                <DismissRegular
+                  fontSize={18}
                   className={styles.chatIcon}
                   onClick={() => {
                     // Stop audio immediately when closing
@@ -583,6 +587,17 @@ const Chat = ({ options }: Props) => {
                 />
               </div>
             </div>
+            
+            {/* Settings overlay */}
+            {settings && (
+              <div className={styles.settingsOverlay}>
+                <div className={styles.settingsBackdrop} onClick={toggleSettings} />
+                <div className={styles.settingsModal}>
+                  <Settings onClose={toggleSettings} />
+                </div>
+              </div>
+            )}
+            
             {/* chat section */}
             <div className={styles.chatSection} ref={chatDiv}>
               <div className={callState === "ringing" ? styles.chatMessagesBlurred : styles.chatMessages}>
@@ -605,10 +620,10 @@ const Chat = ({ options }: Props) => {
                     ref={buttonRef}
                     onClick={answerCall}
                   >
-                    <FiPhoneCall size={32} />
+                    <CallInboundRegular fontSize={32} />
                   </div>
                   <div className={voiceStyles.callHangup} onClick={hangupCall}>
-                    <FiPhoneOff size={32} />
+                    <CallEndRegular fontSize={32} />
                   </div>
                 </div>
               )}
@@ -626,92 +641,68 @@ const Chat = ({ options }: Props) => {
             )}
             {/* chat input section */}
             <div className={styles.chatInputSection}>
-              <textarea
-                id="chat"
-                name="chat"
-                title="Type a message"
-                placeholder="Type a message..."
-                value={state ? state.message : ""}
-                onChange={(e) => {
-                  if (state) state.setMessage(e.target.value);
-                  autoResizeTextarea();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                  }
-                }}
-                className={styles.chatInput}
-                ref={textareaRef}
-                rows={1}
-              />
-              {options && options.file && (
-                <FileImagePicker setCurrentImage={state.setCurrentImage} />
-              )}
-              {options && options.video && (
-                <VideoDevicePicker setCurrentImage={state.setCurrentImage} />
-              )}
-              
-              {/* Voice buttons */}
-              {callState === "idle" && (
-                <button className="button" onClick={startCall}>
-                  <FiPhone size={24} className="buttonIcon" />
+              <div className={styles.textareaContainer}>
+                <textarea
+                  id="chat"
+                  name="chat"
+                  title="Type a message"
+                  placeholder="Type a message..."
+                  value={state ? state.message : ""}
+                  onChange={(e) => {
+                    if (state) state.setMessage(e.target.value);
+                    autoResizeTextarea();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage();
+                    }
+                  }}
+                  className={styles.chatInput}
+                  ref={textareaRef}
+                  rows={1}
+                />
+                <button
+                  type="button"
+                  title="Send Message"
+                  className={styles.sendButton}
+                  onClick={sendMessage}
+                >
+                  <SendRegular fontSize={20} className={"buttonIcon"} />
                 </button>
-              )}
-              {callState === "call" && (
-                <button className="button" onClick={hangupCall}>
-                  <FiPhoneOff size={20} className="buttonIcon" />
+              </div>
+              <div className={styles.buttonRow}>
+                {options && options.file && (
+                  <FileImagePicker setCurrentImage={state.setCurrentImage} />
+                )}
+                {options && options.video && (
+                  <VideoDevicePicker setCurrentImage={state.setCurrentImage} />
+                )}
+                
+                {/* Voice buttons */}
+                {callState === "idle" && (
+                  <button className="button" onClick={startCall}>
+                    <CallRegular fontSize={24} className="buttonIcon" />
+                  </button>
+                )}
+                {callState === "call" && (
+                  <button className="button" onClick={hangupCall}>
+                    <CallEndRegular fontSize={20} className="buttonIcon" />
+                  </button>
+                )}
+                <button
+                  className="button"
+                  ref={settingsRef}
+                  onClick={toggleSettings}
+                >
+                  {settings ? <SettingsRegular fontSize={20} className="buttonIcon" /> : <SettingsRegular fontSize={24} className="buttonIcon" />}
                 </button>
-              )}
-              <button
-                className="button"
-                ref={settingsRef}
-                onClick={toggleSettings}
-              >
-                {settings ? <GrClose size={20} className="buttonIcon" /> : <FiSettings size={24} className="buttonIcon" />}
-              </button>
-
-              <button
-                type="button"
-                title="Send Message"
-                className={"button"}
-                onClick={sendMessage}
-              >
-                <HiOutlinePaperAirplane size={24} className={"buttonIcon"} />
-              </button>
+              </div>
             </div>
           </div>
         )}
-        <div
-          className={styles.chatButton}
-          onClick={() => {
-            if (state) {
-              const isOpening = !state.open;
-              
-              // Stop audio when closing chat
-              if (!isOpening && callState === "call") {
-                sendRealtime({ type: "interrupt", payload: "" });
-              }
-              
-              state.setOpen(isOpening);
-              
-              // Auto-connect when opening chat
-              if (isOpening && stateRef.current && stateRef.current.threadId && !connected) {
-                createSocket(stateRef.current.threadId);
-              }
-            }
-            scrollChat();
-          }}
-        >
-          {state?.open ? (
-            <GrClose size={24} />
-          ) : (
-            <HiOutlineChatBubbleLeftRight size={32} />
-          )}
-        </div>
+
       </div>
-      {settings && <Settings />}
     </>
   );
 };
