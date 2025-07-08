@@ -12,6 +12,13 @@
   height: calc(100vh - 120px);
   width: min(calc(100vw - 612px), 500px);
   max-width: 90vw;
+  user-select: none;
+}
+
+.contentWindow.dragging {
+  transition: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2),
+    0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .contentHeader {
@@ -31,6 +38,15 @@
   gap: 16px;
   font-size: x-large;
   align-items: center;
+  user-select: none;
+}
+
+.contentTitle:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.contentTitle:active {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .content {

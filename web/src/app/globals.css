@@ -263,3 +263,26 @@ div[style*="position: fixed"]:has(.stagewise) {
   bottom: auto !important;
   right: auto !important;
 }
+
+/* Chat Drawer Styles */
+body {
+  transition: margin-right 0.3s ease-in-out;
+}
+
+/* Body class for when chat drawer is open */
+body.chat-drawer-open {
+  margin-right: 510px;
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 768px) {
+  body.chat-drawer-open {
+    margin-right: 410px;
+  }
+}
+
+@media (max-width: 480px) {
+  body.chat-drawer-open {
+    margin-right: 100%;
+  }
+}

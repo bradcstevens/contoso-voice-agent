@@ -53,25 +53,24 @@ const Header = () => {
       </div>
       <div className={styles.grow} />
       <div className={styles.user}>
-        <div>
+      <div>
           <div className={styles.username}>{user?.name}</div> 
           <div className={styles.email}>{user?.email}</div>
         </div>
         <div className="">{getUserIcon()}</div>
-        <div
-          className={styles.chatButton}
-          onClick={() => {
-            if (chatState) {
-              chatState.setOpen(!chatState.open);
-            }
-          }}
-        >
-          {chatState?.open ? (
-            <DismissRegular fontSize={20} />
-          ) : (
+        {!chatState?.open && (
+          <div
+            className={styles.chatButton}
+            onClick={() => {
+              if (chatState) {
+                chatState.setOpen(!chatState.open);
+              }
+            }}
+          >
             <ChatRegular fontSize={22} />
-          )}
-        </div>
+          </div>
+        )}
+
       </div>
     </Block>
   );

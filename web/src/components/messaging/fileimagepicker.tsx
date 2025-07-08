@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { IoCameraOutline } from "react-icons/io5";
+import { AttachRegular } from "@fluentui/react-icons";
 import { readAndCacheFile } from "@/store/images";
 
 type Props = {
@@ -37,7 +37,7 @@ const FileImagePicker = ({ setCurrentImage }: Props) => {
         className={"button"}
         onClick={activateFileInput}
       >
-        <IoCameraOutline className={"buttonIcon"} />
+        <AttachRegular fontSize={24} className={"buttonIcon"} />
       </button>
       <input
         type="file"

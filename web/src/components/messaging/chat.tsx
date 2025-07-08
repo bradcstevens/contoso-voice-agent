@@ -6,13 +6,44 @@ import {
   ArrowClockwiseRegular,
   DismissRegular, 
   CircleRegular,
-  ChatRegular,
-  SendRegular,
-  CallRegular,
   CallInboundRegular,
   CallEndRegular,
-  SettingsRegular
+  SettingsRegular,
+  Attach24Regular,
+  Mic24Regular,
+  Mic24Filled,
+  Apps24Regular,
+  Apps24Filled,
+  AppFolder16Regular,
+  Apps16Regular,
+  bundleIcon
 } from "@fluentui/react-icons";
+import { 
+  Button, 
+  Divider, 
+  makeStyles, 
+  Body1,
+  Image
+} from "@fluentui/react-components";
+import {
+  CopilotChat,
+  CopilotMessage,
+  SystemMessage,
+  Timestamp,
+  UserMessage,
+} from "@fluentui-copilot/react-copilot-chat";
+import {
+  ChatInput,
+  PromptStarter,
+  Suggestion,
+  SuggestionList,
+} from "@fluentui-copilot/react-copilot";
+import { CopilotTheme } from "@fluentui-copilot/react-copilot-theme";
+import { CopilotProvider } from "@fluentui-copilot/react-provider";
+import { tokens } from "@fluentui-copilot/tokens";
+
+const Mic24 = bundleIcon(Mic24Filled, Mic24Regular);
+const Apps24 = bundleIcon(Apps24Filled, Apps24Regular);
 import { ChatState, Turn, useChatStore } from "@/store/chat";
 import usePersistStore from "@/store/usePersistStore";
 import FileImagePicker from "./fileimagepicker";
@@ -31,6 +62,21 @@ import Content from "./content";
 import Settings from "./settings";
 import voiceStyles from "./voice.module.css";
 
+const useStyles = makeStyles({
+  chatInputContainer: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "1rem",
+    gap: "0.75rem",
+    borderTop: "1px solid var(--color-zinc-200)",
+    backgroundColor: "var(--color-zinc-50)",
+  },
+  actionsContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
+});
+
 interface ChatOptions {
   video?: boolean;
   file?: boolean;
@@ -40,6 +86,8 @@ type Props = {
 };
 
 const Chat = ({ options }: Props) => {
+  const fluentStyles = useStyles();
+  
   /** Socket */
   const server = useRef<SocketServer | null>(null);
   const [connected, setConnected] = useState<boolean>(false);
@@ -67,10 +115,7 @@ const Chat = ({ options }: Props) => {
   /** Auto-resize textarea */
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  /** Drag functionality */
-  const [position, setPosition] = useState({ x: 32, y: 32 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  /** Chat drawer reference */
   const chatRef = useRef<HTMLDivElement>(null);
 
   const autoResizeTextarea = useCallback(() => {
@@ -237,6 +282,13 @@ const Chat = ({ options }: Props) => {
       fetchCachedImage(state.currentImage, setCurrentImage).then(() => {
         scrollChat();
       });
+    }
+
+    // Manage body class for drawer
+    if (state?.open) {
+      document.body.classList.add('chat-drawer-open');
+    } else {
+      document.body.classList.remove('chat-drawer-open');
     }
   }, [state]);
 
@@ -410,145 +462,33 @@ const Chat = ({ options }: Props) => {
     }
   }, [state?.open, connected]);
 
-  // Set initial position to top right on mount
+  // Chat drawer functionality - no dragging needed for fixed drawer
+
+  // Cleanup body class on unmount
   useEffect(() => {
-    setPosition({ x: 16, y: 60 }); // Position 32px from right and 56px from top edges
+    return () => {
+      document.body.classList.remove('chat-drawer-open');
+    };
   }, []);
 
-  // Drag handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!chatRef.current) return;
-    
-    // Only start dragging if clicking on the header area
-    const target = e.target as HTMLElement;
-    if (!target.closest(`.${styles.chatHeader}`)) return;
-    
-    const rect = chatRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging || !chatRef.current) return;
-    
-    const leftPos = e.clientX - dragOffset.x;
-    
-    // Get chat dimensions
-    const chatRect = chatRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    
-    // Convert to right coordinate (only horizontal movement)
-    const rightPos = viewportWidth - leftPos - chatRect.width;
-    
-    // Constraints to keep within viewport (minimum 16px from edges)
-    const minRight = 16;
-    const maxRight = viewportWidth - chatRect.width - 16;
-    
-    const constrainedRight = Math.max(minRight, Math.min(maxRight, rightPos));
-    
-    // Keep the current Y position, only update X
-    setPosition({ x: constrainedRight, y: position.y });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Add global event listeners for dragging
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging, dragOffset]);
-
-  // Touch handlers for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!chatRef.current) return;
-    
-    // Only start dragging if touching the header area
-    const target = e.target as HTMLElement;
-    if (!target.closest(`.${styles.chatHeader}`)) return;
-    
-    const touch = e.touches[0];
-    const rect = chatRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top
-    });
-    setIsDragging(true);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (!isDragging || !chatRef.current) return;
-    
-    const touch = e.touches[0];
-    const leftPos = touch.clientX - dragOffset.x;
-    
-    // Get chat dimensions
-    const chatRect = chatRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    
-    // Convert to right coordinate (only horizontal movement)
-    const rightPos = viewportWidth - leftPos - chatRect.width;
-    
-    // Constraints to keep within viewport (minimum 16px from edges)
-    const minRight = 16;
-    const maxRight = viewportWidth - chatRect.width - 16;
-    
-    const constrainedRight = Math.max(minRight, Math.min(maxRight, rightPos));
-    
-    // Keep the current Y position, only update X
-    setPosition({ x: constrainedRight, y: position.y });
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
-
-  // Add global touch event listeners for dragging
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleTouchEnd);
-      return () => {
-        document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleTouchEnd);
-      };
-    }
-  }, [isDragging, dragOffset]);
-
   return (
-    <>
-      <div className={state?.open ? styles.overlay : styles.hidden}></div>
-      {suggestions && (
-        <>
-          {console.log("Rendering Content component with suggestions:", suggestions, "and content:", contentRef.current)}
-          <Content
-            suggestions={contentRef.current}
-            onClose={onCloseSuggestions}
-            chatPosition={position}
-          />
-        </>
-      )}
-      <div 
-        ref={chatRef}
-        className={`${styles.chat} ${isDragging ? styles.dragging : ''}`}
-        style={{
-          right: `${position.x}px`,
-          top: `${position.y}px`,
-          cursor: isDragging ? 'grabbing' : 'default'
-        }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      >
+    <CopilotProvider {...CopilotTheme}>
+      <>
+        <div className={state?.open ? styles.overlay : styles.hidden}></div>
+        {suggestions && (
+          <>
+            {console.log("Rendering Content component with suggestions:", suggestions, "and content:", contentRef.current)}
+            <Content
+              suggestions={contentRef.current}
+              onClose={onCloseSuggestions}
+              chatPosition={{ x: 0, y: 0 }}
+            />
+          </>
+        )}
+        <div 
+          ref={chatRef}
+          className={`${styles.chat} ${state?.open ? styles.open : ''}`}
+        >
         {state && state?.open && (
           <div className={styles.chatWindow}>
             <div className={styles.chatHeader}>
@@ -600,17 +540,64 @@ const Chat = ({ options }: Props) => {
             
             {/* chat section */}
             <div className={styles.chatSection} ref={chatDiv}>
-              <div className={callState === "ringing" ? styles.chatMessagesBlurred : styles.chatMessages}>
+              <CopilotChat className={styles.copilotChat}>
                 {state && state.turns.length === 0 && callState === "idle" && (
-                  <div className={styles.chatPlaceholder}>
-                    Ask Anything
+                  <div className={styles.zeroprompt}>
+                    <Body1>Hi {user?.name || "there"},</Body1>
+                    <Body1>
+                      Ready to explore? Select one of the suggestions below to get
+                      started...
+                    </Body1>
+                    <PromptStarter
+                      icon={<AppFolder16Regular />}
+                      category={"Summarize"}
+                      prompt={<Body1>Review key points in file</Body1>}
+                    />
+                    <PromptStarter
+                      icon={<AppFolder16Regular />}
+                      category={"Create"}
+                      prompt={<Body1>Write more about...</Body1>}
+                    />
+                    <PromptStarter
+                      icon={<AppFolder16Regular />}
+                      category={"Ask"}
+                      prompt={<Body1>Tell me about my day</Body1>}
+                      badge="New"
+                    />
                   </div>
                 )}
-                {state &&
-                  state.turns.map((turn, index) => (
-                    <Message key={index} turn={turn} notify={scrollChat} />
-                  ))}
-              </div>
+                
+                {state && state.turns.length > 0 && (
+                  <>
+                    <Timestamp>Today</Timestamp>
+                    {state.turns.map((turn, index) => {
+                      if (turn.type === "user") {
+                        return (
+                          <UserMessage key={index} timestamp={new Date().toLocaleTimeString()}>
+                            {turn.message}
+                          </UserMessage>
+                        );
+                      } else {
+                        return (
+                          <CopilotMessage
+                            key={index}
+                            name="Copilot"
+                            avatar={
+                              <Image
+                                src="https://res-2-sdf.cdn.office.net/files/fabric-cdn-prod_20240411.001/assets/brand-icons/product/svg/copilot_24x1.svg"
+                                alt="Copilot"
+                              />
+                            }
+                            loadingState={turn.status === "streaming" || turn.status === "waiting" ? "streaming" : "none"}
+                          >
+                            {turn.message}
+                          </CopilotMessage>
+                        );
+                      }
+                    })}
+                  </>
+                )}
+              </CopilotChat>
               
               {/* Call controls overlay - only show during ringing */}
               {callState === "ringing" && (
@@ -639,57 +626,82 @@ const Chat = ({ options }: Props) => {
                 />
               </div>
             )}
-            {/* chat input section */}
+                        {/* chat input section */}
             <div className={styles.chatInputSection}>
-              <div className={styles.textareaContainer}>
-                <textarea
-                  id="chat"
-                  name="chat"
-                  title="Type a message"
-                  placeholder="Type a message..."
-                  value={state ? state.message : ""}
-                  onChange={(e) => {
-                    if (state) state.setMessage(e.target.value);
-                    autoResizeTextarea();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      sendMessage();
-                    }
-                  }}
-                  className={styles.chatInput}
-                  ref={textareaRef}
-                  rows={1}
-                />
-                <button
-                  type="button"
-                  title="Send Message"
-                  className={styles.sendButton}
-                  onClick={sendMessage}
-                >
-                  <SendRegular fontSize={20} className={"buttonIcon"} />
-                </button>
-              </div>
+              <SuggestionList className={styles.suggestionList}>
+                <Suggestion>Summarize my emails from Chris</Suggestion>
+                <Suggestion>What's new in Outlook?</Suggestion>
+                <Suggestion>Help me plan my day</Suggestion>
+              </SuggestionList>
+              
+              <ChatInput
+                aria-label="Copilot Chat"
+                maxLength={1000}
+                charactersRemainingMessage={(value) => `${value} characters remaining`}
+                placeholderValue="Ask questions and work with this document"
+                onSubmit={(_, data) => {
+                  if (state && data?.value) {
+                    state.setMessage(data.value);
+                    sendMessage();
+                  }
+                }}
+                actions={
+                  <span className={styles.inputContainer}>
+                    {options && options.file && (
+                      <Button
+                        aria-label="attach an item"
+                        appearance="transparent"
+                        icon={<Attach24Regular />}
+                        onClick={() => {
+                          const fileInput = document.createElement('input');
+                          fileInput.type = 'file';
+                          fileInput.accept = 'image/*';
+                          fileInput.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file && state) {
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                const result = event.target?.result as string;
+                                state.setCurrentImage(result);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          };
+                          fileInput.click();
+                        }}
+                      />
+                    )}
+                    <Button
+                      aria-label="add-plugins"
+                      appearance="transparent"
+                      icon={<Apps24 />}
+                    />
+                    <Divider className={styles.divider} vertical />
+                    {callState === "idle" && (
+                      <Button
+                        aria-label="dictate"
+                        appearance="transparent"
+                        icon={<Mic24 />}
+                        onClick={startCall}
+                      />
+                    )}
+                    {callState === "call" && (
+                      <Button
+                        aria-label="end call"
+                        appearance="transparent"
+                        icon={<CallEndRegular />}
+                        onClick={hangupCall}
+                      />
+                    )}
+                  </span>
+                }
+              />
+              
               <div className={styles.buttonRow}>
-                {options && options.file && (
-                  <FileImagePicker setCurrentImage={state.setCurrentImage} />
-                )}
                 {options && options.video && (
                   <VideoDevicePicker setCurrentImage={state.setCurrentImage} />
                 )}
                 
-                {/* Voice buttons */}
-                {callState === "idle" && (
-                  <button className="button" onClick={startCall}>
-                    <CallRegular fontSize={24} className="buttonIcon" />
-                  </button>
-                )}
-                {callState === "call" && (
-                  <button className="button" onClick={hangupCall}>
-                    <CallEndRegular fontSize={20} className="buttonIcon" />
-                  </button>
-                )}
                 <button
                   className="button"
                   ref={settingsRef}
@@ -703,7 +715,8 @@ const Chat = ({ options }: Props) => {
         )}
 
       </div>
-    </>
+      </>
+    </CopilotProvider>
   );
 };
 

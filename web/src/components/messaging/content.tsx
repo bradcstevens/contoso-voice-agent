@@ -3,7 +3,7 @@ import styles from "./content.module.css";
 import remarkGfm from "remark-gfm";
 import { GrPowerReset, GrClose, GrSend, GrTrigger } from "react-icons/gr";
 import { SimpleMessage } from "@/socket/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { startSuggestionTask, suggestionRequested } from "@/socket/action";
 
 
@@ -46,6 +46,9 @@ const Content = ({ suggestions, debug, onClose, chatPosition }: Props) => {
     suggestions ? suggestions : []
   );
   const [windowPosition, setWindowPosition] = useState({ left: 20, top: 60 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Calculate position relative to chat
   useEffect(() => {
@@ -89,6 +92,43 @@ const Content = ({ suggestions, debug, onClose, chatPosition }: Props) => {
     console.log("Content component current content:", content);
   }, [content]);
 
+  // Drag event handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (contentRef.current) {
+      setIsDragging(true);
+      const rect = contentRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging) {
+      setWindowPosition({
+        left: e.clientX - dragOffset.x,
+        top: e.clientY - dragOffset.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add/remove global mouse event listeners
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
   const clear = () => {
     setContent([]);
   };
@@ -112,14 +152,19 @@ const Content = ({ suggestions, debug, onClose, chatPosition }: Props) => {
 
   return (
     <div 
-      className={styles.contentWindow}
+      ref={contentRef}
+      className={`${styles.contentWindow} ${isDragging ? styles.dragging : ''}`}
       style={{
         left: `${windowPosition.left}px`,
         top: `${windowPosition.top}px`,
-        transition: 'left 0.2s ease-out, top 0.2s ease-out'
+        transition: isDragging ? 'none' : 'left 0.2s ease-out, top 0.2s ease-out'
       }}
     >
-      <div className={styles.contentTitle}>
+      <div 
+        className={styles.contentTitle}
+        onMouseDown={handleMouseDown}
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+      >
         <div className={"grow"} />
         {debug && (
           <>
