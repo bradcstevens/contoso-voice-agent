@@ -39,7 +39,9 @@
   height: 100%;
   width: 100%;
   position: relative;
-  background-color: var(--color-zinc-50);
+  background-color: rgb(243, 243, 243);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .chatHeader {
@@ -102,7 +104,7 @@
   padding: 0;
   flex-grow: 1;
   position: relative;
-  background-color: var(--color-zinc-50);
+  background-color: transparent;
 }
 
 .chatMessages {
@@ -152,22 +154,17 @@
   opacity: 0.8;
 }
 
-/* Copilot Chat Styles */
-.copilotChat {
-  height: 100%;
-  padding: 1rem;
-  overflow-y: auto;
-  background-color: var(--color-zinc-50);
-}
+/* Copilot Chat Styles - Now handled by FluentUI makeStyles */
 
 .zeroprompt {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 2rem 0;
+  padding: 40px 0;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 60%;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
 }
 
 .suggestionList {
@@ -187,11 +184,12 @@
 /* Update chat input section for new design */
 .chatInputSection {
   display: flex;
-  padding: 1rem;
+  padding: 24px;
   flex-direction: column;
-  gap: 0.75rem;
-  border-top: 1px solid var(--color-zinc-200);
+  gap: 16px;
+  border-top: 1px solid rgb(229, 229, 229);
   background-color: white;
+  border-radius: 0 0 16px 16px;
 }
 
 .textareaContainer {
@@ -240,10 +238,10 @@
 }
 
 .attachButton button {
-  background-color: transparent !important;
-  border: none !important;
-  outline: none !important;
-  color: var(--color-zinc-600) !important;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-zinc-600);
   width: 100%;
   height: 100%;
   display: flex;
@@ -259,8 +257,8 @@
 }
 
 .attachButton button:hover {
-  background-color: transparent !important;
-  color: var(--color-zinc-800) !important;
+  background-color: transparent;
+  color: var(--color-zinc-800);
 }
 
 .buttonDivider {
@@ -444,10 +442,10 @@
 }
 
 .settingsModal > div {
-  position: static !important;
-  margin: 0 !important;
-  box-shadow: none !important;
-  border: none !important;
+  position: static;
+  margin: 0;
+  box-shadow: none;
+  border: none;
 }
 
 .hidden {
@@ -492,5 +490,44 @@
   .chatInputSection {
     padding: 0.5rem;
   }
+}
+
+/* Style Copilot message components */
+.chatSection :global(.fai-CopilotMessage__avatar) {
+  margin-right: 12px;
+  align-self: flex-start;
+}
+
+.chatSection :global(.fai-CopilotMessage__name) {
+  font-weight: bold;
+  margin-bottom: 12px;
+  margin-left: 0;
+}
+
+.chatSection :global(.fai-CopilotMessage__disclaimer) {
+  margin-left: 12px;
+  text-align: left;
+}
+
+/* Removed problematic global selector targeting generated FluentUI class */
+
+/* Add spacing between messages */
+.chatSection :global(.fai-UserMessage) {
+  margin-bottom: 16px;
+}
+
+.chatSection :global(.fai-CopilotMessage) {
+  margin-bottom: 20px;
+}
+
+.chatSection :global(.fai-AiGeneratedDisclaimer) {
+  color: rgb(96, 94, 92);
+  font-size: 10px;
+  background-color: rgb(242, 242, 242);
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 6px;
+  padding: 4px 4px;
+  display: inline-block;
+  margin-left: 0;
 }
 

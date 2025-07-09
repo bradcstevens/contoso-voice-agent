@@ -84,7 +84,7 @@ export class ActionClient {
   sendVoiceUserMessage(message: string, user?: User) {
     const turn: Turn = {
       name: user ? user.name : "Brad Stevens",
-      avatar: user ? (user.image ? user.image : "/people/Bradjuarez.jpg") : "/people/Bradjuarez.jpg",
+      avatar: user ? (user.image ? user.image : "/people/brad-stevens.jpg") : "/people/brad-stevens.jpg",
       image: null,
       message: message,
       status: "voice",

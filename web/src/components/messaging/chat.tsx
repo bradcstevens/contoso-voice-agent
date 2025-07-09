@@ -31,6 +31,7 @@ import {
   SystemMessage,
   Timestamp,
   UserMessage,
+  AiGeneratedDisclaimer,
 } from "@fluentui-copilot/react-copilot-chat";
 import {
   ChatInput,
@@ -62,6 +63,16 @@ import Content from "./content";
 import Settings from "./settings";
 import voiceStyles from "./voice.module.css";
 
+/**
+ * FluentUI styling using makeStyles hook - Best Practice Approach
+ * 
+ * This approach uses FluentUI's official makeStyles system instead of targeting
+ * generated class names with :global() selectors. This ensures:
+ * - Compatibility with FluentUI updates
+ * - Proper CSS-in-JS integration
+ * - Type safety and IntelliSense support
+ * - Consistent theming across the application
+ */
 const useStyles = makeStyles({
   chatInputContainer: {
     display: "flex",
@@ -74,6 +85,28 @@ const useStyles = makeStyles({
   actionsContainer: {
     display: "flex",
     alignItems: "center",
+  },
+  // Add proper FluentUI styling for CopilotChat
+  copilotChatContainer: {
+    height: "auto",
+    minHeight: "400px",
+    padding: "24px",
+    overflowY: "auto",
+    backgroundColor: "rgb(243, 243, 243)",
+    flexGrow: 1,
+    // Use CSS custom properties to style nested components
+    "--fui-CopilotMessage-alignItems": "flex-start",
+    "--fui-CopilotMessage-gap": "0",
+    // Target the message container layout
+    "& .fui-CopilotMessage": {
+      alignItems: "flex-start",
+      gap: "0px",
+    },
+    // Target the root message container
+    "& [class*='fui-CopilotMessage']": {
+      alignItems: "flex-start !important",
+      gap: "0px !important",
+    },
   },
 });
 
@@ -146,6 +179,7 @@ const Chat = ({ options }: Props) => {
 
   const defaultUser = {
     name: "Brad Stevens",
+    nickname: "Brad",
     email: "bradstevens@microsoft.com",
     image: "/people/brad-stevens.jpg",
   };
@@ -309,7 +343,7 @@ const Chat = ({ options }: Props) => {
 
       // get current message
       const turn: Turn = {
-        name: user?.name || "Brad Stevens",
+        name: user?.name || "Brad",
         avatar: user?.image || "undefined",
         image: stateRef.current.currentImage,
         message: stateRef.current.message,
@@ -319,7 +353,7 @@ const Chat = ({ options }: Props) => {
 
       // can replace with current user
       stateRef.current.sendMessage(
-        user?.name || "Brad Stevens",
+        user?.name || "Brad",
         user?.image || "undefined"
       );
       // reset image
@@ -540,30 +574,13 @@ const Chat = ({ options }: Props) => {
             
             {/* chat section */}
             <div className={styles.chatSection} ref={chatDiv}>
-              <CopilotChat className={styles.copilotChat}>
+              <CopilotChat className={fluentStyles.copilotChatContainer}>
                 {state && state.turns.length === 0 && callState === "idle" && (
                   <div className={styles.zeroprompt}>
                     <Body1>Hi {user?.name || "there"},</Body1>
                     <Body1>
-                      Ready to explore? Select one of the suggestions below to get
-                      started...
+                      Ready to explore? Ask me anything to get started...
                     </Body1>
-                    <PromptStarter
-                      icon={<AppFolder16Regular />}
-                      category={"Summarize"}
-                      prompt={<Body1>Review key points in file</Body1>}
-                    />
-                    <PromptStarter
-                      icon={<AppFolder16Regular />}
-                      category={"Create"}
-                      prompt={<Body1>Write more about...</Body1>}
-                    />
-                    <PromptStarter
-                      icon={<AppFolder16Regular />}
-                      category={"Ask"}
-                      prompt={<Body1>Tell me about my day</Body1>}
-                      badge="New"
-                    />
                   </div>
                 )}
                 
@@ -589,6 +606,11 @@ const Chat = ({ options }: Props) => {
                               />
                             }
                             loadingState={turn.status === "streaming" || turn.status === "waiting" ? "streaming" : "none"}
+                            disclaimer={
+                              <AiGeneratedDisclaimer>
+                                AI-generated content may be incorrect
+                              </AiGeneratedDisclaimer>
+                            }
                           >
                             {turn.message}
                           </CopilotMessage>
@@ -628,17 +650,11 @@ const Chat = ({ options }: Props) => {
             )}
                         {/* chat input section */}
             <div className={styles.chatInputSection}>
-              <SuggestionList className={styles.suggestionList}>
-                <Suggestion>Summarize my emails from Chris</Suggestion>
-                <Suggestion>What's new in Outlook?</Suggestion>
-                <Suggestion>Help me plan my day</Suggestion>
-              </SuggestionList>
-              
               <ChatInput
                 aria-label="Copilot Chat"
                 maxLength={1000}
                 charactersRemainingMessage={(value) => `${value} characters remaining`}
-                placeholderValue="Ask questions and work with this document"
+                placeholderValue="Ask anything..."
                 onSubmit={(_, data) => {
                   if (state && data?.value) {
                     state.setMessage(data.value);
