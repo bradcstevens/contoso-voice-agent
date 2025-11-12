@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   devIndicators: false,
+  output: "standalone",
+  outputFileTracingRoot: "/Users/bradcstevens/code/github/sethjuarez/contoso-voice-agent",
 };
  
 export default nextConfig;
+

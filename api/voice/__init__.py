@@ -22,6 +22,7 @@ from openai.types.beta.realtime import (
     ConversationCreatedEvent,
     ConversationItemCreatedEvent,
     ConversationItemInputAudioTranscriptionCompletedEvent,
+    ConversationItemInputAudioTranscriptionDeltaEvent,
     ConversationItemInputAudioTranscriptionFailedEvent,
     ConversationItemTruncatedEvent,
     ConversationItemDeletedEvent,
@@ -86,10 +87,7 @@ class RealtimeClient:
         self.debug = debug
 
     async def send_message(self, message: Message):
-        if (
-            self.client is not None
-            and self.client.client_state != WebSocketState.DISCONNECTED
-        ):
+        if self.client is not None:
             await self.client.send_json(message.model_dump())
 
     async def send_audio(self, audio: Message):
@@ -101,10 +99,7 @@ class RealtimeClient:
             await self.client.send_json(audio.model_dump())
 
     async def send_console(self, message: Message):
-        if (
-            self.client is not None
-            and self.client.client_state != WebSocketState.DISCONNECTED
-        ):
+        if self.client is not None:
             await self.client.send_json(message.model_dump())
 
     async def update_realtime_session(
@@ -141,85 +136,84 @@ class RealtimeClient:
     async def receive_realtime(self):
         # signature = "api.session.RealtimeSession.receive_realtime"
         if self.realtime is None:
-            return
+            pass
 
-        try:
-            while self.realtime is not None and not self.closed:
-                async for event in self.realtime:
-                    if "delta" not in event.type and self.debug:
-                        print(event.type)
-                    self.active = True
-                    if event.type == "error":
+        while self.realtime is not None:
+            async for event in self.realtime:
+                if "delta" not in event.type and self.debug:
+                    print(event.type)
+                self.active = True
+                match event.type:
+                    case "error":
                         await self._handle_error(event)
-                    elif event.type == "session.created":
+                    case "session.created":
                         await self._session_created(event)
-                    elif event.type == "session.updated":
+                    case "session.updated":
                         await self._session_updated(event)
-                    elif event.type == "conversation.created":
+                    case "conversation.created":
                         await self._conversation_created(event)
-                    elif event.type == "conversation.item.created":
+                    case "conversation.item.created":
                         await self._conversation_item_created(event)
-                    elif event.type == "conversation.item.input_audio_transcription.completed":
+                    case "conversation.item.input_audio_transcription.completed":
                         await self._conversation_item_input_audio_transcription_completed(
                             event
                         )
-                    elif event.type == "conversation.item.input_audio_transcription.failed":
+                    case "conversation.item.input_audio_transcription.delta":
+                        await self._conversation_item_input_audio_transcription_delta(
+                            event
+                        )
+                    case "conversation.item.input_audio_transcription.failed":
                         await self._conversation_item_input_audio_transcription_failed(
                             event
                         )
-                    elif event.type == "conversation.item.truncated":
+                    case "conversation.item.truncated":
                         await self._conversation_item_truncated(event)
-                    elif event.type == "conversation.item.deleted":
+                    case "conversation.item.deleted":
                         await self._conversation_item_deleted(event)
-                    elif event.type == "input_audio_buffer.committed":
+                    case "input_audio_buffer.committed":
                         await self._input_audio_buffer_committed(event)
-                    elif event.type == "input_audio_buffer.cleared":
+                    case "input_audio_buffer.cleared":
                         await self._input_audio_buffer_cleared(event)
-                    elif event.type == "input_audio_buffer.speech_started":
+                    case "input_audio_buffer.speech_started":
                         await self._input_audio_buffer_speech_started(event)
-                    elif event.type == "input_audio_buffer.speech_stopped":
+                    case "input_audio_buffer.speech_stopped":
                         await self._input_audio_buffer_speech_stopped(event)
-                    elif event.type == "response.created":
+                    case "response.created":
                         await self._response_created(event)
-                    elif event.type == "response.done":
+                    case "response.done":
                         await self._response_done(event)
-                    elif event.type == "response.output_item.added":
+                    case "response.output_item.added":
                         await self._response_output_item_added(event)
-                    elif event.type == "response.output_item.done":
+                    case "response.output_item.done":
                         await self._response_output_item_done(event)
-                    elif event.type == "response.content_part.added":
+                    case "response.content_part.added":
                         await self._response_content_part_added(event)
-                    elif event.type == "response.content_part.done":
+                    case "response.content_part.done":
                         await self._response_content_part_done(event)
-                    elif event.type == "response.text.delta":
+                    case "response.text.delta":
                         await self._response_text_delta(event)
-                    elif event.type == "response.text.done":
+                    case "response.text.done":
                         await self._response_text_done(event)
-                    elif event.type == "response.audio_transcript.delta":
+                    case "response.audio_transcript.delta":
                         await self._response_audio_transcript_delta(event)
-                    elif event.type == "response.audio_transcript.done":
+                    case "response.audio_transcript.done":
                         await self._response_audio_transcript_done(event)
-                    elif event.type == "response.audio.delta":
+                    case "response.audio.delta":
                         await self._response_audio_delta(event)
-                    elif event.type == "response.audio.done":
+                    case "response.audio.done":
                         await self._response_audio_done(event)
-                    elif event.type == "response.function_call_arguments.delta":
+                    case "response.function_call_arguments.delta":
                         await self._response_function_call_arguments_delta(event)
-                    elif event.type == "response.function_call_arguments.done":
+                    case "response.function_call_arguments.done":
                         await self._response_function_call_arguments_done(event)
-                    elif event.type == "rate_limits.updated":
+                    case "rate_limits.updated":
                         await self._rate_limits_updated(event)
-                    else:
+                    case _:
                         print(
                             f"Unhandled event type {event.type}",
                         )
-        except WebSocketDisconnect:
-            print("WebSocket disconnected in receive_realtime")
-        except Exception as e:
-            if self.debug:
-                print(f"Error in receive_realtime: {e}")
-        finally:
-            self.realtime = None
+
+        self.realtime = None
 
     @trace(name="error")
     async def _handle_error(self, event: ErrorEvent):
@@ -247,6 +241,12 @@ class RealtimeClient:
     ):
         if event.transcript is not None and len(event.transcript) > 0:
             await self.send_message(Message(type="user", payload=event.transcript))
+
+    @trace(name="conversation.item.input_audio_transcription.delta")
+    async def _conversation_item_input_audio_transcription_delta(
+        self, event: ConversationItemInputAudioTranscriptionDeltaEvent
+    ):
+        pass
 
     @trace(name="conversation.item.input_audio_transcription.failed")
     async def _conversation_item_input_audio_transcription_failed(
@@ -292,41 +292,43 @@ class RealtimeClient:
     async def _response_done(self, event: ResponseDoneEvent):
         if event.response.output is not None and len(event.response.output) > 0:
             output = event.response.output[0]
-            if output.type == "message":
-                await self.send_console(
-                    Message(
-                        type="console",
-                        payload=json.dumps(
-                            {
-                                "id": output.id,
-                                "role": output.role,
-                                "content": (
-                                    output.content[0].transcript
-                                    if output.content
-                                    else None
-                                ),
-                            }
-                        ),
+            match output.type:
+                case "message":
+                    await self.send_console(
+                        Message(
+                            type="console",
+                            payload=json.dumps(
+                                {
+                                    "id": output.id,
+                                    "role": output.role,
+                                    "content": (
+                                        output.content[0].transcript
+                                        if output.content
+                                        else None
+                                    ),
+                                }
+                            ),
+                        )
                     )
-                )
-            elif output.type == "function_call":
-                await self.send_console(
-                    Message(
-                        type="function",
-                        payload=json.dumps(
-                            {
-                                "name": output.name,
-                                "arguments": json.loads(output.arguments or "{}"),
-                                "call_id": output.call_id,
-                                "id": output.id,
-                            }
-                        ),
+                case "function_call":
+                    await self.send_console(
+                        Message(
+                            type="function",
+                            payload=json.dumps(
+                                {
+                                    "name": output.name,
+                                    "arguments": json.loads(output.arguments or "{}"),
+                                    "call_id": output.call_id,
+                                    "id": output.id,
+                                }
+                            ),
+                        )
                     )
-                )
-            elif output.type == "function_call_output":
-                await self.send_console(
-                    Message(type="console", payload=output.model_dump_json())
-                )
+
+                case "function_call_output":
+                    await self.send_console(
+                        Message(type="console", payload=output.model_dump_json())
+                    )
 
         if len(self.response_queue) > 0 and self.realtime is not None:
             for item in self.response_queue:
@@ -408,51 +410,53 @@ class RealtimeClient:
                 message_json = json.loads(message)
                 m = Message(**message_json)
                 # print("received message", m.type)
-                if m.type == "audio":
-                    await self.realtime.send(
-                        InputAudioBufferAppendEvent(
-                            type="input_audio_buffer.append", audio=m.payload
+                match m.type:
+                    case "audio":
+                        await self.realtime.send(
+                            InputAudioBufferAppendEvent(
+                                type="input_audio_buffer.append", audio=m.payload
+                            )
                         )
-                    )
-                elif m.type == "user":
-                    await self.realtime.send(
-                        ConversationItemCreateEvent(
-                            type="conversation.item.create",
-                            item=ConversationItem(
-                                role="user",
-                                type="message",
-                                content=[
-                                    ConversationItemContent(
-                                        type="input_text",
-                                        text=m.payload,
-                                    )
-                                ],
-                            ),
+                    case "user":
+                        await self.realtime.send(
+                            ConversationItemCreateEvent(
+                                type="conversation.item.create",
+                                item=ConversationItem(
+                                    role="user",
+                                    type="message",
+                                    content=[
+                                        ConversationItemContent(
+                                            type="input_text",
+                                            text=m.payload,
+                                        )
+                                    ],
+                                ),
+                            )
                         )
-                    )
-                elif m.type == "interrupt":
-                    await self.realtime.send(
-                        ResponseCreateEvent(type="response.create")
-                    )
-                elif m.type == "function":
-                    function_message = json.loads(m.payload)
+                    case "interrupt":
+                        await self.realtime.send(
+                            ResponseCreateEvent(type="response.create")
+                        )
+                    case "function":
+                        function_message = json.loads(m.payload)
 
-                    await self.realtime.send(
-                        ConversationItemCreateEvent(
-                            type="conversation.item.create",
-                            item=ConversationItem(
-                                call_id=function_message["call_id"],
-                                type="function_call_output",
-                                output=function_message["output"],
-                            ),
+                        await self.realtime.send(
+                            ConversationItemCreateEvent(
+                                type="conversation.item.create",
+                                item=ConversationItem(
+                                    call_id=function_message["call_id"],
+                                    type="function_call_output",
+                                    output=function_message["output"],
+                                ),
+                            )
                         )
-                    )
 
-                    await self.realtime.response.create()
-                else:
-                    await self.send_console(
-                        Message(type="console", payload="Unhandled message")
-                    )
+                        await self.realtime.response.create()
+
+                    case _:
+                        await self.send_console(
+                            Message(type="console", payload="Unhandled message")
+                        )
 
         except WebSocketDisconnect:
             print("Realtime Socket Disconnected")

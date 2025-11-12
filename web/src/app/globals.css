@@ -141,11 +141,11 @@ p {
   width: 24px;
   height: 24px;
   stroke: var(--color-sky-800);
-}
+};
 
 .buttonIcon:hover {
   stroke: var(--color-sky-600);
-}
+};
 
 
 code {
@@ -159,25 +159,4 @@ pre {
   height: 100%;
   white-space: pre-wrap; /* CSS3 */
   word-wrap: break-word; /* IE 5.5+ */
-}
-
-/* Stagewise Toolbar - Position anchor to top left */
-[data-stagewise-toolbar],
-[data-stagewise-anchor],
-.stagewise-toolbar,
-.stagewise-anchor {
-  top: 20px !important;
-  left: 20px !important;
-  bottom: auto !important;
-  right: auto !important;
-  position: fixed !important;
-}
-
-/* Additional targeting for stagewise companion elements */
-div[style*="position: fixed"]:has([data-stagewise]),
-div[style*="position: fixed"]:has(.stagewise) {
-  top: 20px !important;
-  left: 20px !important;
-  bottom: auto !important;
-  right: auto !important;
 }

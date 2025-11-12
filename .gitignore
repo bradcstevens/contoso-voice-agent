@@ -4,6 +4,3 @@ __pycache__
 .runs/
 .mypy_cache/
 .pytest_cache/
-
-.cursor/
-.custom_modes/

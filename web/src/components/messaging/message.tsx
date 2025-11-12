@@ -8,7 +8,6 @@ import { fetchCachedImage } from "@/store/images";
 import Waiting from "./waiting";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { BiSolidUserCircle } from "react-icons/bi";
-import Typewriter from "./typewriter";
 
 type Props = {
   turn: Turn;
@@ -72,12 +71,10 @@ const MessageData = ({ turn, notify }: Props) => {
           {turn.status === "voice" ? (
             <>
               <HiOutlineSpeakerWave size={24} className={styles.audioIcon} />
-              <Typewriter text={turn.message} speed={3} />
+              {turn.message}
             </>
-          ) : turn.status === "streaming" ? (
-            <Typewriter text={turn.message} speed={8} />
           ) : (
-            <Typewriter text={turn.message} speed={5} />
+            <Markdown remarkPlugins={[remarkGfm]}>{turn.message}</Markdown>
           )}
         </div>
       );

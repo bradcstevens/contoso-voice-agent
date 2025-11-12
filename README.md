@@ -128,7 +128,7 @@ graph TD
    ```bash
    cd api
    pip install -r requirements.txt
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
+   python main.py
    ```
 
 2. Frontend:
@@ -152,31 +152,9 @@ Both frontend and backend include Dockerfiles for containerized deployment:
 
 Required environment variables:
 
-- `AZURE_VOICE_ENDPOINT`: Azure OpenAI Voice API endpoint (must end in `.openai.azure.com`)
-  - Format: `https://your-resource-name.openai.azure.com`
-  - Example: `https://my-openai-resource.openai.azure.com`
+- `AZURE_VOICE_ENDPOINT`: Azure OpenAI Voice API endpoint
 - `AZURE_VOICE_KEY`: Azure OpenAI API key
-- `AZURE_VOICE_DEPLOYMENT`: Azure OpenAI deployment name (e.g., `gpt-4o-realtime-preview`)
 - `LOCAL_TRACING_ENABLED`: Enable/disable local tracing (default: true)
-
-### Important: Voice Endpoint Format
-
-The voice endpoint **must** use the Azure OpenAI service endpoint format ending in `.openai.azure.com`. 
-
-**Correct format:**
-```
-AZURE_VOICE_ENDPOINT=https://your-resource-name.openai.azure.com
-```
-
-**Incorrect formats** (will result in 401 authentication errors):
-- `https://your-resource.services.ai.azure.com/api/projects/project-name` (AI Studio format)
-- `https://your-resource.cognitiveservices.azure.com` (Cognitive Services format)
-
-### Azure OpenAI Realtime API Requirements
-
-- Your Azure OpenAI resource must be in a supported region (East US 2 or Sweden Central)
-- You must have a deployment of `gpt-4o-realtime-preview` or `gpt-4o-mini-realtime-preview`
-- The Python environment requires `openai[realtime]` package for voice functionality
 
 ## Contributing
 
